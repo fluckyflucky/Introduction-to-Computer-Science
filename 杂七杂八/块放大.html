@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>同济大学资源交流平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* 原有的样式 */
+      body {
+          margin: 0;
+          padding: 0;
+          font-family: 宋体;
+          transition: background-color 0.3s ease, color 0.3s ease; /* 添加过渡效果 */
+      }
+      .header, .navbar, footer, .dropdown-content a {
+          transition: background-color 0.3s ease, color 0.3s ease; /* 添加过渡效果 */
+      }
+
+      /* 深色模式的底部流光颜色 */
+      @-webkit-keyframes darkFlowCss {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: -400% 0;
+        }
+      }
+
+      .dark-mode footer:hover {
+        background: -webkit-linear-gradient(135deg,
+        #555, /* 开始颜色改为深灰色 */
+        #666 25%, /* 第二个颜色点改为更深一点的灰色 */
+        #777 50%, /* 中间颜色点继续加深 */
+        #888 55%, /* 然后逐渐变浅 */
+        #999 60%, /* 更浅一点的灰色 */
+        #aaa 80%, /* 接近白色 */
+        #bbb 95%, /* 非常接近白色 */
+        #ccc); /* 结束颜色为灰白色 */
+        -webkit-background-size: 200% 100%;
+        -webkit-animation: darkFlowCss 4s infinite linear; /* 使用新增的动画 */
+      }
+
+      /* 深色模式的样式 */
+      body.dark-mode {
+          background-color: #333;
+          color: #fff;
+      }
+      .dark-mode .header, .dark-mode .navbar, .dark-mode footer {
+          background-color: #444;
+          border-color: #555; /* 如果需要改变边框颜色 */
+      }
+      .dark-mode .dropdown-content a {
+          background-color: #464646;
+          color: #ffffff;
+      }
+      .dark-mode .dropdown-content a:hover,
+      .dark-mode .navbar a:hover,
+      .dark-mode .dropdown:hover .dropbtn {
+          background: linear-gradient(90deg, #666, #cdcbcb);
+          color: white;
+      }
+      .dark-mode .dropdown:hover .dropdown-content a:hover {
+          background: linear-gradient(90deg, #666, #cdcbcb);
+          color: white;
+      }
+
+      /* 其他原有的样式 */
+      footer {
+        background-color: #1b71f2;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        clear: both;
+        transition: background 0.3s ease;
+      }
+
+      footer:hover {
+        background: -webkit-linear-gradient(135deg,
+        #1b71f2,
+        #1a83f2 25%,
+                #1f94f4 50%,
+                #2c8bf8 55%,
+                #39b3f9 60%,
+                #5abdff 80%,
+                #63e0ff 95%,
+                #7eeeff);
+        -webkit-background-size: 200% 100%;
+        -webkit-animation: flowCss 4s infinite linear;
+      }
+
+      @-webkit-keyframes flowCss {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: -400% 0;
+        }
+      }
+
+      .header {
+          text-align: center;
+          padding: 20px 0;
+          background-color: #f8f8f8;
+          border-bottom: 1px solid #215ad6;
+          position: relative; /* 添加相对定位以便于放置主题切换按钮 */
+      }
+
+      .navbar {
+          display: flex; /* 使用 flex 布局 */
+          justify-content: space-between; /* 两端对齐 */
+          align-items: center;  /* 垂直居中 */
+          background-color: #1b71f2;
+          padding: 0 15px;
+          position: -webkit-sticky; /* 兼容 Safari */
+          position: sticky;         /* 粘性定位 */
+          top: 0;                   /* 固定在顶部 */
+          z-index: 1000;            /* 较高的堆叠顺序 */
+      }
+
+      .dropdown {
+          flex: 1;
+          text-align: center;
+          position: relative;
+      }
+
+      .dropbtn {
+          font-family: 宋体;
+          color: #f2f2f2;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 17px;
+          width: 100%;
+          box-sizing: border-box;
+          cursor: pointer;
+          background-color: inherit;
+          border: none;
+          outline: none;
+          transition: background-color 0.3s ease;
+      }
+
+      .navbar a:hover,
+      .dropdown:hover .dropbtn {
+          background: linear-gradient(90deg, #87CEEB, #1E90FF);
+          color: white;
+      }
+
+      .dropdown-content {
+          visibility: hidden;
+          opacity: 0;
+          transform: translateY(-10px);
+          position: absolute;
+          background-color: #f9f9f9;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          text-align: left;
+          transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-content,
+      .dropdown-content.show {
+          visibility: visible;
+          opacity: 1;
+          transform: translateY(0);
+      }
+
+      .dropdown-content a {
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+          transition: background-color 0.3s ease;
+      }
+
+      .dropdown-content a:hover {
+          background: linear-gradient(90deg, #87CEEB, #1E90FF);
+          color: white;
+      }
+
+      .main-content {
+          padding: 20px; /* 调整内容区域的内边距 */
+          margin-top: 60px; /* 根据实际情况调整 */
+          display: flex; /* 使内容为flex布局 */
+          flex-wrap: wrap; /* 允许换行 */
+          gap: 20px; /* 板块之间的间距 */
+      }
+
+      h2 {
+          margin: 0;
+          letter-spacing: -2px;
+      }
+
+      @keyframes swift-up {
+          to {
+              top: 0rem;
+              opacity: 1;
+          }
+      }
+
+      h2 span {
+          display: inline-block;
+          overflow: hidden;
+          position: relative;
+          top: 1.5rem;
+          opacity: 0;
+          animation: swift-up 0.5s ease-in-out forwards;
+      }
+
+      h2 span:nth-child(1) { animation-delay: 0s; }
+      h2 span:nth-child(2) { animation-delay: 0.05s; }
+      h2 span:nth-child(3) { animation-delay: 0.1s; }
+      h2 span:nth-child(4) { animation-delay: 0.15s; }
+      h2 span:nth-child(5) { animation-delay: 0.2s; }
+      h2 span:nth-child(6) { animation-delay: 0.25s; }
+      h2 span:nth-child(7) { animation-delay: 0.3s; }
+      h2 span:nth-child(8) { animation-delay: 0.35s; }
+      h2 span:nth-child(9) { animation-delay: 0.4s; }
+      h2 span:nth-child(10) { animation-delay: 0.45s; }
+
+      /* 入场动画 */
+      @keyframes fade-in {
+          from {
+              opacity: 0;
+              transform: translateY(20px); /* 初始位置向下偏移 */
+          }
+          to {
+              opacity: 1;
+              transform: translateY(0); /* 最终位置 */
+          }
+      }
+
+      .fade-in {
+          animation: fade-in 0.5s ease forwards; /* 应用动画 */
+      }
+
+      /* 新增的按钮样式 */
+      .theme-toggle-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1001; /* 确保按钮位于其他元素之上 */
+        border: 3px solid #1a83f2;;
+        border-radius: 5px;
+        background: #1a83f2;;
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: border 0.5s ease-out;
+        transition-delay: 0.8s;
+        overflow: hidden;
+        transition: 0.5s;
+        padding: 10px 20px;
+      }
+      .theme-toggle-btn:hover {
+        background-color: #7e8389;
+      }
+      .theme-toggle-btn:before,
+      .theme-toggle-btn:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      margin: auto;
+      content: 'Button';
+      border-radius: 50%;
+      display: block;
+      width: 22em;
+      height: 22em;
+      left: -5.5em;
+      text-align: center;
+      transition: box-shadow 0.5s ease-out;
+      transition-delay: 0.75s;
+      }
+      .theme-toggle-btn:after {
+        transition-delay: 0.25s;
+      }
+      .theme-toggle-btn span {
+        position: relative;
+        z-index: 1;
+      }
+    .theme-toggle-btn:hover {
+    color: #ffffff;
+    border-color: #333;
+    animation: anim 1.5s ease;
+    transition: border 0.2s ease;
+    }
+    .theme-toggle-btn:hover::before {
+    box-shadow: inset 0 0 0 11em #63636354;
+    transition-delay: 0.05s;
+    }
+    .theme-toggle-btn:hover::after {
+    box-shadow: inset 0 0 0 11em #333;
+    transition-delay: 0.5s;
+    }
+    @keyframes anim {
+    0% { color: #000000; }
+    50% { color: #3a3a3a; }
+    100% { color: #ffffff; }
+}
+
+    /* 深色模式 */
+    body.dark-mode .theme-toggle-btn {
+      border: 3px solid #333;
+      background: #333;
+      color: #ffffff;
+    }
+
+    body.dark-mode .theme-toggle-btn:hover {
+      background-color: #333;
+      border-color: #55555527;
+      animation: anim-dark 1.5s ease;
+    }
+    body.dark-mode .theme-toggle-btn:hover::before {
+        box-shadow: inset 0 0 0 11em #a8a8a8;
+        transition-delay: 0.05s;
+        }
+    body.dark-mode .theme-toggle-btn:hover::after {
+        box-shadow: inset 0 0 0 11em #515151;
+        transition-delay: 0.5s;
+        }
+    @keyframes anim-dark {
+      0% { color: #7d7d7d; }
+      50% { color: #3b3b3b; }
+      100% { color: #ffffff; }
+    }
+
+    /* 新增切换出页面的动画样式 */
+    .fade-out {
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+     /* 块放大效果样式 */
+     .fancydiv {
+      display: flex;
+      justify-content: center; /* 居中内容 */
+      align-items: center; /* 垂直居中 */
+      height: 200px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.1);
+      transition: all 0.5s ease; /* 添加过渡效果 */
+      cursor: pointer; /* 鼠标指针变为手形 */
+      color: white;
+      flex: 1 1 280px; /* 自适应宽度，最小280px */
+      margin: 10px; /* 自适应的上下左右间距 */
+    }
+
+    /* 各个fancydiv的背景颜色 */
+    #fancydiv1 {
+        background: linear-gradient(135deg, #2c69ea, #a9d2f8);
+    }
+
+    #fancydiv2 {
+        background: linear-gradient(135deg, #ff5858, #fc2c2c);
+    }
+
+    #fancydiv3 {
+        background: linear-gradient(135deg, #ffbd3e, #ff8c00);
+    }
+
+    #fancydiv4 {
+        background: linear-gradient(135deg, #4caf50, #2b7a2b);
+    }
+
+    #fancydiv5 {
+        background: linear-gradient(135deg, #2196f3, #0d47a1);
+    }
+
+    #fancydiv6 {
+        background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+    }
+
+    .fancydiv:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 6px 30px rgba(0,0,0,0.22);
+    }
+
+    .fullscreen {
+      justify-content: center; /* 居中内容 */
+      align-items: center;
+      width: 99vw; /* 填满整个视口宽度 */
+      height: 100vh; /* 填满整个视口高度 */
+      transform: none; /* 不使用变换 */
+      z-index: 1000; /* 确保在其他元素之上 */
+      color: white; /* 字体颜色 */
+      font-size: 24px; /* 字体大小 */
+    }
+
+    body.dark-mode .fancydiv {
+        background: linear-gradient(135deg, #4a2c91, #6c8efa); /* 深色模式背景 */
+    }
+
+    body.dark-mode .fullscreen {
+        background: linear-gradient(135deg, #4a2c91, #6c8efa); /* 深色模式全屏背景 */
+    }
+    </style>
+</head>
+<body>
+
+<div class="header">
+  <div id="container">
+    <h2>
+      <span>同</span>
+      <span>济</span>
+      <span>大</span>
+      <span>学</span>
+      <span>资</span>
+      <span>源</span>
+      <span>交</span>
+      <span>流</span>
+      <span>平</span>
+      <span>台</span>
+    </h2>
+  </div>
+  <!-- 新增的切换按钮 -->
+  <button class="theme-toggle-btn" onclick="toggleTheme()"><span>切换主题</span></button>
+</div>
+
+<!-- 导航栏及其他内容保持不变 -->
+<div class="navbar">
+  <div class="dropdown">
+    <button class="dropbtn" onclick="handleDropdownClick(this, 'source.html')">学习资源
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="source.html">教材下载</a>
+      <a href="#">视频教程</a>
+      <a href="#">文献资料</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn" onclick="handleDropdownClick(this, 'course_guide.html')">课程指南
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">选课建议</a>
+      <a href="#">课程大纲</a>
+      <a href="#">教师评价</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn" onclick="handleDropdownClick(this, 'competition.html')">竞赛专栏
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">近期比赛</a>
+      <a href="#">获奖名单</a>
+      <a href="#">参赛指导</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn" onclick="handleDropdownClick(this, 'info_share.html')">信息共享
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">校园新闻</a>
+      <a href="#">活动通知</a>
+      <a href="#">失物招领</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn" onclick="handleDropdownClick(this, 'user_center.html')">个人中心
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">我的收藏</a>
+      <a href="#">个人信息</a>
+      <a href="#">设置</a>
+    </div>
+  </div>
+</div>
+
+<!-- 添加块效果的代码 -->
+<div class="main-content">
+  <div class="fancydiv" id="fancydiv1">点击我1</div>
+  <div class="fancydiv" id="fancydiv2">点击我2</div>
+  <div class="fancydiv" id="fancydiv3">点击我3</div>
+  <div class="fancydiv" id="fancydiv4">点击我4</div>
+  <div class="fancydiv" id="fancydiv5">点击我5</div>
+  <div class="fancydiv" id="fancydiv6">点击我6</div>
+</div>
+
+<footer>
+  <p>版权所有 © 2024 同济大学资源交流平台 | 制作者：珏 | 联系方式：2087842800@qq.com</p>
+</footer>
+<script>
+  // 切换主题的函数
+  function toggleTheme() {
+    document.body.classList.toggle('dark-mode'); // 直接切换主题
+  }
+
+  window.onload = function() {
+    var mainContent = document.querySelector('.main-content');
+    mainContent.classList.add('fade-in'); // 添加入场动画类
+  };
+
+  // 块放大效果的逻辑
+  const fancyDivs = document.querySelectorAll('.fancydiv');
+
+  fancyDivs.forEach((fancydiv, index) => {
+    fancydiv.addEventListener('click', () => {
+      fancydiv.classList.toggle('fullscreen'); // 切换全屏效果
+      
+      // 根据当前状态切换文本内容
+      if (fancydiv.classList.contains('fullscreen')) {
+          fancydiv.textContent = '这是放大的' + (index + 1); // 显示索引
+      } else {
+          fancydiv.textContent = '点击我' + (index + 1);
+      }
+    });
+  });
+
+  function handlePageTransition(url) {
+    document.body.classList.add('fade-out');
+
+    setTimeout(function() {
+        window.location.href = url;
+    }, 500);
+  }
+
+  // 处理下拉菜单的显示与隐藏
+  function handleDropdownClick(button, url) {
+    var dropdownContent = button.nextElementSibling;
+
+    // 如果当前下拉菜单是显示状态，则关闭它
+    if (dropdownContent.classList.contains('show')) {
+      dropdownContent.classList.remove('show');
+    } else {
+      // 关闭其他打开的下拉菜单
+      var openDropdowns = document.getElementsByClassName("dropdown-content");
+      for (var i = 0; i < openDropdowns.length; i++) {
+        openDropdowns[i].classList.remove('show');
+      }
+      // 显示当前点击的下拉菜单
+      dropdownContent.classList.add('show');
+    }
+
+    // 如果点击的是按钮而非下拉菜单项，则跳转
+    var event = window.event; // 用于获取事件对象
+    if (!event.target.closest('.dropdown-content')) {
+      handlePageTransition(url); // 使用新的函数进行页面切换
+    }
+  }
+
+  // 当点击文档其他地方时关闭所有下拉菜单
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      for (var i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

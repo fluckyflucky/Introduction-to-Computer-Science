@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全屏放大动画示例</title>
+    <style>
+        body {
+            margin: 0; /* 去掉默认边距 */
+        }
+
+        .test-block {
+            width: 200px;
+            height: 100px;
+            background-color: lightblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease; /* 添加过渡效果 */
+            cursor: pointer; /* 鼠标指针变为手形 */
+            position: relative; /* 设为相对定位 */
+            z-index: 1; /* 设置层级 */
+        }
+
+        .fullscreen {
+            position: fixed; /* 固定定位 */
+            top: 0; /* 填满顶部 */
+            left: 0; /* 填满左侧 */
+            width: 100vw; /* 填满整个视口宽度 */
+            height: 100vh; /* 填满整个视口高度 */
+            transform: none; /* 不使用变换 */
+            z-index: 1000; /* 确保在其他元素之上 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="test-block" id="testBlock">this is a test block</div>
+
+<script>
+    const testBlock = document.getElementById('testBlock');
+
+    testBlock.addEventListener('click', () => {
+        testBlock.classList.add('fullscreen'); // 加入全屏效果
+
+        // 在动画结束后跳转到另外一个页面
+        setTimeout(() => {
+            window.location.href = 'source.html';
+        }, 500); // 与 CSS 过渡时间一致，确保动画播放完成后再跳转
+    });
+</script>
+
+</body>
+</html>

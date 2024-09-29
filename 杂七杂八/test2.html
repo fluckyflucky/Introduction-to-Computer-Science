@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root {
+  --size: 4.17vh;
+  --main-color: #2B2B2B;
+  --border-color: #fff;
+  --jump-duration: 1s;
+  --stairs-duration: 1s;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--main-color);
+}
+
+.window {
+  position: relative;
+  width: 35.42vh;
+  height: 50vh;
+  background-color: #fff;
+  border-radius: 17.7vh;
+  border: 0.42vh solid var(--main-color);
+  box-shadow: 0 0 0 1.25vh var(--border-color);
+  overflow: hidden;
+}
+
+.window:before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1.5vh);
+  left: calc(50% - 0.5vh);
+  border-radius: 50%;
+  width: var(--size);
+  height: var(--size);
+  background-image: linear-gradient(to bottom right, #2E3691, #2E3691);
+  box-shadow: 0.21vh -0.21vh 0.42vh 0.42vh rgba(0, 0, 0, 0.35),
+  inset -0.31vh 0.31vh 0.21vh 0.1vh rgba(0, 0, 0, 0.75);
+  animation: jump var(--jump-duration) ease-in-out infinite,
+  gradientChange  12s infinite 0.5s;
+}
+
+@keyframes jump {
+  0%, 100% {
+    transform: translateY(-0.20vh);
+  }
+  50% {
+    transform: translateY(-4vh);
+  }
+}
+
+@keyframes gradientChange {
+  0% {
+    background-image: linear-gradient(to bottom right, #2E3691, #485A8B);
+  }
+  8.33% {
+    background-image: linear-gradient(to bottom right, #485A8B, #9B2A89);
+  }
+  16.66% {
+    background-image: linear-gradient(to bottom right, #9B2A89, #E6194D);
+  }
+  25% {
+    background-image: linear-gradient(to bottom right, #E6194D, #F31C26);
+  }
+  33.33% {
+    background-image: linear-gradient(to bottom right, #F31C26, #F27E1E);
+  }
+  41.66% {
+    background-image: linear-gradient(to bottom right, #F27E1E, #FFC80D);
+  }
+  50% {
+    background-image: linear-gradient(to bottom right, #FFC80D, #AFCA3E);
+  }
+  58.33% {
+    background-image: linear-gradient(to bottom right, #AFCA3E, #15A14F);
+  }
+  66.66% {
+    background-image: linear-gradient(to bottom right, #15A14F, #5B9E71);
+  }
+  75% {
+    background-image: linear-gradient(to bottom right, #5B9E71, #54C6D3);
+  }
+  83.33% {
+    background-image: linear-gradient(to bottom right, #54C6D3, #0CAAE3);
+  }
+  100% {
+    background-image: linear-gradient(to bottom right, #0CAAE3, #2E3691);
+  }
+}
+
+
+.stairs {
+  position: absolute;
+  width: 100%;
+  right: -100%;
+  top: 10.42vh;
+  animation: stairs var(--stairs-duration) linear infinite;
+}
+
+@keyframes stairs {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(4.17vh, -4.17vh);
+  }
+}
+
+.stairs span {
+  position: absolute;
+  top: calc(var(--i) * var(--size));
+  right: calc(var(--i) * var(--size));
+  width: 100%;
+  min-height: var(--size);
+  background-color: var(--main-color);
+  border-bottom: 0.42vh solid var(--border-color);
+  border-top-left-radius: 0.63vh;
+}
+    </style>
+</head>
+<body>
+    <div class="window">
+        <div class="stairs">
+            <span style="--i:1"></span>
+            <span style="--i:2"></span>
+            <span style="--i:3"></span>
+            <span style="--i:4"></span>
+            <span style="--i:5"></span>
+            <span style="--i:6"></span>
+            <span style="--i:7"></span>
+            <span style="--i:8"></span>
+            <span style="--i:9"></span>
+            <span style="--i:10"></span>
+        </div>
+    </div>
+</body>
+</html>
