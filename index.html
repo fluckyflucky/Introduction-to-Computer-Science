@@ -53,27 +53,63 @@ body.dark-mode .show-navbar-btn:hover {
       }
 
       /* 导航栏样式 */
-      .navbar {
-          display: flex; /* 初始状态下显示导航栏 */
-          opacity: 0; /* 初始透明度为0 */
-          visibility: hidden; /* 初始状态下隐藏 */
-          transition: opacity 0.5s ease, visibility 0s 0.5s; /* 添加过渡效果 */
-          align-items: center;  /* 垂直居中 */
-          background-color: #1b71f2;
-          padding: 4px 5px; /* 增加上下内边距，适当扩大大小 */
-          border-radius:8px; /* 使角落圆润 */
-          position: fixed; /* 固定定位 */
-          top: 0; /* 定位于最顶部 */
-          left: 0; /* 定位于最左侧 */
-          z-index: 1000; /* 保证在其他元素之上 */
-          margin: 0; /* 确保没有外边距以保持与边界连接 */
-      }
+      /* 导航栏样式 */
+.navbar {
+    display: flex; /* 使用 flex 布局 */
+    opacity: 0; /* 导航栏隐藏 */
+    visibility: hidden; /* 导航栏隐藏 */
+    transition: opacity 0.5s ease, visibility 0s 0.5s, transform 0.5s ease; /* 添加过渡效果 */
+    align-items: center; /* 垂直居中 */
+    background-color: #1b71f2; /* 导航栏背景色 */
+    padding: 4px 5px; /* 减少按钮的上下内边距 */
+    border-radius: 8px;      /* 导航栏圆角 */
+    position: fixed;     /* 固定在顶部 */
+    top: 0; /* 距离顶部 */
+    left: 0; /* 距离左边 */
+    z-index: 1000; /* 保证在其他元素之上 */
+    margin: 0; /* 去除默认的外边距 */
+    transform: translateY(-100%);  /* 导航栏向上移动 */
+}
 
-      .navbar.show {
-          opacity: 1; /* 显示时透明度为1 */
-          visibility: visible; /* 显示状态 */
-          transition: opacity 0.5s ease; /* 快速显示过渡 */
-      }
+.navbar.show {
+    opacity: 1; /* 导航栏出现 */
+    visibility: visible; /* 导航栏出现 */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* 添加过渡效果 */
+    transform: translateY(0);    /* 导航栏向下移动 */
+}
+
+.show-navbar-btn {
+    position: fixed;
+    top: 8px;
+    left: 10px;
+    z-index: 1000;
+    background-color: #1b71f2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.show-navbar-btn:hover {
+    background-color: #155a9a;
+}
+
+.show-navbar-btn i {
+    margin-right: 8px;
+}
+
+/* Dark mode styles */
+body.dark-mode .show-navbar-btn {
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+body.dark-mode .show-navbar-btn:hover {
+    background-color: #555;
+}
 
       /* 深色模式的样式 */
       body.dark-mode {
