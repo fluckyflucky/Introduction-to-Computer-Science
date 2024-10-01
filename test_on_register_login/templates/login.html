@@ -33,10 +33,12 @@
             box-shadow: 10px 10px 20px rgba(33, 44, 55, .3);
         }
         h1 {
-            font-size: 45px;
-            font-weight: 400;
-            z-index: 1;
-        }
+    font-size: 45px;
+    font-weight: 400;
+    z-index: 10; /* 设置较高的 z-index */
+    position: relative; /* 添加相对定位 */
+}
+
         form {
             display: flex;
             flex-direction: column;
@@ -78,7 +80,14 @@
             transform: translate(-50%, -50%);
             border-radius: 50%;
         }
-
+        p {
+    position: relative; /* 添加相对定位 */
+    z-index: 10; /* 设置较高的 z-index */
+}
+ul {
+    position: relative; /* 添加相对定位 */
+    z-index: 10; /* 设置较高的 z-index */
+}
         /* 鼠标进入 login 时的动画 */
         @keyframes in {
             0% {
