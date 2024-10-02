@@ -4,37 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>用户中心</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: '微软雅黑', sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 20px;
         }
         h1 {
-            color: #333;
+            color: #2c3e50;
+            text-align: center;
         }
         .container {
             max-width: 600px;
             margin: auto;
-            padding: 20px;
+            padding: 30px;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
-        .success { color: green; }
-        .error { color: red; }
+        .success { color: #27ae60; }
+        .error { color: #e74c3c; }
         button {
-            padding: 10px 15px;
+            width: 100%;
+            padding: 12px;
             margin-top: 10px;
-            background-color: #007bff;
+            background-color: #3498db;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #2980b9;
+        }
+        a {
+            text-decoration: none;
+            color: #3498db;
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .message {
+            margin-bottom: 15px;
+            text-align: center;
         }
     </style>
 </head>
@@ -45,7 +64,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="{{ category }}">{{ message }}</div>
+                    <div class="message {{ category }}">{{ message }}</div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
