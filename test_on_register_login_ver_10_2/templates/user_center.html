@@ -103,9 +103,8 @@
 </head>
 <body>
     <div class="sidebar">
-        <!-- 更改了头像的显示 -->
-        <img src="{{ url_for('static', filename=user_avatar) }}" alt="Profile">
-
+        <!-- 确保使用url_for生成正确的头像URL -->
+        <img src="{{ url_for('static', filename=user_avatar) if user_avatar else 'http://via.placeholder.com/40' }}" alt="Profile">
         <a href="#"><i class="fas fa-home"></i></a>
         <a href="#"><i class="fas fa-chart-pie"></i></a>
         <a href="#"><i class="fas fa-cog"></i></a>
