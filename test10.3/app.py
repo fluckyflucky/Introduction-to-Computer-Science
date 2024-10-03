@@ -168,7 +168,7 @@ def register():
 def logout():
     session.pop('username', None)  
     flash('已成功登出！', 'success')  
-    return redirect(url_for('index'))  
+    return redirect(url_for('user_center'))  
 
 if __name__ == '__main__':
     app.run(debug=True)

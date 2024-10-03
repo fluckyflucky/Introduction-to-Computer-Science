@@ -110,18 +110,18 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
         .delete-button {
-            background: #c0392b;  /* 红色背景 */
-            color: white;  /* 白色文字 */
-            margin-left: 10px;  /* 增加左右间距 */
-            padding: 5px 10px;  /* 增加内边距 */
-            border: none;  /* 去掉边框 */
-            border-radius: 5px;  /* 圆角 */
-            cursor: pointer;  /* 鼠标样式 */
-            display: inline; /* 保持与其他元素在同一行 */
-            max-width: 100px;  /* 限制最大宽度 */
+            background: #c0392b;
+            color: white;
+            margin-left: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline;
+            max-width: 100px;
         }
         .delete-button:hover {
-            background: #e74c3c;  /* 深红色背景 */
+            background: #e74c3c;
         }
         .message {
             margin-top: 10px;
@@ -143,10 +143,9 @@
             margin-bottom: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-
         /* 弹窗样式 */
         .modal {
-            display: none;  /* 默认隐藏 */
+            display: none;
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -158,13 +157,14 @@
             padding-top: 60px;
         }
         .modal-content {
-            background-color: #fefefe;
+            background-color: rgba(255, 255, 255, 0.9); /* 弹窗高可读性背景色 */
             margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            color: #000; /* 设置文本颜色为黑色 */
         }
         .close {
             color: #aaa;
@@ -178,6 +178,37 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* 新增输入框样式 */
+        input[type="file"], input[type="text"], textarea {
+            width: 80%; /* 改变宽度，设置为80% */
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #1abc9c;
+            border-radius: 8px;
+            background-color: rgba(44, 62, 80, 0.9); /* 修改文本框颜色 */
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        input[type="file"]:focus, input[type="text"]:focus, textarea:focus {
+            border-color: #16a085;
+            box-shadow: 0 0 5px rgba(22, 160, 133, 0.5);
+            outline: none;
+        }
+
+        /* 收藏和浏览记录内容的样式 */
+        .toggle-content {
+            background-color: rgba(255, 255, 255, 0.2); /* 背景颜色 */
+            padding: 15px; /* 内边距 */
+            border-radius: 10px; /* 边角圆润 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* 添加阴影 */
+            margin-top: 10px; /* 顶部外边距 */
+            transition: background 0.3s; /* 动画效果 */
+        }
+        .toggle-content:hover {
+            background-color: rgba(255, 255, 255, 0.3); /* 悬停时背景颜色变化 */
+        }
     </style>
 </head>
 <body>
@@ -185,7 +216,7 @@
         <img src="{{ url_for('static', filename=user_avatar) if user_avatar else 'http://via.placeholder.com/40' }}" alt="Profile">
         <a href="/"><i class="fas fa-home"></i></a>
         <a href="#"><i class="fas fa-chart-pie"></i></a>
-        <a href="#"><i class="fas fa-cog"></i></a>
+        <a href="#" onclick="openSettingsModal()"><i class="fas fa-cog"></i></a>
         <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i></a>
     </div>
     <div class="content">
@@ -197,24 +228,6 @@
         </div>
 
         {% if user_name %}
-        <div class="card">
-            <h3>用户资料</h3>
-            <p>用户名: {{ user_name }}</p>
-            <p>签名: <span id="user-signature">{{ user_signature or '这位用户还没有设置签名。' }}</span></p>
-            <button onclick="openModal()">修改签名</button>
-            <p>关注数: {{ following_count }}</p>
-            <p>粉丝数: {{ followers_count }}</p>
-        </div>
-
-        <div class="card">
-            <h3>更新头像</h3>
-            <form method="POST" enctype="multipart/form-data">
-                <label for="avatar">选择头像:</label>
-                <input type="file" name="avatar" accept="image/*" required>
-                <button type="submit">上传</button>
-            </form>
-        </div>
-
         <div class="card">
             <h3>发布帖子</h3>
             <form method="POST" action="{{ url_for('post_message') }}">
@@ -238,18 +251,18 @@
             {% endfor %}
         </div>
 
-        <div class="card">
-            <h3>收藏内容</h3>
+        <div class="card" style="background-color: rgba(255, 255, 255, 0.2); border: 1px solid #1abc9c;">
+            <h3 style="color: #ffffff;">收藏内容</h3>
             <p><a href="javascript:void(0);" onclick="toggleContent('favorites')">查看收藏</a></p>
-            <div id="favorites" class="toggle-content">
+            <div id="favorites" class="toggle-content" style="display:none;">
                 <p>此处为收藏的具体内容</p>
             </div>
         </div>
 
-        <div class="card">
-            <h3>浏览记录</h3>
+        <div class="card" style="background-color: rgba(255, 255, 255, 0.2); border: 1px solid #1abc9c;">
+            <h3 style="color: #ffffff;">浏览记录</h3>
             <p><a href="javascript:void(0);" onclick="toggleContent('browsingHistory')">查看浏览记录</a></p>
-            <div id="browsingHistory" class="toggle-content">
+            <div id="browsingHistory" class="toggle-content" style="display:none;">
                 <p>此处为浏览记录的具体内容</p>
             </div>
         </div>
@@ -277,13 +290,28 @@
         </div>
     </div>
 
-    <!-- 修改签名的弹窗 -->
-    <div id="signatureModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>修改签名</h2>
+    <!-- 修改签名和头像的弹窗 -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0.9);">
+            <span class="close" onclick="closeSettingsModal()">&times;</span>
+            <h2>修改用户信息</h2>
+            
+            <h3>用户资料</h3>
+            <p>用户名: {{ user_name }}</p>
+            <p>签名: <span id="user-signature">{{ user_signature }}</span></p>
+            <p>关注数: {{ following_count }}</p>
+            <p>粉丝数: {{ followers_count }}</p>
+
+            <h3>修改签名</h3>
             <textarea id="signature-input" rows="4" placeholder="输入新签名...">{{ user_signature }}</textarea>
-            <button onclick="updateSignature()">保存</button>
+            <button onclick="updateSignature()">保存签名</button>
+
+            <h3>更新头像</h3>
+            <form method="POST" enctype="multipart/form-data">
+                <label for="avatar">选择头像:</label>
+                <input type="file" name="avatar" accept="image/*" required>
+                <button type="submit">上传</button>
+            </form>
         </div>
     </div>
 
@@ -293,18 +321,18 @@
             content.style.display = (content.style.display === 'none' || content.style.display === '') ? 'block' : 'none';
         }
 
-        function openModal() {
-            document.getElementById('signatureModal').style.display = 'block'; // 显示弹窗
+        function openSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'block'; // 显示设置弹窗
         }
 
-        function closeModal() {
-            document.getElementById('signatureModal').style.display = 'none'; // 隐藏弹窗
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'none'; // 隐藏设置弹窗
         }
 
         function updateSignature() {
             const newSignature = document.getElementById('signature-input').value;
             document.getElementById('user-signature').innerText = newSignature; // 更新页面的签名显示
-            closeModal(); // 关闭弹窗
+            closeSettingsModal(); // 关闭弹窗
 
             // 在这里可以添加 AJAX 请求，将新签名发送到后端进行保存
             fetch('/update_signature', {
