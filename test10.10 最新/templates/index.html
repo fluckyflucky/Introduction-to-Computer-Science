@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <meta charset="UTF-8">
+    <title>同济大学资源交流平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* 深色模式的导航按钮样式 */
+body.dark-mode .show-navbar-btn {
+    background-color: #333; /* 深色模式下的背景色 */
+    color: #f2f2f2; /* 深色模式下的文字颜色 */
+}
+
+body.dark-mode .show-navbar-btn:hover {
+    background-color: #555; /* 深色模式下的悬停效果 */
+}
+
+      /* 原有的样式 */
+      body {
+          margin: 0;
+          padding: 0;
+          font-family: 宋体;
+          transition: background-color 0.3s ease, color 0.3s ease; /* 添加过渡效果 */
+      }
+      .header, .navbar, footer, .dropdown-content a {
+          transition: background-color 0.3s ease, color 0.3s ease; /* 添加过渡效果 */
+      }
+
+      /* 深色模式的底部流光颜色 */
+      @-webkit-keyframes darkFlowCss {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: -400% 0;
+        }
+      }
+
+      .dark-mode footer:hover {
+        background: -webkit-linear-gradient(135deg,
+        #555,
+        #666 25%,
+        #777 50%,
+        #888 55%,
+        #999 60%,
+        #aaa 80%,
+        #bbb 95%,
+        #ccc);
+        -webkit-background-size: 200% 100%;
+        -webkit-animation: darkFlowCss 4s infinite linear; /* 使用新增的动画 */
+      }
+
+      /* 导航栏样式 */
+      /* 导航栏样式 */
+.navbar {
+    display: flex; /* 使用 flex 布局 */
+    opacity: 0; /* 导航栏隐藏 */
+    visibility: hidden; /* 导航栏隐藏 */
+    transition: opacity 0.5s ease, visibility 0s 0.5s, transform 0.5s ease; /* 添加过渡效果 */
+    align-items: center; /* 垂直居中 */
+    background-color: #1b71f2; /* 导航栏背景色 */
+    padding: 4px 5px; /* 减少按钮的上下内边距 */
+    border-radius: 8px;      /* 导航栏圆角 */
+    position: fixed;     /* 固定在顶部 */
+    top: 0; /* 距离顶部 */
+    left: 0; /* 距离左边 */
+    z-index: 1000; /* 保证在其他元素之上 */
+    margin: 0; /* 去除默认的外边距 */
+    transform: translateY(-100%);  /* 导航栏向上移动 */
+}
+
+.navbar.show {
+    opacity: 1; /* 导航栏出现 */
+    visibility: visible; /* 导航栏出现 */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* 添加过渡效果 */
+    transform: translateY(0);    /* 导航栏向下移动 */
+}
+
+.show-navbar-btn {
+    position: fixed;
+    top: 8px;
+    left: 10px;
+    z-index: 1000;
+    background-color: #1b71f2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.show-navbar-btn:hover {
+    background-color: #155a9a;
+}
+
+.show-navbar-btn i {
+    margin-right: 8px;
+}
+
+/* Dark mode styles */
+body.dark-mode .show-navbar-btn {
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+body.dark-mode .show-navbar-btn:hover {
+    background-color: #555;
+}
+
+      /* 深色模式的样式 */
+      body.dark-mode {
+          background-color: #333;
+          color: #fff;
+      }
+      .dark-mode .header, .dark-mode .navbar, .dark-mode footer {
+          background-color: #444;
+          border-color: #555; /* 如果需要改变边框颜色 */
+      }
+      .dark-mode .dropdown-content a {
+          background-color: #464646;
+          color: #ffffff;
+      }
+      .dark-mode .dropdown-content a:hover,
+      .dark-mode .navbar a:hover,
+      .dark-mode .dropdown:hover .dropbtn {
+          background: linear-gradient(90deg, #666, #cdcbcb);
+          color: white;
+      }
+      .dark-mode .dropdown:hover .dropdown-content a:hover {
+          background: linear-gradient(90deg, #666, #cdcbcb);
+          color: white;
+      }
+
+      /* 其他原有的样式 */
+      footer {
+          background-color: #1b71f2;
+          color: white;
+          text-align: center;
+          padding: 10px 0;
+          clear: both;
+          transition: background 0.3s ease;
+      }
+
+      footer:hover {
+        background: -webkit-linear-gradient(135deg,
+        #1b71f2,
+        #1a83f2 25%,
+        #1f94f4 50%,
+        #2c8bf8 55%,
+        #39b3f9 60%,
+        #5abdff 80%,
+        #63e0ff 95%,
+        #7eeeff);
+        -webkit-background-size: 200% 100%;
+        -webkit-animation: flowCss 4s infinite linear;
+      }
+      
+      @-webkit-keyframes flowCss {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: -400% 0;
+        }
+      }
+
+      .header {
+          display: flex; /* 使用 flex 布局 */
+          align-items: center; /* 垂直居中 */
+          padding: 20px 0;
+          background-color: #f8f8f8;
+          border-bottom: none; /* 边框 */
+          position: relative; /* 添加相对定位以便于放置主题切换按钮 */
+      }
+
+      .dropdown {
+          flex: 1; /* 使按钮宽度占满剩余空间 */
+          text-align: center;
+          position: relative;
+      }
+
+      .dropbtn {
+          font-family: 宋体;
+          color: #f2f2f2;
+          text-align: center;
+          padding: 10px 12px; /* 减少按钮的上下内边距 */
+          font-size: 15px; /* 减小字体大小 */
+          box-sizing: border-box; /* 包含 padding 和 border */
+          cursor: pointer;
+          background-color: inherit;
+          border: none;
+          outline: none;
+          transition: background-color 0.3s ease;
+      }
+
+      .navbar a:hover,
+      .dropdown:hover .dropbtn {
+          background: linear-gradient(90deg, #87CEEB, #1E90FF);
+          color: white;
+      }
+
+      .dropdown-content {
+          visibility: hidden;
+          opacity: 0;
+          transform: translateY(-10px);
+          position: absolute;
+          background-color: #f9f9f9;
+          width: 100%; /* 确保下拉菜单与按钮同宽 */
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          z-index: 1; /* 保证在其他元素之上 */
+          left: 0;
+          right: 0;
+          margin: 0 auto; /* 居中 */
+          text-align: center;
+          transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-content,
+      .dropdown-content.show {
+          visibility: visible;
+          opacity: 1;
+          transform: translateY(0);
+      }
+
+      .dropdown-content a {
+          color: black;
+          padding: 10px; /* 调整链接的内边距 */
+          text-decoration: none;
+          display: block;
+          transition: background-color 0.3s ease;
+      }
+
+      .dropdown-content a:hover {
+          background: linear-gradient(90deg, #87CEEB, #1E90FF);
+          color: white;
+      }
+
+      .main-content {
+    display: grid; /* 使用网格布局 */
+    grid-template-columns: repeat(3, 1fr); /* 固定三列 */
+    grid-template-rows: auto; /* 自动设置行高 */
+    gap: 20px; /* 板块之间的间距 */
+}
+
+/* 此处省略部分不变的样式 */
+
+      h2 {
+          margin: 0;
+          letter-spacing: -2px;
+          text-align: center;
+      }
+
+      @keyframes swift-up {
+          to {
+              top: 0rem;
+              opacity: 1;
+          }
+      }
+
+      h2 span {
+          display: inline-block;
+          overflow: hidden;
+          position: relative;
+          top: 1.5rem;
+          opacity: 0;
+          animation: swift-up 0.5s ease-in-out forwards;
+      }
+
+      h2 span:nth-child(1) { animation-delay: 0s; }
+      h2 span:nth-child(2) { animation-delay: 0.05s; }
+      h2 span:nth-child(3) { animation-delay: 0.1s; }
+      h2 span:nth-child(4) { animation-delay: 0.15s; }
+      h2 span:nth-child(5) { animation-delay: 0.2s; }
+      h2 span:nth-child(6) { animation-delay: 0.25s; }
+      h2 span:nth-child(7) { animation-delay: 0.3s; }
+      h2 span:nth-child(8) { animation-delay: 0.35s; }
+      h2 span:nth-child(9) { animation-delay: 0.4s; }
+      h2 span:nth-child(10) { animation-delay: 0.45s; }
+
+      /* 入场动画 */
+      @keyframes fade-in {
+          from {
+              opacity: 0;
+              transform: translateY(20px); /* 初始位置向下偏移 */
+          }
+          to {
+              opacity: 1;
+              transform: translateY(0); /* 最终位置 */
+          }
+      }
+
+      .fade-in {
+          animation: fade-in 0.5s ease forwards; /* 应用动画 */
+      }
+
+      /* 新增的按钮样式 */
+      /* From Uiverse.io by Galahhad */ 
+      .theme-switch {
+    --toggle-size: 20px;
+    --container-width: 5.625em;
+    --container-height: 2.5em;
+    --container-radius: 6.25em;
+    --container-light-bg: #3D7EAE;
+    --container-night-bg: #1D1F2C;
+    --circle-container-diameter: 3.375em;
+    --sun-moon-diameter: 2.125em;
+    --sun-bg: #ECCA2F;
+    --moon-bg: #C4C9D1;
+    --spot-color: #959DB1;
+    --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+    --stars-color: #fff;
+    --clouds-color: #F3FDFF;
+    --back-clouds-color: #AACADF;
+    --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+    --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+    position: absolute; /* 改为绝对定位 */
+    top: 10px;         /* 距离顶部10px */
+    right: 10px;       /* 距离右侧10px */
+    z-index: 1000;   /* 确保在其他元素之上 */
+}
+@media (max-width: 600px) { /* 当屏幕宽度小于600px时 */
+    .theme-switch{
+        --toggle-size: 7px;
+        top: 47px;         /* 距离顶部10px */
+        left: 10px;
+    }
+    .main-content{
+          display: flex; /* 使内容为flex布局 */
+          max-width: calc(100vw - 20px);
+          flex-wrap: wrap; /* 允许换行 */
+          gap: 20px; /* 板块之间的间距 */
+    }
+    .header{
+        font-size: smaller;
+        max-width: calc(100vw - 20px);
+    }
+    footer{
+        font-size: smaller;
+        max-width: calc(100vw - 20px);
+    }
+}
+
+
+        .theme-switch, .theme-switch *, .theme-switch *::before, .theme-switch *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-size: var(--toggle-size);
+        }
+
+        .theme-switch__container {
+            width: var(--container-width);
+            height: var(--container-height);
+            background-color: var(--container-light-bg);
+            border-radius: var(--container-radius);
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
+            transition: var(--transition);
+            position: relative;
+        }
+        .theme-switch__container::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  -webkit-box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+  border-radius: var(--container-radius)
+}
+
+        .theme-switch__checkbox {
+            display: none;
+        }
+
+        .theme-switch__circle-container {
+  width: var(--circle-container-diameter);
+  height: var(--circle-container-diameter);
+  background-color: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  left: var(--circle-container-offset);
+  top: var(--circle-container-offset);
+  border-radius: var(--container-radius);
+  -webkit-box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-transition: var(--circle-transition);
+  -o-transition: var(--circle-transition);
+  transition: var(--circle-transition);
+  pointer-events: none;
+}
+.theme-switch__sun-moon-container {
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
+  width: var(--sun-moon-diameter);
+  height: var(--sun-moon-diameter);
+  margin: auto;
+  border-radius: var(--container-radius);
+  background-color: var(--sun-bg);
+  -webkit-box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+  box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+  -webkit-filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+  overflow: hidden;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+.theme-switch__moon {
+  -webkit-transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  transform: translateX(100%);
+  width: 100%;
+  height: 100%;
+  background-color: var(--moon-bg);
+  border-radius: inherit;
+  -webkit-box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+  box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+  position: relative;
+}
+
+.theme-switch__spot {
+  position: absolute;
+  top: 0.75em;
+  left: 0.312em;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: var(--container-radius);
+  background-color: var(--spot-color);
+  -webkit-box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+}
+.theme-switch__spot:nth-of-type(2) {
+  width: 0.375em;
+  height: 0.375em;
+  top: 0.937em;
+  left: 1.375em;
+}
+
+.theme-switch__spot:nth-last-of-type(3) {
+  width: 0.25em;
+  height: 0.25em;
+  top: 0.312em;
+  left: 0.812em;
+}
+.theme-switch__clouds {
+  width: 1.25em;
+  height: 1.25em;
+  background-color: var(--clouds-color);
+  border-radius: var(--container-radius);
+  position: absolute;
+  bottom: -0.625em;
+  left: 0.312em;
+  -webkit-box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+  box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+  -webkit-transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+  -o-transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+  transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+}
+
+.theme-switch__stars-container {
+  position: absolute;
+  color: var(--stars-color);
+  top: -100%;
+  left: 0.312em;
+  width: 2.75em;
+  height: auto;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+/* actions */
+
+.theme-switch__checkbox:checked + .theme-switch__container {
+  background-color: var(--container-night-bg);
+}
+
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container {
+  left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter));
+}
+
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover {
+  left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em)
+}
+
+.theme-switch__circle-container:hover {
+  left: calc(var(--circle-container-offset) + 0.187em);
+}
+
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
+  -webkit-transform: translate(0);
+  -ms-transform: translate(0);
+  transform: translate(0);
+}
+
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds {
+  bottom: -4.062em;
+}
+
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container {
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+    /* 块放大效果样式 */
+    .fancydiv {
+        display: flex;
+        justify-content: center; /* 居中内容 */
+        align-items: center; /* 垂直居中 */
+        height: 400px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.1);
+        transition: all 0.5s ease; /* 添加过渡效果 */
+        cursor: pointer; /* 鼠标指针变为手形 */
+        color: white;
+        flex: 1 1 280px; /* 自适应宽度，最小280px */
+        margin: 10px; /* 自适应的上下左右间距 */
+        max-width: 100%;
+    }
+    
+    /* 原有的fancydiv的背景颜色 */
+    #fancydiv1 {
+        grid-column: span 2;
+        background: linear-gradient(135deg, #6bc4e0, #a0d8e1); /* 加深的蓝色渐变 */
+    }
+
+    #fancydiv2 {
+        background: linear-gradient(135deg, #f37171, #f9b3b3); /* 加深的红色渐变 */
+    }
+
+    #fancydiv3 {
+        background: linear-gradient(135deg, #ffb300, #ffe6a8); /* 加深的黄色渐变 */
+    }
+
+    #fancydiv4 {
+        background: linear-gradient(135deg, #81c784, #c8e6c9); /* 加深的绿色渐变 */
+    }
+
+    #fancydiv5 {
+        background: linear-gradient(135deg, #90caf9, #e1f5fe); /* 加深的蓝色渐变 */
+    }
+
+    #fancydiv6 {
+        background: linear-gradient(135deg, #ce93d8, #e1bee7); /* 加深的紫色渐变 */
+    }
+
+    /* 新增的块效果的背景颜色 */
+    #fancydiv7 {
+        grid-column: span 2;
+        background: linear-gradient(135deg, #fbb9b3, #f78c8c); /* 加深的红色渐变 */
+    }
+
+    #fancydiv8 {
+        background: linear-gradient(135deg, #f8ebbf, #fff8af); /* 加深的黄色渐变 */
+    }
+
+    #fancydiv9 {
+        grid-column: span 2;
+        background: linear-gradient(135deg, #c3e1c4, #a7d8a9); /* 加深的绿色渐变 */
+    }
+
+    #fancydiv10 {
+        grid-column: span 3;
+        background: linear-gradient(135deg, #b7d3ff, #8cb3f4); /* 加深的蓝色渐变 */
+    }
+    body.dark-mode #fancydiv1 {
+        background: linear-gradient(135deg, #2a4f5f, #8ba8b3); /* 更柔和的暗色调渐变 */
+    }
+
+    body.dark-mode #fancydiv1 {
+        background: linear-gradient(135deg, #2b4c61, #83a1aa); /* 更柔和的暗色调渐变 */
+    }
+
+    body.dark-mode #fancydiv2 {
+        background: linear-gradient(135deg, #8b4b4b, #e0a3a3); /* 更柔和的暗色调渐变 */
+    }
+
+    body.dark-mode #fancydiv3 {
+        background: linear-gradient(135deg, #ab9a00, #e0db7d); /* 更柔和的暗色调渐变 */
+    }
+
+    body.dark-mode #fancydiv4 {
+        background: linear-gradient(135deg, #4d7a4d, #a3d3a3); /* 更柔和的暗色调渐变 */
+    }
+
+    body.dark-mode #fancydiv5 {
+        background: linear-gradient(135deg, #4a90b7, #acdbeb); /* 更柔和的暗色调渐变 */
+    }
+
+    body.dark-mode #fancydiv6 {
+        background: linear-gradient(135deg, #b58bb5, #f9e1f9); /* 更柔和的暗色调渐变 */
+    }
+    body.dark-mode #fancydiv7 {
+        background: linear-gradient(135deg, #945d5f, #711818); /* 更柔和的暗色调渐变 */
+    }
+
+    body.dark-mode #fancydiv8 {
+        background: linear-gradient(135deg, #6b6e25, #5f5409); /* 更柔和的暗色调渐变 */
+    }
+
+    body.dark-mode #fancydiv9 {
+        background: linear-gradient(135deg, #216143, #114d0a); /* 更柔和的暗色调渐变 */
+    }
+
+    body.dark-mode #fancydiv10 {
+        background: linear-gradient(135deg, #006aab, #284981); /* 更柔和的暗色调渐变 */
+    }
+    .fancydiv.expand {
+        animation: expand-animation 0.5s forwards; /* 横向扩展动画 */
+        
+    }
+
+    .fancydiv.shrink {
+        animation: shrink-animation 0.5s forwards; /* 缩小动画 */
+    }
+
+    @keyframes expand-animation {
+        from {
+            transform: scaleX(1); /* 初始大小 */
+        }
+        to {
+            transform: scaleX(1.0); /* 最终大小 */
+        }
+    }
+
+    @keyframes shrink-animation {
+        from {
+            transform: scaleX(1.0); /* 初始状态为扩展至全宽 */
+        }
+        to {
+            transform: scaleX(1); /* 最终状态为默认宽度 */
+        }
+    }
+
+    .fancydiv:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 6px 30px rgba(0,0,0,0.22);
+    }
+
+    .fullscreen {
+        display: flex; /* 保持flex布局 */
+        justify-content: center; /* 居中内容 */
+        align-items: center;
+        width: calc(100vw - 30px); /* 填满整个视口宽度 */
+        height: 100vh; /* 填满整个视口高度 */
+        transform: none; /* 不使用变换 */
+        z-index: 1000; /* 确保在其他元素之上 */
+        color: white; /* 字体颜色 */
+        font-size: 24px; /* 字体大小 */
+    }
+
+    body.dark-mode .fancydiv {
+        background: linear-gradient(135deg, #4a2c91, #6c8efa); /* 深色模式背景 */
+    }
+
+    body.dark-mode .fullscreen {
+        background: linear-gradient(135deg, #4a2c91, #6c8efa); /* 深色模式全屏背景 */
+    }
+    
+    /* 新增样式确保正常排列 */
+    .show-navbar-btn {
+    position: fixed;          /* 固定定位 */
+    top: 8px;               /* 距离顶部10px */
+    left: 10px;              /* 距离左侧10px */
+    z-index: 1000;          /* 确保按钮在其他元素之上 */
+    background-color: #1b71f2;  /* 按钮背景色 */
+    color: white;            /* 字体颜色 */
+    border: none;            /* 无边框 */
+    border-radius: 5px;      /* 圆角 */
+    padding: 8px 10px;      /* 内边距 */
+    font-size: 16px;         /* 字体大小 */
+    cursor: pointer;         /* 鼠标指针形状 */
+    transition: background-color 0.3s ease; /* 背景色过渡效果 */
+}
+
+.show-navbar-btn:hover {
+    background-color: #155a9a; /* 悬停时的背景色 */
+}
+
+.show-navbar-btn i {
+    margin-right: 8px; /* 图标和文本之间的间距 */
+}
+
+    
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <button class="show-navbar-btn" onmouseover="showNavbar()">
+        <i class="fas fa-bars"></i>导航
+    </button>
+    
+    <div class="navbar" onmouseover="showNavbar()" onmouseout="hideNavbar()">
+        <div class="dropdown">
+            <button class="dropbtn" onclick="handleDropdownClick(this, 'source.html')">学习资源
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="source.html">教材下载</a>
+                <a href="#">视频教程</a>
+                <a href="#">文献资料</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="handleDropdownClick(this, 'course_guide.html')">课程指南
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">选课建议</a>
+                <a href="#">课程大纲</a>
+                <a href="#">教师评价</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="handleDropdownClick(this, 'competition.html')">竞赛专栏
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">近期比赛</a>
+                <a href="#">获奖名单</a>
+                <a href="#">参赛指导</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="handleDropdownClick(this, 'info_share.html')">信息共享
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">校园新闻</a>
+                <a href="#">活动通知</a>
+                <a href="#">失物招领</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="handleDropdownClick(this, '/user_center')">个人中心
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">我的收藏</a>
+                <a href="#">个人信息</a>
+                <a href="#">设置</a>
+            </div>
+        </div>
+    </div>
+    <div id="container" style="flex-grow: 1; display: flex; justify-content: center;">
+        <h2>
+            <span>同</span>
+            <span>济</span>
+            <span>大</span>
+            <span>学</span>
+            <span>资</span>
+            <span>源</span>
+            <span>交</span>
+            <span>流</span>
+            <span>平</span>
+            <span>台</span>
+        </h2>
+    </div>
+
+    <!-- 新增的切换主题按钮 -->
+    
+</div>
+<label class="theme-switch">
+    <input type="checkbox" class="theme-switch__checkbox" onclick="toggleTheme()">
+    <div class="theme-switch__container">
+        <div class="theme-switch__clouds"></div>
+        <div class="theme-switch__stars-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 55" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C136.996 7.95722 137.172 7.25134 137.525 6.59129C137.886 5.93124 138.372 5.39954 138.98 5.00535C139.598 4.60199 140.268 4.39114 141 4.35447C139.88 4.2903 138.936 3.85027 138.16 3.00688C137.384 2.16348 136.996 1.16425 136.996 0C136.996 1.16425 136.607 2.16348 135.831 3.00688ZM31 23.3545C32.1114 23.2995 33.0551 22.8503 33.8313 22.0069C34.6075 21.1635 34.9956 20.1642 34.9956 19C34.9956 20.1642 35.3837 21.1635 36.1599 22.0069C36.9361 22.8503 37.8798 23.2903 39 23.3545C38.2679 23.3911 37.5976 23.602 36.9802 24.0053C36.3716 24.3995 35.8864 24.9312 35.5248 25.5913C35.172 26.2513 34.9956 26.9572 34.9956 27.7273C34.9956 26.563 34.6075 25.5546 33.8313 24.7112C33.0551 23.8587 32.1114 23.4095 31 23.3545ZM0 36.3545C1.11136 36.2995 2.05513 35.8503 2.83131 35.0069C3.6075 34.1635 3.99559 33.1642 3.99559 32C3.99559 33.1642 4.38368 34.1635 5.15987 35.0069C5.93605 35.8503 6.87982 36.2903 8 36.3545C7.26792 36.3911 6.59757 36.602 5.98015 37.0053C5.37155 37.3995 4.88644 37.9312 4.52481 38.5913C4.172 39.2513 3.99559 39.9572 3.99559 40.7273C3.99559 39.563 3.6075 38.5546 2.83131 37.7112C2.05513 36.8587 1.11136 36.4095 0 36.3545ZM56.8313 24.0069C56.0551 24.8503 55.1114 25.2995 54 25.3545C55.1114 25.4095 56.0551 25.8587 56.8313 26.7112C57.6075 27.5546 57.9956 28.563 57.9956 29.7273C57.9956 28.9572 58.172 28.2513 58.5248 27.5913C58.8864 26.9312 59.3716 26.3995 59.9802 26.0053C60.5976 25.602 61.2679 25.3911 62 25.3545C60.8798 25.2903 59.9361 24.8503 59.1599 24.0069C58.3837 23.1635 57.9956 22.1642 57.9956 21C57.9956 22.1642 57.6075 23.1635 56.8313 24.0069ZM81 25.3545C82.1114 25.2995 83.0551 24.8503 83.8313 24.0069C84.6075 23.1635 84.9956 22.1642 84.9956 21C84.9956 22.1642 85.3837 23.1635 86.1599 24.0069C86.9361 24.8503 87.8798 25.2903 89 25.3545C88.2679 25.3911 87.5976 25.602 86.9802 26.0053C86.3716 26.3995 85.8864 26.9312 85.5248 27.5913C85.172 28.2513 84.9956 28.9572 84.9956 29.7273C84.9956 28.563 84.6075 27.5546 83.8313 26.7112C83.0551 25.8587 82.1114 25.4095 81 25.3545ZM136 36.3545C137.111 36.2995 138.055 35.8503 138.831 35.0069C139.607 34.1635 139.996 33.1642 139.996 32C139.996 33.1642 140.384 34.1635 141.16 35.0069C141.936 35.8503 142.88 36.2903 144 36.3545C143.268 36.3911 142.598 36.602 141.98 37.0053C141.372 37.3995 140.886 37.9312 140.525 38.5913C140.172 39.2513 139.996 39.9572 139.996 40.7273C139.996 39.563 139.607 38.5546 138.831 37.7112C138.055 36.8587 137.111 36.4095 136 36.3545ZM101.831 49.0069C101.055 49.8503 100.111 50.2995 99 50.3545C100.111 50.4095 101.055 50.8587 101.831 51.7112C102.607 52.5546 102.996 53.563 102.996 54.7273C102.996 53.9572 103.172 53.2513 103.525 52.5913C103.886 51.9312 104.372 51.3995 104.98 51.0053C105.598 50.602 106.268 50.3911 107 50.3545C105.88 50.2903 104.936 49.8503 104.16 49.0069C103.384 48.1635 102.996 47.1642 102.996 46C102.996 47.1642 102.607 48.1635 101.831 49.0069Z" fill="currentColor"></path>
+            </svg>
+        </div>
+        <div class="theme-switch__circle-container">
+            <div class="theme-switch__sun-moon-container">
+                <div class="theme-switch__moon">
+                    <div class="theme-switch__spot"></div>
+                    <div class="theme-switch__spot"></div>
+                    <div class="theme-switch__spot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</label>
+<!-- 添加块效果的代码 -->
+<div class="main-content">
+    <div class="fancydiv" id="fancydiv1">点击我1</div>
+    <div class="fancydiv" id="fancydiv2">点击我2</div>
+    <div class="fancydiv" id="fancydiv3">点击我3</div>
+    <div class="fancydiv" id="fancydiv4">点击我4</div>
+    <div class="fancydiv" id="fancydiv5">点击我5</div>
+    <div class="fancydiv" id="fancydiv6">点击我6</div>
+    <div class="fancydiv" id="fancydiv7">点击我7</div>
+    <div class="fancydiv" id="fancydiv8">点击我8</div>
+    <div class="fancydiv" id="fancydiv9">点击我9</div>
+    <div class="fancydiv" id="fancydiv10">点击我10</div>
+</div>
+
+<footer>
+    <p>版权所有 © 2024 同济大学资源交流平台 | 制作者：珏 | 联系方式：2087842800@qq.com</p>
+</footer>
+
+<script>
+    
+// 切换主题的函数
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode'); // 直接切换主题
+}
+
+window.onload = function() {
+    var mainContent = document.querySelector('.main-content');
+    mainContent.classList.add('fade-in'); // 添加入场动画类
+};
+
+// 放大后显示的内容数组
+const expandedTexts = [
+    '这是放大的内容1',
+    '这是放大的内容2',
+    '这是放大的内容3',
+    '这是放大的内容4',
+    '这是放大的内容5',
+    '这是放大的内容6',
+    '这是放大的内容7',
+    '这是放大的内容8',
+    '这是放大的内容9',
+    '这是放大的内容10'
+];
+
+// 块放大效果的逻辑
+const fancyDivs = document.querySelectorAll('.fancydiv');
+
+fancyDivs.forEach((fancydiv, index) => {
+    fancydiv.addEventListener('click', () => {
+        // 检查是否有其他块在全屏
+        const isOpen = fancydiv.classList.contains('fullscreen'); // 判断当前状态
+
+        fancyDivs.forEach(div => {
+            if (div !== fancydiv) {
+                // 如果当前块不是被点击的块，收起其他块
+                div.style.display = 'none'; // 隐藏其他块
+                div.classList.remove('expand'); // 移除扩展类
+                div.classList.add('shrink'); // 添加缩小类
+            } else {
+                div.classList.toggle('fullscreen'); // 切换全屏效果
+                if (!isOpen) {
+                    // 如果当前块是打开状态，则不进行滚动
+                    return;
+                }
+            }
+        });
+
+        // 根据当前状态切换文本内容和扩展类
+        if (isOpen) {
+            fancydiv.classList.remove('expand'); // 移除扩展类
+            fancydiv.classList.add('shrink'); // 添加缩小类
+            fancydiv.textContent = '点击我' + (index + 1);
+            fancyDivs.forEach(div => {
+                div.style.display = 'flex'; // 恢复显示其他块
+            });
+
+            // 直接滚动到当前块位置
+            fancydiv.scrollIntoView({ behavior: 'auto', block: 'start' }); // 直接跳转
+        } else {
+            fancydiv.classList.add('expand'); // 添加扩展类
+            fancydiv.classList.remove('shrink'); // 移除缩小类
+            fancydiv.textContent = expandedTexts[index]; // 显示对应的放大内容
+        }
+    });
+});
+
+function handlePageTransition(url) {
+    document.body.classList.add('fade-out');
+
+    setTimeout(function() {
+        window.location.href = url;
+    }, 500);
+}
+
+// 处理下拉菜单的显示与隐藏
+function handleDropdownClick(button, url) {
+    var dropdownContent = button.nextElementSibling;
+
+    // 关闭其他打开的下拉菜单
+    var openDropdowns = document.getElementsByClassName("dropdown-content");
+    for (var i = 0; i < openDropdowns.length; i++) {
+        if (openDropdowns[i] !== dropdownContent) {
+            openDropdowns[i].classList.remove('show');
+        }
+    }
+
+    // 切换当前下拉菜单的显示状态
+    dropdownContent.classList.toggle('show');
+
+    // 如果点击的是按钮而非下拉菜单项，则跳转
+    var event = window.event; // 用于获取事件对象
+    if (!event.target.closest('.dropdown-content')) {
+        handlePageTransition(url); // 使用新的函数进行页面切换
+    }
+}
+
+// 当点击文档其他地方时关闭所有下拉菜单
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+
+// 展示导航栏
+function showNavbar() {
+    const navbar = document.querySelector('.navbar');
+    navbar.classList.add('show'); // 显示导航栏
+}
+
+// 隐藏导航栏
+function hideNavbar() {
+    const navbar = document.querySelector('.navbar');
+    navbar.classList.remove('show'); // 隐藏导航栏
+}
+
+// 处理鼠标悬停和离开的状态
+document.querySelector('.show-navbar-btn').addEventListener('mouseenter', showNavbar);
+document.querySelector('.show-navbar-btn').addEventListener('mouseleave', hideNavbar);
+document.querySelector('.navbar').addEventListener('mouseenter', showNavbar);
+document.querySelector('.navbar').addEventListener('mouseleave', hideNavbar);
+</script>
+
+</body>
+</html>
