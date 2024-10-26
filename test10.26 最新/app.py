@@ -176,9 +176,9 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             flash('注册成功！请登录。', 'success')
-            return redirect(url_for('login'))
+            return redirect(url_for('user_center'))
 
-    return render_template('register.html')
+    return render_template('user_center.html')
 
 @app.route('/logout')
 def logout():
