@@ -51,7 +51,7 @@
         visibility: hidden; /* 导航栏隐藏 */
         transition: opacity 0.5s ease, visibility 0s 0.5s, transform 0.5s ease; /* 添加过渡效果 */
         align-items: center; /* 垂直居中 */
-        background-color: #1b71f2; /* 导航栏背景色 */
+        background-color: #024e1e; /* 导航栏背景色 */
         padding: 4px 5px; /* 减少按钮的上下内边距 */
         border-radius: 8px;      /* 导航栏圆角 */
         position: fixed;     /* 固定在顶部 */
@@ -74,7 +74,7 @@
         top: 8px;
         left: 10px;
         z-index: 1000;
-        background-color: #1b71f2;
+        background-color: #03519a;
         color: white;
         border: none;
         border-radius: 5px;
@@ -85,7 +85,7 @@
     }
     
     .show-navbar-btn:hover {
-        background-color: #155a9a;
+        background-color: #023a17;
     }
     
     .show-navbar-btn i {
@@ -139,13 +139,20 @@
           footer:hover {
             background: -webkit-linear-gradient(135deg,
             #1b71f2,
-            #1a83f2 25%,
-            #1f94f4 50%,
-            #2c8bf8 55%,
-            #39b3f9 60%,
-            #5abdff 80%,
-            #63e0ff 95%,
-            #7eeeff);
+            #1a83f2 10%,
+            #1f94f4 20%,
+            #2c8bf8 30%,
+            #39b3f9 35%,
+            #5abdff 40%,
+            #63e0ff 45%,
+            #7eeeff 50%,
+            #63e0ff 55%,
+            #5abdff 60%,
+            #39b3f9 70%,
+            #2c8bf8 80%,
+            #1f94f4 90%,
+            #1b71f2
+            );
             -webkit-background-size: 200% 100%;
             -webkit-animation: flowCss 4s infinite linear;
           }
@@ -231,16 +238,23 @@
           }
     
           .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: calc(100vw - 20px);
+            column-gap: 5px; /* 列之间的间距 */
             margin-top: 125px;
-            background-color: rgb(0, 50, 18);
-        display: grid; /* 使用网格布局 */
-        grid-template-columns: repeat(3, 1fr); /* 固定三列 */
-        grid-template-rows: auto; /* 自动设置行高 */
-        gap: 20px; /* 板块之间的间距 */
-    }
+            background-color: rgb(6, 52, 40);
+            
+         }
+         .column {
+            flex: 0 1 calc(33.33% - 5px); /* 每列等宽 */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
     
     /* 此处省略部分不变的样式 */
-    
           h2 {
               margin: 0;
               letter-spacing: -2px;
@@ -321,12 +335,13 @@
             top: 47px;         /* 距离顶部10px */
             left: 10px;
         }
-        .main-content{
-              display: flex; /* 使内容为flex布局 */
-              max-width: calc(100vw - 20px);
-              flex-wrap: wrap; /* 允许换行 */
-              gap: 20px; /* 板块之间的间距 */
+        .main-content {
+            flex-wrap: wrap; /* 允许列换行 */
         }
+        .column {
+            flex: 0 1 calc(50% - 5px); /* 每列占父容器的50%，减去间距 */
+        }
+
         .header{
             font-size: smaller;
             max-width: calc(100vw - 20px);
@@ -510,67 +525,84 @@
     }
         /* 块放大效果样式 */
         .fancydiv {
-            display: flex;
             justify-content: center; /* 居中内容 */
             align-items: center; /* 垂直居中 */
-            height: 400px;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.1);
-            transition: all 0.5s ease; /* 添加过渡效果 */
-            cursor: pointer; /* 鼠标指针变为手形 */
+            transition: all 0.5s ease;
+            cursor: pointer;
             color: white;
             flex: 1 1 280px; /* 自适应宽度，最小280px */
-            margin: 10px; /* 自适应的上下左右间距 */
+            margin: 10px; /* 间距 */
             max-width: 100%;
+        }
+        .fancydiv {
+            min-height: 200px; /* 基础高度 */
+        }
+        
+        .fancydiv:nth-child(odd) {
+            min-height: 400px; /* 奇数块更高一些 */
+        }
+        
+        .fancydiv:nth-child(3n) {
+            min-height: 350px; /* 每第三个块设置不同的高度 */
         }
         
         /* 原有的fancydiv的背景颜色 */
         #fancydiv1 {
             grid-column: span 2;
-            background: linear-gradient(135deg, #6bc4e0, #a0d8e1); /* 加深的蓝色渐变 */
+            background: linear-gradient(135deg, #6eead3, #8fdfd9); 
         }
     
         #fancydiv2 {
-            background: linear-gradient(135deg, #f37171, #f9b3b3); /* 加深的红色渐变 */
+            background: linear-gradient(135deg, #8ac9a6, #80c086);
         }
     
         #fancydiv3 {
-            background: linear-gradient(135deg, #ffb300, #ffe6a8); /* 加深的黄色渐变 */
+            background: linear-gradient(135deg, #96c78f, #8bda93); 
         }
     
         #fancydiv4 {
-            background: linear-gradient(135deg, #81c784, #c8e6c9); /* 加深的绿色渐变 */
+            background: linear-gradient(135deg, #81c784, #87dda2); 
         }
     
         #fancydiv5 {
-            background: linear-gradient(135deg, #90caf9, #e1f5fe); /* 加深的蓝色渐变 */
+            background: linear-gradient(135deg, #92d3ae, #6fe4b8); 
         }
     
         #fancydiv6 {
-            background: linear-gradient(135deg, #ce93d8, #e1bee7); /* 加深的紫色渐变 */
+            background: linear-gradient(135deg, #65a48c, #639a82); 
         }
     
         /* 新增的块效果的背景颜色 */
         #fancydiv7 {
             grid-column: span 2;
-            background: linear-gradient(135deg, #fbb9b3, #f78c8c); /* 加深的红色渐变 */
+            background: linear-gradient(135deg, #62a973, #91c181);
         }
     
         #fancydiv8 {
-            background: linear-gradient(135deg, #f8ebbf, #fff8af); /* 加深的黄色渐变 */
+            background: linear-gradient(135deg, #b6dfb4, #a8e189); 
         }
     
         #fancydiv9 {
             grid-column: span 2;
-            background: linear-gradient(135deg, #c3e1c4, #a7d8a9); /* 加深的绿色渐变 */
+            background: linear-gradient(135deg, #c3e1c4, #a7d8a9); 
         }
     
         #fancydiv10 {
             grid-column: span 3;
-            background: linear-gradient(135deg, #b7d3ff, #8cb3f4); /* 加深的蓝色渐变 */
+            background: linear-gradient(135deg, #8bc4ba, #7ccea8); 
+        }
+        #fancydiv11 {
+            grid-column: span 3;
+            background: linear-gradient(135deg, #77a39b, #7ccea8); 
+        }
+        #fancydiv12 {
+            grid-column: span 3;
+            background: linear-gradient(135deg, #8bc4ba, #56a37f); 
         }
         body.dark-mode #fancydiv1 {
-            background: linear-gradient(135deg, #2a4f5f, #8ba8b3); /* 更柔和的暗色调渐变 */
+            background: linear-gradient(135deg, #2a4f5f, #8ba8b3); 
         }
     
         body.dark-mode #fancydiv1 {
