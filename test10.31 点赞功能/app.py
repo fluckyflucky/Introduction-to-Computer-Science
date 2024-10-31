@@ -475,6 +475,28 @@ def toggle_follow():
     db.session.commit()
 
     return jsonify({'success': True, 'new_follow_status': new_follow_status})
+#这里是获取resources展示在主页上的函数
+@app.route('/get_resources')
+def get_resources():
+    # 查询 Post 表获取内容
+    posts = db.session.query(
+        Post.id,
+        Post.content,
+        Post.image,
+        Post.timestamp,
+        User.username
+    ).join(User, Post.user_id == User.id)
+    
+
+    post_info = [{
+        'id': post.id,
+        'content': post.content,
+        'image_path': url_for('static', filename=f'{post.image}') if post.image else None,
+        'timestamp': post.timestamp,
+        'author': post.username
+    } for post in posts]
+
+    return jsonify(post_info)
 
 if __name__ == '__main__':
     app.run(debug=True)

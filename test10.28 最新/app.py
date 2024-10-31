@@ -38,6 +38,16 @@ class Tag(db.Model):  # 新增标签模型
     name = db.Column(db.String(50), nullable=False)  # 标签名称
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # 用户ID，外键关联到用户表
 
+class Resource(db.Model):  # 新增资源模型
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # 外键关联到用户表
+    title = db.Column(db.String(200), nullable=False)  # 文章标题
+    cover_image = db.Column(db.String(200))  # 封面图片路径
+    content = db.Column(db.Text, nullable=False)  # 文章内容
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)  # 文章创建时间
+    full_image = db.Column(db.String(200))  # 放大形式的图片路径
+    user = db.relationship('User', backref=db.backref('resources', lazy=True))  # 反向关系
+
 with app.app_context():
     db.create_all()  # 创建所有表
 
@@ -111,6 +121,7 @@ def user_profile(user_id):
     current_user = User.query.filter_by(username=current_username).first() if current_username else None
     
     if user:
+        
         user_tags = Tag.query.filter_by(user_id=user.id).all()
         user_tag_names = [tag.name for tag in user_tags]  # 获取标签名称列表
         user_posts = Post.query.filter_by(user_id=user.id).order_by(Post.timestamp.desc()).all()
@@ -301,6 +312,32 @@ def get_user_tags():
     tag_names = [tag.name for tag in tags]
 
     return jsonify({'tags': tag_names}), 200
+
+
+
+
+@app.route('/get_resources')
+def get_resources():
+    # 查询 Post 表获取内容
+    posts = db.session.query(
+        Post.id,
+        Post.content,
+        Post.image,
+        Post.timestamp,
+        User.username
+    ).join(User, Post.user_id == User.id)
+    
+
+    post_info = [{
+        'id': post.id,
+        'content': post.content,
+        'image_path': url_for('static', filename=f'{post.image}') if post.image else None,
+        'timestamp': post.timestamp,
+        'author': post.username
+    } for post in posts]
+
+    return jsonify(post_info)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
