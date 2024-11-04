@@ -21,47 +21,94 @@ const expandedTexts = [
     '这是放大的内容9',
     '这是放大的内容10'
 ];
-
-// 块放大效果的逻辑
 const fancyDivs = document.querySelectorAll('.fancydiv');
 
-fancyDivs.forEach((fancydiv, index) => {
-    fancydiv.addEventListener('click', () => {
-        // 检查是否有其他块在全屏
-        const isOpen = fancydiv.classList.contains('fullscreen'); // 判断当前状态
 
-        fancyDivs.forEach(div => {
-            if (div !== fancydiv) {
-                // 如果当前块不是被点击的块，收起其他块
-                div.style.display = 'none'; // 隐藏其他块
-                div.classList.remove('expand'); // 移除扩展类
-                div.classList.add('shrink'); // 添加缩小类
-            } else {
-                div.classList.toggle('fullscreen'); // 切换全屏效果
-                if (!isOpen) {
-                    // 如果当前块是打开状态，则不进行滚动
-                    return;
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetch('/get_resources')  // 调用 API
+        .then(response => response.json())
+        .then(data => {
+            // 随机打乱数据顺序
+            const shuffledData = data.sort(() => Math.random() - 0.5);
+
+            const mainContent = document.querySelector('.main-content');
+            mainContent.innerHTML = ''; // 清空内容
+            const maxDivs = 10; // 最大的 fancydiv 数量
+
+            // 存储初始内容
+            const initialContents = [];
+
+            // 创建和填充 fancydivs
+            for (let i = 0; i < maxDivs; i++) {
+                const div = document.createElement('div');
+                div.classList.add('fancydiv');
+                div.id = `fancydiv${i + 1}`; // 生成唯一 ID
+
+                if (i < shuffledData.length) {
+                    const post = shuffledData[i];
+                    const contentHTML = `
+                         <img src="${post.image_path}" alt="封面图" class="fancy-image">
+                        <div class="fancy-info">
+                            <h3 class="fancy-title">内容: ${post.content}</h3>
+                            <p class="fancy-author">发布人: ${post.author}</p>
+                            <p class="fancy-timestamp">发布时间: ${new Date(post.timestamp).toLocaleString()}</p>
+                        </div>
+                    `;
+                    div.innerHTML = contentHTML;
+                    initialContents.push(contentHTML); // 存储初始内容
+                } else {
+                    div.innerHTML = `<span>暂无内容</span>`; // 空位时占位内容
+                    initialContents.push(`<span>暂无内容</span>`); // 存储占位内容
                 }
+
+                mainContent.appendChild(div);
             }
-        });
 
-        // 根据当前状态切换文本内容和扩展类
-        if (isOpen) {
-            fancydiv.classList.remove('expand'); // 移除扩展类
-            fancydiv.classList.add('shrink'); // 添加缩小类
-            fancydiv.textContent = '点击我' + (index + 1);
-            fancyDivs.forEach(div => {
-                div.style.display = 'flex'; // 恢复显示其他块
+            // 获取创建的所有 fancydiv 元素
+            const fancyDivs = document.querySelectorAll('.fancydiv');
+
+            // 设置点击事件
+            fancyDivs.forEach((fancydiv, index) => {
+                fancydiv.addEventListener('click', () => {
+                    // 检查是否有其他块在全屏
+                    const isOpen = fancydiv.classList.contains('fullscreen'); // 判断当前状态
+
+                    fancyDivs.forEach(div => {
+                        if (div !== fancydiv) {
+                            // 如果当前块不是被点击的块，收起其他块
+                            div.style.display = 'none'; // 隐藏其他块
+                            div.classList.remove('expand'); // 移除扩展类
+                            div.classList.add('shrink'); // 添加缩小类
+                        } else {
+                            div.classList.toggle('fullscreen'); // 切换全屏效果
+                            if (!isOpen) {
+                                // 如果当前块是打开状态，则不进行滚动
+                                return;
+                            }
+                        }
+                    });
+
+                    // 根据当前状态切换文本内容和扩展类
+                    if (isOpen) {
+                        fancydiv.classList.remove('expand'); // 移除扩展类
+                        fancydiv.classList.add('shrink'); // 添加缩小类
+                        fancydiv.innerHTML = initialContents[index]; // 恢复初始内容
+                        fancyDivs.forEach(div => {
+                            div.style.display = 'flex'; // 恢复显示其他块
+                        });
+
+                        // 直接滚动到当前块位置
+                        fancydiv.scrollIntoView({ behavior: 'auto', block: 'start' }); // 直接跳转
+                    } else {
+                        fancydiv.classList.add('expand'); // 添加扩展类
+                        fancydiv.classList.remove('shrink'); // 移除缩小类
+                        // 不需要改变内容，保持初始内容
+                    }
+                });
             });
-
-            // 直接滚动到当前块位置
-            fancydiv.scrollIntoView({ behavior: 'auto', block: 'start' }); // 直接跳转
-        } else {
-            fancydiv.classList.add('expand'); // 添加扩展类
-            fancydiv.classList.remove('shrink'); // 移除缩小类
-            fancydiv.textContent = expandedTexts[index]; // 显示对应的放大内容
-        }
-    });
+        })
+        .catch(error => console.error('Error fetching posts:', error));
 });
 
 function handlePageTransition(url) {
@@ -124,3 +171,6 @@ document.querySelector('.show-navbar-btn').addEventListener('mouseenter', showNa
 document.querySelector('.show-navbar-btn').addEventListener('mouseleave', hideNavbar);
 document.querySelector('.navbar').addEventListener('mouseenter', showNavbar);
 document.querySelector('.navbar').addEventListener('mouseleave', hideNavbar);
+
+
+

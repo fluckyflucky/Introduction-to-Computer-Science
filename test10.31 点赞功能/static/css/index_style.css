@@ -508,8 +508,8 @@
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
     }
-        /* 块放大效果样式 */
-        .fancydiv {
+         /* 块放大效果样式 */
+         .fancydiv {
             display: flex;
             justify-content: center; /* 居中内容 */
             align-items: center; /* 垂直居中 */
@@ -522,7 +522,21 @@
             flex: 1 1 280px; /* 自适应宽度，最小280px */
             margin: 10px; /* 自适应的上下左右间距 */
             max-width: 100%;
+            position: relative;
+            display: flex;
+            overflow: hidden;
         }
+         .fancy-image {
+            width: 80%;
+            height: 90%;
+            object-fit: cover;
+            z-index: 1;
+        }
+         .fancy-info {
+            position: relative;  /* 让信息在图片下方 */
+             z-index: 2;  /* 确保信息在图片之上 */
+             text-align: center;  /* 文字居中 */
+        }  
         
         /* 原有的fancydiv的背景颜色 */
         #fancydiv1 {
