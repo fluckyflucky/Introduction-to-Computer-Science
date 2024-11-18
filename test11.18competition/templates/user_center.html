@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><!--图标库---->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><!--字体库---->
+    <meta charset="UTF-8">
+    <title>用户中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        
+        .sidebar a {
+            margin: 20px 0;
+            text-decoration: none;
+            color: #d7f1fb;
+            font-size: 24px;
+            transition: color 0.3s, transform 0.15s;
+            position: relative; /* 添加这一行 */
+        }
+        
+        .sidebar a:hover {
+            color: #ffffff;
+            transform: scale(1.2); /* 添加这一行 */
+        }
+
+        .tooltip {
+            display: none; /* 默认隐藏工具提示 */
+            position: absolute;
+            left: 120%; /* 根据侧边栏宽度调整位置 */
+            top: 50%;
+            transform: translateY(-50%);
+            background: #5f91f4;
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            white-space: nowrap; /* 不换行 */
+        }
+
+        /* 当鼠标悬停在.sidebar上时，显示所有工具提示 */
+        .sidebar:hover .tooltip {
+            cursor: pointer;
+            display: block; /* 鼠标悬停时显示所有提示 */
+        }
+
+        .personal-info {
+            display: flex;
+            flex-direction: column; /* 修改为列方向排列 */
+            color: white; /* 设置文本颜色，以便在背景上显示清晰 */
+            margin-left: 20px; /* 添加与头像的间距 */
+        }
+
+        .signature {
+            flex: 0 1 auto; /* 签名占用一行 */
+            margin-top: 10px; /* 可以设置与下方元素的间距 */
+            background-color: #033996; /* 背景色 */
+            color: #ffffff; /* 字体颜色 */
+            padding: 10px; /* 添加内边距使内容不显得拥挤 */
+            border-radius: 5px; /* 圆角边框，增加视觉效果 */
+            font-size: 12px; /* 字体大小 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+        }
+
+        .stats {
+            display: flex; /* 使用flexbox布局 */
+            gap: 20px; /* 间距 */
+            justify-content: left; /* 让统计信息居中 */
+            margin-left:10px;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+
+        .stats .count {
+            font-size: 24px; /* 数字字体大小 */
+            font-weight: bold;
+            display: block; /* 独占一行 */
+        }
+
+        .stats .label {
+            font-size: 14px; /* 标签字体大小 */
+            margin-top: 4px;
+        }
+
+        body {
+            font-family: '微软雅黑', sans-serif;
+            background: linear-gradient(45deg, #6d9af5, #7db5fd);
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 80px;
+            background: #10348e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px; /* 顶部留白 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            transition: width 0.3s;
+            overflow: hidden;
+        }
+        .sidebar:hover {
+    width: 150px;
+        }
+        .sidebar:hover a{
+    transform: translateX(-30px); /* 向左移动10px */
+        }
+        .header {
+            background-image: url("{{ url_for('static', filename='pictures/star.png') }}"); /* 设置背景图 */
+            background-size: cover; /* 覆盖整个header */
+            background-position: bottom;
+            background-color: rgba(255, 255, 255, 0.5); /* 设置半透明白色背景 */
+            backdrop-filter: blur(50px);
+            display: flex;
+            align-items: center; /* 垂直方向居中对齐 */
+            justify-content: center; /* 内容左右居中对齐 */
+            padding: 20px; /* 调整内边距 */
+            border-radius: 20px;
+            z-index: 1; /* 确保在其他元素之上 */
+        }
+
+        .header .profile-img {
+            width: 180px; /* 设置头像的宽度 */
+            height: 180px; /* 设置头像的高度，保持正方形 */
+            border-radius: 50%; /* 圆形头像 */
+            margin-right: 20px; /* 头像与用户名之间的间距 */
+            border: 3px solid #033996; /* 加边框 */
+            transition: transform 0.3s; /* 头像缩放效果 */
+        }
+
+        .header .profile-img:hover {
+            transform: scale(1.1); /* 悬停时放大 */
+        }
+
+        .login-success {
+            font-size: 2.5em;
+            margin-top: 20px;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold; /* 加粗 */
+        }
+
+        .content {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            overflow-y: auto;
+            background: rgba(61, 87, 236, 0.05);/*这里要一个好看的背景色*/
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            z-index: 0; /* 确保在header之下 */
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #3498db, #9b59b6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #4ba3dd, #af55d6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .message {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 5px;
+        }
+        .tag {
+            display: inline-block; /* 标签独占一行 */
+            background-color: rgba(255, 255, 255, 0.203); /* 背景色 */
+            color: #ffffff;
+            border-radius: 15px; /* 圆角边框 */
+            padding: 5px 10px; /* 内边距 */
+            margin-right: 8px; /* 标签间距 */
+            font-size: 12px; /* 字体大小 */
+            cursor: pointer; /* 鼠标悬停时变为指针 */
+            top: 0%;
+        }
+
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0%;
+            width: 100%;
+            height: 120vh;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: rgba(255, 255, 255, 0.9);
+            margin: 2% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            color: #000;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        input[type="file"], input[type="text"], textarea {
+            max-width: calc(100% - 20px); /* 确保输入框宽度不超过按钮宽度，设置一定的间距 */
+            width: 98%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #1a8bbc;
+            border-radius: 8px;
+            background-color: rgb(41, 60, 100);
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input[type="file"]:focus, input[type="text"]:focus, textarea:focus {
+            border-color: #1a8bbc;
+            box-shadow: 0 0 5px rgb(13, 66, 212);
+            outline: none;
+        }
+
+        .delete-button {
+    background: #c0392b; /* 红色背景 */
+    color: white; /* 白色字体 */
+    padding: 0 12px; /* 左右内边距 */
+    border: none; /* 去掉边框 */
+    border-radius: 20px; /* 圆角 */
+    width: 30px; /* 初始宽度 */
+    height: 30px; /* 初始高度 */
+    display: flex; /* 使用flexbox */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    cursor: pointer; /* 鼠标指针 */
+    position: relative; /* 相对定位 */
+    overflow: hidden; /* 隐藏溢出内容 */
+    transition: width 0.3s ease; /* 动画效果 */
+}
+
+.delete-button:hover {
+    width: 150px; /* 鼠标悬停时的宽度 */
+    background: #e74c3c; /* 悬停时背景色变亮 */
+}
+
+.delete-button::before {
+    content: "×"; /* 显示的红色“×” */
+    color: white; /* 字体颜色 */
+    font-size: 20px; /* 字体大小 */
+    transition: opacity 0.3s ease; /* 透明度过渡效果 */
+    position: absolute; /* 绝对定位 */
+}
+
+.delete-button:hover::before {
+    opacity: 0; /* 悬停时让“×”消失 */
+}
+
+.delete-button::after {
+    font-size:medium; /* 字体大小 */
+    content: "删除帖子"; /* 悬停后显示的文本 */
+    color: white; /* 文字颜色 */
+    opacity: 0; /* 初始透明度 */
+    transition: opacity 0.3s ease; /* 动画效果 */
+    text-align: center; /* 居中 */
+    white-space: nowrap; /* 不换行 */
+}
+
+.delete-button:hover::after {
+    opacity: 1; /* 悬停时使文本可见 */
+}
+#imagePreview {
+    display: none; /* 初始隐藏 */
+    max-width: 300px; /* 设置最大宽度 */
+    max-height: 300px; /* 设置最大高度，保持比例 */
+    margin-top: 10px;
+    border-radius: 10px; /* 如果需要，可以添加圆角效果 */
+}
+
+#avatarPreview {
+    display: none; /* 初始隐藏 */
+    max-width: 300px; /* 设置最大宽度 */
+    max-height: 300px; /* 设置最大高度，保持比例 */
+    margin-top: 10px;
+    border-radius: 10px; /* 如果需要，可以添加圆角效果 */
+}
+
+.modal-content {
+    text-align: center; /* 使所有内容居中显示 */
+    padding: 10px; /* 根据需要增加内边距 */
+}
+
+#modalPostTitle {
+    font-size: 24px; /* 调整标题字体大小 */
+    font-weight: bold; /* 加粗标题 */
+    margin-bottom: 10px; /* 下方间隔 */
+}
+
+
+#modalPostTitle {
+    font-size: 40px; /* 调整标题字体大小 */
+    font-weight: bold; /* 加粗标题 */
+    margin-bottom: 10px; /* 下方间隔 */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="/">
+            <i class="fas fa-home"></i>
+            <span class="tooltip">主页</span>
+        </a>
+        <a href="{{ url_for('user_profile', user_id=current_user.id) }}">
+            <i class="fas fa-user"></i>
+            <span class="tooltip">我</span>
+        </a>       
+        <a onclick="openSearchModal()">
+            <i class="fas fa-search"></i>
+            <span class="tooltip">查找</span>
+        </a>
+        <a href="#"><!--这里是切换到私聊窗口的按钮-->
+            <i class="fas fa-message"></i>
+            <span class="tooltip">消息</span>
+        </a>
+        <a onclick="openSendMessageModal()">
+            <i class="fas fa-plus"></i>
+            <span class="tooltip">发送信息</span>
+        </a>
+        <a onclick="openSettingsModal()">
+            <i class="fas fa-cog"></i>
+            <span class="tooltip">设置</span>
+        </a>
+        <a href="{{ url_for('logout') }}">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="tooltip">退出</span>
+        </a>
+    </div>
+    <div id="searchUserModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeSearchModal()">&times;</span>
+            <h2>搜索用户</h2>
+            <input type="text" id="username-input" placeholder="请输入用户名">
+            <button onclick="searchUser()">搜索</button>
+        </div>
+    </div>
+    <div class="content">
+        {% if user_name %}
+        <div class="header">
+            <img src="{{ url_for('static', filename=user_avatar) if user_avatar else 'http://via.placeholder.com/100' }}" alt="Profile" class="profile-img">
+            <div class="personal-info">
+                <div class="login-success">{{ user_name }}</div>
+                <div class="tags" id="tags-display">
+                    <!-- 这里将显示用户添加的标签 -->
+                </div>
+                <div class="signature">个性签名：<span id="user-signature">{{ user_signature }}</span></div>
+                <div class="stats">
+                    <div style="cursor: pointer;">
+                        <a  onclick="showFollowing(); return false;">
+                            <span class="count">{{ following_count }}</span>
+                            <span class="label">关注</span>
+                        </a>
+                    </div>
+                    <div style="cursor: pointer;">
+                        <a  onclick="showFollowers(); return false;">
+                            <span class="count">{{ followers_count }}</span>
+                            <span class="label">粉丝</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 粉丝列表的弹窗 -->
+<div id="followersModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeFollowersModal()">&times;</span>
+        <h2>粉丝列表</h2>
+        <ul id="followers-list"></ul>
+    </div>
+</div>
+
+<!-- 关注列表的弹窗 -->
+<div id="followingModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeFollowingModal()">&times;</span>
+        <h2>关注列表</h2>
+        <ul id="following-list"></ul>
+    </div>
+</div>
+
+                {% if current_user.id != user.id %} 
+                <button id="follow-button" 
+        onclick="toggleFollow({{current_user.id}},{{user.id}});" 
+        style="background-color: #1a66bc; 
+               color: white; 
+               border: none; 
+               border-radius: 5px; 
+               padding: 10px 15px; 
+               font-size: 16px; 
+               cursor: pointer; 
+               transition: background-color 0.3s;
+               min-width: 300px;">
+    {{ '关注' if not is_following else '已关注' }}
+</button>
+
+
+                {% endif %}
+
+
+            </div>
+        </div>
+        {% endif %}
+
+        {% if user_name %}
+
+        <div class="posts-container" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 20px;">
+            <h3 style="text-align: center; color: #ffffffff; font-size: 24px; font-weight: bold; width: 100%;">个人帖子</h3>
+            {% for post in user_posts %}
+                <div class="card" style="border-radius: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 0px; width: 300px; margin: 8px; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); position: relative;" onclick="openPostDetailModal('{{ post.title }}', '{{ post.content }}', '{{ url_for('static', filename=post.image) }}')">
+                    {% if post.image %}
+                        <img src="{{ url_for('static', filename=post.image) }}" alt="Post Image" style="max-width: 100%; height: auto; border-radius: 10px; margin-top: 0px;">
+                    {% endif %}
+                    <p style="font-family: Arial, sans-serif; font-size: 17px; font-weight: bold; color: #000000; margin: 8px; padding: 10px; text-align: center;">{{ post.title }}</p>
+                    <small style="color: #999; font-size: 12px; display: block; margin-top: 3px; text-align: center;">发表于: {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                    <div style="margin-top: 10px; display: flex; justify-content: center; margin-bottom: 10px;"> 
+                        {% if current_user.id == user.id %}
+                        <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}" style="display:inline;margin-bottom: 10px;margin-top: 0px;">
+                            <button type="submit" class="delete-button" onclick="return confirm('确定要删除这个帖子吗？');"></button>
+                        </form>
+                        {% else %}
+                        <div style="width: 100%; height: 40px;"></div>
+                        {% endif %}
+                    </div>
+                    <form method="POST" action="{{ url_for('like_post', post_id=post.id) }}" style="position: absolute; bottom: 10px; right: 10px; background: none; border: none; display: flex; flex-direction: column; align-items: center;">
+                        <button type="submit" class="like-button" id="like-button-{{ post.id }}" style="margin-right: 10px; box-shadow:none;background:none;padding: 0; border: none; cursor: pointer; font-size: 25px; color: {% if post.id in liked_posts_ids %} #fa0303 {% else %} #cececec5 {% endif %};">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <span style="margin-right: 8px; font-size: 12px; color: #949494;">{{ post.likes_count }}</span>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- 帖子详情弹窗 -->
+
+<div id="postDetailModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closePostDetailModal()">&times;</span>
+        <div style="display: flex; align-items: flex-start;">
+            <img id="modalPostImage" src="" alt="Post Image" style="max-width: 30%; height: auto; border-radius: 10px; margin-right: 15px;">
+            <div>
+                <h2 id="modalPostTitle" style="text-align: left;"></h2>
+                <p id="modalPostContent" style="text-align: left;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- 发送消息的弹窗 -->
+<!-- 发送消息的弹窗 -->
+<div id="sendMessageModal" class="modal">
+    <div class="modal-content" style="background-color: rgba(255, 255, 255, 0.9);">
+        <span class="close" onclick="closeSendMessageModal()">&times;</span>
+        <h2>发送新消息</h2>
+        <form method="POST" action="{{ url_for('post_message') }}" enctype="multipart/form-data">
+            
+            <input type="text" id="post-title" name="title" required placeholder="输入帖子标题...">
+            <textarea name="message" rows="4" placeholder="输入你的消息..." required></textarea>
+            
+            <!-- 拖放上传区域 -->
+            <div id="drop-area" style="border: 2px dashed #1a8bbc; padding: 20px; text-align: center; margin-top: 10px;">
+                <p>将图片拖到这里，或点击选择文件</p>
+                <input type="file" name="image" accept="image/*" id="imageUpload" style="display: none;">
+                <label for="imageUpload" style="cursor: pointer; color: #1a8bbc;">选择文件</label>
+            </div>
+            <img id="imagePreview" src="" alt="Image Preview" style="display:none; max-width: 100%; margin-top: 10px;">
+            <button type="submit">发送</button>
+        </form>
+    </div>
+</div>
+
+        {% else %}
+        <div class="card">
+            <h2>您尚未登录，请先登录。</h2>
+            <form action="{{ url_for('login') }}">
+                <button type="submit">去登录</button>
+            </form>
+            <form action="{{ url_for('login') }}">
+                <button type="submit">注册账号</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- 修改签名和头像的弹窗 -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0.9);">
+            <span class="close" onclick="closeSettingsModal()">&times;</span>
+            <h2>修改用户信息</h2>
+            {% if current_user.id == user.id %} 
+            <h3>修改签名</h3>
+            <textarea id="signature-input" rows="4" placeholder="输入新签名...">{{ user_signature }}</textarea>
+            <button onclick="updateSignature()">保存签名</button>
+            <h3>增加个性化标签</h3>
+            <input type="text" id="tag-input" placeholder="输入个性化标签...">
+            <button onclick="addTag()">添加标签</button>
+            <h3>更新头像</h3>
+            <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                <label for="avatar"></label>
+                <div id="dropZone" style="border: 2px dashed #3d40f9; padding: 20px; text-align: center;">
+                    <input type="file" name="avatar" accept="image/*" required style="display: none;" id="fileInput">
+                    <span>将文件拖拽到这里，或点击选择文件</span>
+                </div>
+                <img id="preview" src="" alt="预览图" style="display: none; margin-top: 20px; max-width: 200px;"/>
+                <button type="submit">上传</button>
+            </form>
+            {% endif %}
+        </div>
+        
+    </div>
+
+    <script>
+        function openSendMessageModal() {
+            document.getElementById('sendMessageModal').style.display = 'block'; // 显示发送消息弹窗
+        }
+
+        function closeSendMessageModal() {
+            document.getElementById('sendMessageModal').style.display = 'none'; // 隐藏发送消息弹窗
+        }
+        
+        let tags = []; // 用于存储标签
+
+        function toggleContent(id) {
+            const content = document.getElementById(id);
+            content.style.display = (content.style.display === 'none' || content.style.display === '') ? 'block' : 'none';
+        }
+
+        function openSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'block'; // 显示设置弹窗
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'none'; // 隐藏设置弹窗
+        }
+
+        function updateSignature() {
+            const newSignature = document.getElementById('signature-input').value;
+            document.getElementById('user-signature').innerText = newSignature; // 更新页面的签名显示
+            closeSettingsModal(); // 关闭弹窗
+
+            fetch('/update_signature', {
+                method: 'POST',
+                body: JSON.stringify({ signature: newSignature }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    console.log("签名更新成功");
+                } else {
+                    console.error("签名更新失败");
+                }
+            });
+        }
+
+        function addTag() {
+            const tagInput = document.getElementById('tag-input');
+            const tagValue = tagInput.value.trim();
+            if (tagValue && !tags.includes(tagValue)) {
+                tags.push(tagValue);
+                tagInput.value = ''; // 清空输入框
+                updateTagsDisplay();
+
+                fetch('/update_tags', {
+                    method: 'POST',
+                    body: JSON.stringify({ tags: tags }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        console.log("标签更新成功");
+                    } else {
+                        console.error("标签更新失败");
+                    }
+                });
+            }
+        }
+
+        let tagsToDelete = []; // 用于存储待删除的标签
+
+        function updateTagsDisplay() {
+            const tagsDisplay = document.getElementById('tags-display');
+            tagsDisplay.innerHTML = ''; // 清空当前标签显示
+            tags.forEach(tag => {
+                const tagElement = document.createElement('span');
+                tagElement.textContent = tag;
+                tagElement.className = 'tag'; // 可以为标签添加样式
+                
+                // 添加删除事件
+                tagElement.addEventListener('click', () => {
+                    if (window.confirm(`您确定要删除标签 "${tag}" 吗？`)) {
+                        // 将标签添加到待删除数组
+                        tagsToDelete.push(tag);
+                        // 从本地tags数组中删除标签
+                        tags = tags.filter(t => t !== tag);
+                        updateTagsDisplay();
+                        // 更新标签
+                        updateTags();
+                    }
+                });
+
+                tagsDisplay.appendChild(tagElement);
+            });
+        }
+
+        function updateTags() {
+            fetch('/update_tags', {
+                method: 'POST',
+                body: JSON.stringify({ tags: tags, tagsToDelete: tagsToDelete }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络错误');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('标签更新成功：', data);
+                tagsToDelete = []; // 清空待删除数组
+            })
+            .catch(error => {
+                console.error('更新标签时出错：', error);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/get_user_tags')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.tags) {
+                        data.tags.forEach(tag => {
+                            tags.push(tag); // 将获取到的标签添加到数组中
+                        });
+                        updateTagsDisplay(); // 更新标签显示
+                    }
+                });
+        });
+
+        document.getElementById("imageUpload").onchange = function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.getElementById("imagePreview");
+                    img.src = event.target.result;
+                    img.style.display = "block";  // 显示图片
+                }
+                reader.readAsDataURL(file);  // 读取文件
+            }
+        };
+        function openSearchModal() {
+        document.getElementById('searchUserModal').style.display = 'block'; // 显示弹窗
+    }
+
+    function closeSearchModal() {
+        document.getElementById('searchUserModal').style.display = 'none'; // 隐藏弹窗
+    }
+
+    function searchUser() {
+        var username = document.getElementById('username-input').value; // 获取输入的用户名
+        if (username) {
+            window.location.href = "/search_user/" + encodeURIComponent(username); // 跳转到搜索结果
+        }
+    }
+    
+    function toggleFollow(currentUserId, targetUserId) {
+    const followButton = document.getElementById('follow-button');
+    const followersCountElement = document.getElementById('followers-count'); // 获取显示粉丝数量的元素
+    const followingCountElement = document.getElementById('following-count'); // 获取显示关注数量的元素
+
+    fetch('/toggle_follow', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            follower_id: currentUserId,
+            followed_id: targetUserId
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('网络错误');
+    })
+    .then(data => {
+        if (data.success) {
+            // 更新按钮文本
+            followButton.innerText = data.new_follow_status;
+
+            // 更新粉丝数量
+            let currentFollowersCount = parseInt(followersCountElement.innerText);
+            let currentFollowingCount = parseInt(followingCountElement.innerText);
+            
+            if (data.new_follow_status === "已关注") {
+                followersCountElement.innerText = currentFollowersCount + 1; // 增加粉丝数量
+                followingCountElement.innerText = currentFollowingCount + 1; // 增加关注数量
+            } else {
+                followersCountElement.innerText = currentFollowersCount - 1; // 减少粉丝数量
+                followingCountElement.innerText = currentFollowingCount - 1; // 减少关注数量
+            }
+        } else {
+            alert('关注状态更新失败，请重试。');
+        }
+    })
+    .catch(error => {
+        console.error('错误:', error);
+    });
+}
+
+function showFollowers() {
+    fetch(`/get_followers?user_id={{ user.id }}`)  // 确保正确提供用户ID
+        .then(response => response.json())
+        .then(data => {
+            const followersList = data.followers.map(follower => `
+                <li style="display: flex; align-items: center; margin: 10px 0;">
+                    <img src="${follower.avatar || 'http://via.placeholder.com/40'}" 
+                         alt="${follower.username}" 
+                         style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;cursor: pointer;">
+                    <span style="font-weight: bold;">${follower.username}</span>
+                </li>
+            `).join('');
+            document.getElementById('followers-list').innerHTML = followersList;
+            document.getElementById('followersModal').style.display = 'block'; // 显示弹窗
+        });
+}
+
+function closeFollowersModal() {
+    document.getElementById('followersModal').style.display = 'none'; // 隐藏弹窗
+}
+
+function showFollowing() {
+    fetch(`/get_following?user_id={{ user.id }}`)  // 确保正确提供用户ID
+        .then(response => response.json())
+        .then(data => {
+            const followingList = data.following.map(follow => `
+                <li style="display: flex; align-items: center; margin: 10px 0;" >
+                    <img src="${follow.avatar || 'http://via.placeholder.com/40'}" 
+                         alt="${follow.username}" 
+                         style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;cursor: pointer;">
+                    <span style="font-weight: bold;">${follow.username}</span>
+                </li>
+            `).join('');
+            document.getElementById('following-list').innerHTML = followingList;
+            document.getElementById('followingModal').style.display = 'block'; // 显示弹窗
+        });
+}
+
+
+function closeFollowingModal() {
+    document.getElementById('followingModal').style.display = 'none'; // 隐藏弹窗
+}
+
+
+
+const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    dropZone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropZone.style.borderColor = 'blue'; // 拖拽时改变边框颜色
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.style.borderColor = '#ccc'; // 拖拽离开时恢复边框颜色
+    });
+
+    dropZone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropZone.style.borderColor = '#ccc'; // 恢复边框颜色
+        const files = event.dataTransfer.files;
+
+        if (files.length > 0) {
+            fileInput.files = files; // 将拖拽的文件设置到文件输入
+            updatePreview(files[0]);
+        }
+    });
+
+    fileInput.addEventListener('change', () => {
+        updatePreview(fileInput.files[0]); // 显示选择的文件的预览
+    });
+
+    function updatePreview(file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            preview.src = event.target.result; // 设置预览图像的源为文件的内容
+            preview.style.display = 'block'; // 显示预览图
+            dropZone.querySelector('span').textContent = file.name; // 显示文件名
+        }
+        reader.readAsDataURL(file); // 将文件读取为 Data URL
+    }
+
+
+
+    function openPostDetailModal(title, content, image) {
+    document.getElementById('modalPostTitle').innerText = title;
+    document.getElementById('modalPostContent').innerText = content;
+    document.getElementById('modalPostImage').src = image || ''; // 如果没有图片，则为空
+    document.getElementById('postDetailModal').style.display = 'block'; // 显示弹窗
+}
+
+function closePostDetailModal() {
+    document.getElementById('postDetailModal').style.display = 'none'; // 隐藏弹窗
+}
+    </script>
+</body>
+</html>

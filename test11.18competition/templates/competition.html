@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>竞赛专栏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            transition: top 0.3s ease;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 主要内容区域样式 */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            padding-top: 60px;
+        }
+
+        /* 竞赛卡片样式 */
+        .competition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .competition-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .competition-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .competition-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .competition-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .status-active {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-upcoming {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-ended {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #1976d2;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #1565c0;
+        }
+
+        /* 添加平滑滚动效果 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 为各部分添加上下间距 */
+        .container h2 {
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+            padding-top: 2rem; /* 添加额外的顶部内边距，防止导航栏遮挡内容 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div>
+            <h1>竞赛专栏</h1>
+        </div>
+        <div>
+            <a href="#recent-competitions">近期比赛</a>
+            <a href="#winners">获奖名单</a>
+            <a href="#guide">参赛指导</a>
+            {% if username %}
+                <span>欢迎, {{ username }}</span>
+                <a href="{{ url_for('logout') }}">登出</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">登录</a>
+                <a href="{{ url_for('login') }}">注册</a>
+            {% endif %}
+            <a href="{{ url_for('index') }}">返回首页</a>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <div class="container">
+        <h2 id="recent-competitions">近期比赛</h2>
+        <div class="competition-grid">
+            <!-- 竞赛卡片示例 -->
+            <div class="competition-card">
+                <h3>codeforces</h3>
+                <p>codeforces比赛div1</p>
+                <p><strong>报名截止：</strong> 2024-09-10</p>
+                <p><strong>本场看点</strong> tourist4000分战神归来，jiangly能否弑神成功</p>
+                <span class="status status-upcoming">即将开始</span>
+                <br>
+                <a href="https://codeforces.com/" target="_blank" class="btn">了解更多</a>
+            </div>
+
+        </div>
+        <h2 id="winners">获奖名单</h2>
+        <div class="competition-grid"></div>
+
+        <h2 id="guide">参赛指导</h2>
+
+        <div class="competition-grid">
+            <div class="competition-card">
+                <h3>oiwiki</h3>
+                <p>oiwiki是一个开源的信息学竞赛知识整合站点。它涵盖了从基础算法到高级数据结构的全面知识，包括动态规划、图论、数论等竞赛必备知识点。网站由社区共同维护，内容持续更新，是算法竞赛选手学习和备赛的重要参考资源。</p>
+                <a href="https://oi-wiki.org/" target="_blank" class="btn">了解更多</a>
+            </div>
+        </div>
+
+        <div class="competition-grid">
+            <div class="competition-card">
+                <h3>codeforces</h3>
+                <p>codeforces是一个俄罗斯的在线竞赛平台，提供高质量的算法竞赛。它定期举办不同难度等级(Div.1-4)的比赛，是全球程序员提高算法能力的重要平台。比赛使用红名、橙名、紫名等称号区分选手水平，是竞赛选手必备的训练网站。</p>
+                <a href="https://codeforces.com/" target="_blank" class="btn">了解更多</a>
+            </div>
+        </div>
+
+        <div class="competition-grid">
+            <div class="competition-card">
+                <h3>洛谷</h3>
+                <p>洛谷是一个面向广大编程爱好者和竞赛选手的在线学习平台。它提供了丰富的学习资源，包括题目、题解、讨论区等，帮助用户系统地提升编程技能。洛谷的题目涵盖了从基础到高级的各个层次，适合不同水平的用户。</p>
+                <a href="https://www.luogu.com.cn/" target="_blank" class="btn">了解更多</a>
+            </div>
+        </div>
+        
+        <div class="competition-grid">
+            <div class="competition-card">
+                <h3>acwing</h3>
+                <p>AcWing是一个专注于算法教学和竞赛训练的在线平台。它提供系统的算法课程、每日一题打卡、周赛等功能，帮助用户循序渐进地提升算法能力。平台由知名算法竞赛选手闫学灿创立，课程质量和题目难度把控严格。</p>
+                <p>对于初学者，AcWing提供基础课程和入门题库；对于进阶者，还有竞赛难度的专题训练。平台的题目配有详细题解，是算法学习的理想选择。</p>
+                <a href="https://www.acwing.com/" target="_blank" class="btn">了解更多</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let lastScrollTop = 0;
+        const navbar = document.querySelector('.navbar');
+        const scrollThreshold = 100; // 滚动阈值，可以根据需要调整
+
+        window.addEventListener('scroll', function() {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // 当滚动超过阈值时
+            if (currentScroll > scrollThreshold) {
+                // 向上滚动
+                if (currentScroll < lastScrollTop) {
+                    navbar.style.top = '0';
+                }
+                // 向下滚动
+                else {
+                    navbar.style.top = '-100px';
+                }
+            } else {
+                // 回到顶部时显示导航栏
+                navbar.style.top = '0';
+            }
+            
+            lastScrollTop = currentScroll;
+        });
+    </script>
+</body>
+</html> 
