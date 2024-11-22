@@ -31,14 +31,21 @@
     
           .dark-mode footer:hover {
             background: -webkit-linear-gradient(135deg,
-            #555,
-            #666 25%,
-            #777 50%,
-            #888 55%,
-            #999 60%,
-            #aaa 80%,
-            #bbb 95%,
-            #ccc);
+            #555 0%,
+            #666 10%,
+            #777 20%,
+            #888 30%,
+            #999 35%,
+            #aaa 40%,
+            #bbb 45%,
+            #ccc 50%,
+            #bbb 55%,
+            #aaa 60%,
+            #999 65%,
+            #888 70%,
+            #777 80%,
+            #666 90%,
+            #555 100%);
             -webkit-background-size: 200% 100%;
             -webkit-animation: darkFlowCss 4s infinite linear; /* 使用新增的动画 */
           }
@@ -74,7 +81,7 @@
         top: 8px;
         left: 10px;
         z-index: 1000;
-        background-color: #1b71f2;
+        background-color: #03519a;
         color: white;
         border: none;
         border-radius: 5px;
@@ -85,7 +92,7 @@
     }
     
     .show-navbar-btn:hover {
-        background-color: #155a9a;
+        background-color: #1b71f2;
     }
     
     .show-navbar-btn i {
@@ -139,13 +146,20 @@
           footer:hover {
             background: -webkit-linear-gradient(135deg,
             #1b71f2,
-            #1a83f2 25%,
-            #1f94f4 50%,
-            #2c8bf8 55%,
-            #39b3f9 60%,
-            #5abdff 80%,
-            #63e0ff 95%,
-            #7eeeff);
+            #1a83f2 10%,
+            #1f94f4 20%,
+            #2c8bf8 30%,
+            #39b3f9 35%,
+            #5abdff 40%,
+            #63e0ff 45%,
+            #7eeeff 50%,
+            #63e0ff 55%,
+            #5abdff 60%,
+            #39b3f9 70%,
+            #2c8bf8 80%,
+            #1f94f4 90%,
+            #1b71f2
+            );
             -webkit-background-size: 200% 100%;
             -webkit-animation: flowCss 4s infinite linear;
           }
@@ -226,21 +240,27 @@
           }
     
           .dropdown-content a:hover {
-              background: linear-gradient(90deg, #87CEEB, #1E90FF);
+              background: linear-gradient(90deg, #349aff, #1E90FF);
               color: white;
           }
     
           .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            column-gap: 30px; /* 列之间的间距 */
             margin-top: 125px;
-            background-color: rgb(0, 50, 18);
-        display: grid; /* 使用网格布局 */
-        grid-template-columns: repeat(3, 1fr); /* 固定三列 */
-        grid-template-rows: auto; /* 自动设置行高 */
-        gap: 20px; /* 板块之间的间距 */
-    }
+            background-color:#153b59;
+            
+         }
+         .column {
+            flex: 1 1 calc(33.33% - 30px); /* 每列等宽 */
+            /*display: flex;*/
+            flex-direction: column;
+            gap: 30px;
+        }
     
     /* 此处省略部分不变的样式 */
-    
           h2 {
               margin: 0;
               letter-spacing: -2px;
@@ -321,12 +341,13 @@
             top: 47px;         /* 距离顶部10px */
             left: 10px;
         }
-        .main-content{
-              display: flex; /* 使内容为flex布局 */
-              max-width: calc(100vw - 20px);
-              flex-wrap: wrap; /* 允许换行 */
-              gap: 20px; /* 板块之间的间距 */
+        .main-content {
+            flex-wrap: wrap; /* 允许列换行 */
         }
+        .column {
+            flex: 0 1 calc(50% - 5px); /* 每列占父容器的50%，减去间距 */
+        }
+
         .header{
             font-size: smaller;
             max-width: calc(100vw - 20px);
@@ -510,67 +531,929 @@
     }
         /* 块放大效果样式 */
         .fancydiv {
-            display: flex;
             justify-content: center; /* 居中内容 */
             align-items: center; /* 垂直居中 */
-            height: 400px;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.1);
-            transition: all 0.5s ease; /* 添加过渡效果 */
-            cursor: pointer; /* 鼠标指针变为手形 */
+            transition: all 0.5s ease;
+            cursor: pointer;
             color: white;
-            flex: 1 1 280px; /* 自适应宽度，最小280px */
-            margin: 10px; /* 自适应的上下左右间距 */
-            max-width: 100%;
+            flex: 1 1 calc(33.33% - 20px); /* 子元素宽度占父容器25%减去间距 */
+            margin: 15px; /* 设置间距 */
+            width: 100%;
+            min-height: 200px; /* 基础高度 */
         }
+        .fancydiv:active {
+            min-height: 400px; /* 点击时高度增加 */
+            transform: scale(1.1); /* 放大效果 */
+        }
+        
         
         /* 原有的fancydiv的背景颜色 */
         #fancydiv1 {
             grid-column: span 2;
-            background: linear-gradient(135deg, #6bc4e0, #a0d8e1); /* 加深的蓝色渐变 */
+            background-color: #2dbbf9;
+            height: 400px;
         }
-    
+        
         #fancydiv2 {
-            background: linear-gradient(135deg, #f37171, #f9b3b3); /* 加深的红色渐变 */
+            grid-column: span 3;
+            background-color: #2aacfc;
+            height: 350px;
         }
-    
+        
         #fancydiv3 {
-            background: linear-gradient(135deg, #ffb300, #ffe6a8); /* 加深的黄色渐变 */
+            grid-column: span 1;
+            background-color: #4290ff;
+            height: 360px;
         }
-    
+        
         #fancydiv4 {
-            background: linear-gradient(135deg, #81c784, #c8e6c9); /* 加深的绿色渐变 */
+            grid-column: span 2;
+            background-color: #70d4ff;
+            height: 500px;
         }
-    
+        
         #fancydiv5 {
-            background: linear-gradient(135deg, #90caf9, #e1f5fe); /* 加深的蓝色渐变 */
+            grid-column: span 3;
+            background-color: #287bd9;
+            height: 520px;
         }
-    
+        
         #fancydiv6 {
-            background: linear-gradient(135deg, #ce93d8, #e1bee7); /* 加深的紫色渐变 */
+            grid-column: span 1;
+            background-color: #3c9ae1;
+            height: 550px;
         }
-    
-        /* 新增的块效果的背景颜色 */
+        
         #fancydiv7 {
             grid-column: span 2;
-            background: linear-gradient(135deg, #fbb9b3, #f78c8c); /* 加深的红色渐变 */
+            background-color: #37ebff;
+            height: 210px;
         }
-    
+        
         #fancydiv8 {
-            background: linear-gradient(135deg, #f8ebbf, #fff8af); /* 加深的黄色渐变 */
-        }
-    
-        #fancydiv9 {
-            grid-column: span 2;
-            background: linear-gradient(135deg, #c3e1c4, #a7d8a9); /* 加深的绿色渐变 */
-        }
-    
-        #fancydiv10 {
             grid-column: span 3;
-            background: linear-gradient(135deg, #b7d3ff, #8cb3f4); /* 加深的蓝色渐变 */
+            background-color: #37d7ff;
+            height: 350px;
         }
+        
+        #fancydiv9 {
+            grid-column: span 1;
+            background-color: #57eeff;
+            height: 370px;
+        }
+        
+        #fancydiv10 {
+            grid-column: span 2;
+            background-color: #26a2d7;
+            height: 390px;
+        }
+        
+        #fancydiv11 {
+            grid-column: span 3;
+            background-color: #14a8f2;
+            height: 410px;
+        }
+        
+        #fancydiv12 {
+            grid-column: span 1;
+            background-color: #6ee4ea;
+            height: 550px;
+        }
+        
+        #fancydiv13 {
+            grid-column: span 2;
+            background-color: #6eead3;
+            height: 570px;
+        }
+        
+        #fancydiv14 {
+            grid-column: span 3;
+            background-color: #2dbbf9;
+            height: 240px;
+        }
+        
+        #fancydiv15 {
+            grid-column: span 1;
+            background-color: #2aacfc;
+            height: 260px;
+        }
+        
+        #fancydiv16 {
+            grid-column: span 2;
+            background-color: #4290ff;
+            height: 400px;
+        }
+        
+        #fancydiv17 {
+            grid-column: span 3;
+            background-color: #70d4ff;
+            height: 420px;
+        }
+        
+        #fancydiv18 {
+            grid-column: span 1;
+            background-color: #287bd9;
+            height: 440px;
+        }
+        
+        #fancydiv19 {
+            grid-column: span 2;
+            background-color: #3c9ae1;
+            height: 460px;
+        }
+        
+        #fancydiv20 {
+            grid-column: span 3;
+            background-color: #37ebff;
+            height: 600px;
+        }
+        
+        #fancydiv21 {
+            grid-column: span 1;
+            background-color: #37d7ff;
+            height: 270px;
+        }
+        
+        #fancydiv22 {
+            grid-column: span 2;
+            background-color: #57eeff;
+            height: 290px;
+        }
+        
+        #fancydiv23 {
+            grid-column: span 3;
+            background-color: #26a2d7;
+            height: 310px;
+        }
+        
+        #fancydiv24 {
+            grid-column: span 1;
+            background-color: #14a8f2;
+            height: 450px;
+        }
+        
+        #fancydiv25 {
+            grid-column: span 2;
+            background-color: #6ee4ea;
+            height: 470px;
+        }
+        
+        #fancydiv26 {
+            grid-column: span 3;
+            background-color: #6eead3;
+            height: 490px;
+        }
+        
+        #fancydiv27 {
+            grid-column: span 1;
+            background-color: #2dbbf9;
+            height: 510px;
+        }
+        
+        #fancydiv28 {
+            grid-column: span 2;
+            background-color: #2aacfc;
+            height: 300px;
+        }
+        
+        #fancydiv29 {
+            grid-column: span 3;
+            background-color: #4290ff;
+            height: 320px;
+        }
+        
+        #fancydiv30 {
+            grid-column: span 1;
+            background-color: #70d4ff;
+            height: 340px;
+        }
+        
+        #fancydiv31 {
+            grid-column: span 2;
+            background-color: #287bd9;
+            height: 360px;
+        }
+        
+        #fancydiv32 {
+            grid-column: span 3;
+            background-color: #3c9ae1;
+            height: 500px;
+        }
+        
+        #fancydiv33 {
+            grid-column: span 1;
+            background-color: #37ebff;
+            height: 520px;
+        }
+        
+        #fancydiv34 {
+            grid-column: span 2;
+            background-color: #37d7ff;
+            height: 540px;
+        }
+        
+        #fancydiv35 {
+            grid-column: span 3;
+            background-color: #57eeff;
+            height: 210px;
+        }
+        
+        #fancydiv36 {
+            grid-column: span 1;
+            background-color: #26a2d7;
+            height: 350px;
+        }
+        
+        #fancydiv37 {
+            grid-column: span 2;
+            background-color: #14a8f2;
+            height: 370px;
+        }
+        
+        #fancydiv38 {
+            grid-column: span 3;
+            background-color: #6ee4ea;
+            height: 390px;
+        }
+        
+        #fancydiv39 {
+            grid-column: span 1;
+            background-color: #6eead3;
+            height: 410px;
+        }
+        
+        #fancydiv40 {
+            grid-column: span 2;
+            background-color: #2dbbf9;
+            height: 550px;
+        }
+        
+        #fancydiv41 {
+            grid-column: span 3;
+            background-color: #2aacfc;
+            height: 570px;
+        }
+        
+        #fancydiv42 {
+            grid-column: span 1;
+            background-color: #4290ff;
+            height: 240px;
+        }
+        
+        #fancydiv43 {
+            grid-column: span 2;
+            background-color: #70d4ff;
+            height: 260px;
+        }
+        
+        #fancydiv44 {
+            grid-column: span 3;
+            background-color: #287bd9;
+            height: 400px;
+        }
+        
+        #fancydiv45 {
+            grid-column: span 1;
+            background-color: #3c9ae1;
+            height: 420px;
+        }
+        
+        #fancydiv46 {
+            grid-column: span 2;
+            background-color: #37ebff;
+            height: 440px;
+        }
+        
+        #fancydiv47 {
+            grid-column: span 3;
+            background-color: #37d7ff;
+            height: 460px;
+        }
+        
+        #fancydiv48 {
+            grid-column: span 1;
+            background-color: #57eeff;
+            height: 600px;
+        }
+        
+        #fancydiv49 {
+            grid-column: span 2;
+            background-color: #26a2d7;
+            height: 270px;
+        }
+        
+        #fancydiv50 {
+            grid-column: span 3;
+            background-color: #14a8f2;
+            height: 290px;
+        }
+        
+        #fancydiv51 {
+            grid-column: span 1;
+            background-color: #6ee4ea;
+            height: 310px;
+        }
+        
+        #fancydiv52 {
+            grid-column: span 2;
+            background-color: #6eead3;
+            height: 450px;
+        }
+        
+        #fancydiv53 {
+            grid-column: span 3;
+            background-color: #2dbbf9;
+            height: 500px;
+        }
+        
+        #fancydiv54 {
+            grid-column: span 1;
+            background-color: #2aacfc;
+            height: 490px;
+        }
+        
+        #fancydiv55 {
+            grid-column: span 2;
+            background-color: #4290ff;
+            height: 530px;
+        }
+        
+        #fancydiv56 {
+            grid-column: span 3;
+            background-color: #70d4ff;
+            height: 300px;
+        }
+        
+        #fancydiv57 {
+            grid-column: span 1;
+            background-color: #287bd9;
+            height: 320px;
+        }
+        
+        #fancydiv58 {
+            grid-column: span 2;
+            background-color: #3c9ae1;
+            height: 340px;
+        }
+        
+        #fancydiv59 {
+            grid-column: span 3;
+            background-color: #37ebff;
+            height: 360px;
+        }
+        
+        #fancydiv60 {
+            grid-column: span 1;
+            background-color: #37d7ff;
+            height: 500px;
+        }
+        
+        #fancydiv61 {
+            grid-column: span 2;
+            background-color: #57eeff;
+            height: 520px;
+        }
+        
+        #fancydiv62 {
+            grid-column: span 3;
+            background-color: #26a2d7;
+            height: 540px;
+        }
+        
+        #fancydiv63 {
+            grid-column: span 1;
+            background-color: #14a8f2;
+            height: 210px;
+        }
+        
+        #fancydiv64 {
+            grid-column: span 2;
+            background-color: #6ee4ea;
+            height: 350px;
+        }
+        
+        #fancydiv65 {
+            grid-column: span 3;
+            background-color: #6eead3;
+            height: 370px;
+        }
+        
+        #fancydiv66 {
+            grid-column: span 1;
+            background-color: #2dbbf9;
+            height: 390px;
+        }
+        
+        #fancydiv67 {
+            grid-column: span 2;
+            background-color: #2aacfc;
+            height: 410px;
+        }
+        
+        #fancydiv68 {
+            grid-column: span 3;
+            background-color: #4290ff;
+            height: 550px;
+        }
+        
+        #fancydiv69 {
+            grid-column: span 1;
+            background-color: #70d4ff;
+            height: 570px;
+        }
+        
+        #fancydiv70 {
+            grid-column: span 2;
+            background-color: #287bd9;
+            height: 240px;
+        }
+        
+        #fancydiv71 {
+            grid-column: span 3;
+            background-color: #3c9ae1;
+            height: 260px;
+        }
+        
+        #fancydiv72 {
+            grid-column: span 1;
+            background-color: #37ebff;
+            height: 400px;
+        }
+        
+        #fancydiv73 {
+            grid-column: span 2;
+            background-color: #37d7ff;
+            height: 420px;
+        }
+        
+        #fancydiv74 {
+            grid-column: span 3;
+            background-color: #57eeff;
+            height: 440px;
+        }
+        
+        #fancydiv75 {
+            grid-column: span 1;
+            background-color: #26a2d7;
+            height: 460px;
+        }
+        
+        #fancydiv76 {
+            grid-column: span 2;
+            background-color: #14a8f2;
+            height: 600px;
+        }
+        
+        #fancydiv77 {
+            grid-column: span 3;
+            background-color: #6ee4ea;
+            height: 270px;
+        }
+        
+        #fancydiv78 {
+            grid-column: span 1;
+            background-color: #6eead3;
+            height: 290px;
+        }
+        
+        #fancydiv79 {
+            grid-column: span 2;
+            background-color: #2dbbf9;
+            height: 310px;
+        }
+        
+        #fancydiv80 {
+            grid-column: span 3;
+            background-color: #2aacfc;
+            height: 450px;
+        }
+        
+        #fancydiv81 {
+            grid-column: span 1;
+            background-color: #4290ff;
+            height: 470px;
+        }
+        
+        #fancydiv82 {
+            grid-column: span 2;
+            background-color: #70d4ff;
+            height: 490px;
+        }
+        
+        #fancydiv83 {
+            grid-column: span 3;
+            background-color: #287bd9;
+            height: 510px;
+        }
+        
+        #fancydiv84 {
+            grid-column: span 1;
+            background-color: #3c9ae1;
+            height: 300px;
+        }
+        
+        #fancydiv85 {
+            grid-column: span 2;
+            background-color: #37ebff;
+            height: 320px;
+        }
+        
+        #fancydiv86 {
+            grid-column: span 3;
+            background-color: #37d7ff;
+            height: 340px;
+        }
+        
+        #fancydiv87 {
+            grid-column: span 1;
+            background-color: #57eeff;
+            height: 360px;
+        }
+        
+        #fancydiv88 {
+            grid-column: span 2;
+            background-color: #26a2d7;
+            height: 500px;
+        }
+        
+        #fancydiv89 {
+            grid-column: span 3;
+            background-color: #14a8f2;
+            height: 520px;
+        }
+        
+        #fancydiv90 {
+            grid-column: span 1;
+            background-color: #6ee4ea;
+            height: 540px;
+        }
+        
+        #fancydiv91 {
+            grid-column: span 2;
+            background-color: #6eead3;
+            height: 210px;
+        }
+        
+        #fancydiv92 {
+            grid-column: span 3;
+            background-color: #2dbbf9;
+            height: 350px;
+        }
+        
+        #fancydiv93 {
+            grid-column: span 1;
+            background-color: #2aacfc;
+            height: 370px;
+        }
+        
+        #fancydiv94 {
+            grid-column: span 2;
+            background-color: #4290ff;
+            height: 390px;
+        }
+        
+        #fancydiv95 {
+            grid-column: span 3;
+            background-color: #70d4ff;
+            height: 410px;
+        }
+        
+        #fancydiv96 {
+            grid-column: span 1;
+            background-color: #287bd9;
+            height: 550px;
+        }
+        
+        #fancydiv97 {
+            grid-column: span 2;
+            background-color: #3c9ae1;
+            height: 570px;
+        }
+        
+        #fancydiv98 {
+            grid-column: span 3;
+            background-color: #37ebff;
+            height: 240px;
+        }
+        
+        #fancydiv99 {
+            grid-column: span 1;
+            background-color: #37d7ff;
+            height: 260px;
+        }
+        
+        #fancydiv100 {
+            grid-column: span 2;
+            background-color: #57eeff;
+            height: 400px;
+        }
+        
+        #fancydiv101 {
+            grid-column: span 3;
+            background-color: #26a2d7;
+            height: 420px;
+        }
+        
+        #fancydiv102 {
+            grid-column: span 1;
+            background-color: #14a8f2;
+            height: 440px;
+        }
+        
+        #fancydiv103 {
+            grid-column: span 2;
+            background-color: #6ee4ea;
+            height: 460px;
+        }
+        
+        #fancydiv104 {
+            grid-column: span 3;
+            background-color: #6eead3;
+            height: 600px;
+        }
+        
+        #fancydiv105 {
+            grid-column: span 1;
+            background-color: #2dbbf9;
+            height: 270px;
+        }
+        
+        #fancydiv106 {
+            grid-column: span 2;
+            background-color: #2aacfc;
+            height: 290px;
+        }
+        
+        #fancydiv107 {
+            grid-column: span 3;
+            background-color: #4290ff;
+            height: 310px;
+        }
+        
+        #fancydiv108 {
+            grid-column: span 1;
+            background-color: #70d4ff;
+            height: 450px;
+        }
+        
+        #fancydiv109 {
+            grid-column: span 2;
+            background-color: #287bd9;
+            height: 470px;
+        }
+        
+        #fancydiv110 {
+            grid-column: span 3;
+            background-color: #3c9ae1;
+            height: 490px;
+        }
+        
+        #fancydiv111 {
+            grid-column: span 1;
+            background-color: #37ebff;
+            height: 510px;
+        }
+        
+        #fancydiv112 {
+            grid-column: span 2;
+            background-color: #37d7ff;
+            height: 300px;
+        }
+        
+        #fancydiv113 {
+            grid-column: span 3;
+            background-color: #57eeff;
+            height: 320px;
+        }
+        
+        #fancydiv114 {
+            grid-column: span 1;
+            background-color: #26a2d7;
+            height: 340px;
+        }
+        
+        #fancydiv115 {
+            grid-column: span 2;
+            background-color: #14a8f2;
+            height: 360px;
+        }
+        
+        #fancydiv116 {
+            grid-column: span 3;
+            background-color: #6ee4ea;
+            height: 500px;
+        }
+        
+        #fancydiv117 {
+            grid-column: span 1;
+            background-color: #6eead3;
+            height: 520px;
+        }
+        
+        #fancydiv118 {
+            grid-column: span 2;
+            background-color: #2dbbf9;
+            height: 540px;
+        }
+        
+        #fancydiv119 {
+            grid-column: span 3;
+            background-color: #2aacfc;
+            height: 210px;
+        }
+        
+        #fancydiv120 {
+            grid-column: span 1;
+            background-color: #4290ff;
+            height: 350px;
+        }
+        
+        #fancydiv121 {
+            grid-column: span 2;
+            background-color: #70d4ff;
+            height: 370px;
+        }
+        
+        #fancydiv122 {
+            grid-column: span 3;
+            background-color: #287bd9;
+            height: 390px;
+        }
+        
+        #fancydiv123 {
+            grid-column: span 1;
+            background-color: #3c9ae1;
+            height: 410px;
+        }
+        
+        #fancydiv124 {
+            grid-column: span 2;
+            background-color: #37ebff;
+            height: 550px;
+        }
+        
+        #fancydiv125 {
+            grid-column: span 3;
+            background-color: #37d7ff;
+            height: 570px;
+        }
+        
+        #fancydiv126 {
+            grid-column: span 1;
+            background-color: #57eeff;
+            height: 240px;
+        }
+        
+        #fancydiv127 {
+            grid-column: span 2;
+            background-color: #26a2d7;
+            height: 260px;
+        }
+        
+        #fancydiv128 {
+            grid-column: span 3;
+            background-color: #14a8f2;
+            height: 400px;
+        }
+        
+        #fancydiv129 {
+            grid-column: span 1;
+            background-color: #6ee4ea;
+            height: 420px;
+        }
+        
+        #fancydiv130 {
+            grid-column: span 2;
+            background-color: #6eead3;
+            height: 440px;
+        }
+        
+        #fancydiv131 {
+            grid-column: span 3;
+            background-color: #2dbbf9;
+            height: 460px;
+        }
+        
+        #fancydiv132 {
+            grid-column: span 1;
+            background-color: #2aacfc;
+            height: 600px;
+        }
+        
+        #fancydiv133 {
+            grid-column: span 2;
+            background-color: #4290ff;
+            height: 270px;
+        }
+        
+        #fancydiv134 {
+            grid-column: span 3;
+            background-color: #70d4ff;
+            height: 290px;
+        }
+        
+        #fancydiv135 {
+            grid-column: span 1;
+            background-color: #287bd9;
+            height: 310px;
+        }
+        
+        #fancydiv136 {
+            grid-column: span 2;
+            background-color: #3c9ae1;
+            height: 450px;
+        }
+        
+        #fancydiv137 {
+            grid-column: span 3;
+            background-color: #37ebff;
+            height: 470px;
+        }
+        
+        #fancydiv138 {
+            grid-column: span 1;
+            background-color: #37d7ff;
+            height: 490px;
+        }
+        
+        #fancydiv139 {
+            grid-column: span 2;
+            background-color: #57eeff;
+            height: 510px;
+        }
+        
+        #fancydiv140 {
+            grid-column: span 3;
+            background-color: #26a2d7;
+            height: 300px;
+        }
+        
+        #fancydiv141 {
+            grid-column: span 1;
+            background-color: #14a8f2;
+            height: 320px;
+        }
+        
+        #fancydiv142 {
+            grid-column: span 2;
+            background-color: #6ee4ea;
+            height: 340px;
+        }
+        
+        #fancydiv143 {
+            grid-column: span 3;
+            background-color: #6eead3;
+            height: 360px;
+        }
+        
+        #fancydiv144 {
+            grid-column: span 1;
+            background-color: #2dbbf9;
+            height: 500px;
+        }
+        
+        #fancydiv145 {
+            grid-column: span 2;
+            background-color: #2aacfc;
+            height: 520px;
+        }
+        
+        #fancydiv146 {
+            grid-column: span 3;
+            background-color: #4290ff;
+            height: 540px;
+        }
+        
+        #fancydiv147 {
+            grid-column: span 1;
+            background-color: #70d4ff;
+            height: 210px;
+        }
+        
+        #fancydiv148 {
+            grid-column: span 2;
+            background-color: #287bd9;
+            height: 350px;
+        }
+        
+        #fancydiv149 {
+            grid-column: span 3;
+            background-color: #3c9ae1;
+            height: 370px;
+        }
+        
+        #fancydiv150 {
+            grid-column: span 1;
+            background-color: #37ebff;
+            height: 390px;
+        }
+        
+        
+        
         body.dark-mode #fancydiv1 {
-            background: linear-gradient(135deg, #2a4f5f, #8ba8b3); /* 更柔和的暗色调渐变 */
+            background: linear-gradient(135deg, #2a4f5f, #8ba8b3); 
         }
     
         body.dark-mode #fancydiv1 {
