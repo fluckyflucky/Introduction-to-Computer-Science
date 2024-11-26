@@ -67,6 +67,17 @@
             padding: 1.5rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
+            position: relative;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .competition-card:hover {
@@ -132,6 +143,13 @@
             margin-bottom: 2rem;
             padding-top: 2rem; /* 添加额外的顶部内边距，防止导航栏遮挡内容 */
         }
+
+        .platform-icon {
+            max-width: 300px;
+            height: auto;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
@@ -158,18 +176,34 @@
     <!-- 主要内容区域 -->
     <div class="container">
         <h2 id="recent-competitions">近期比赛</h2>
+        <h3>
+            <a href="https://codeforces.com/" target="_blank">
+                <img class="platform-icon" 
+                     src="{{ url_for('static', filename='pictures/codeforces_icon.png') }}" 
+                     alt="codeforces">
+            </a>
+        </h3>
         <div class="competition-grid">
-            <!-- 竞赛卡片示例 -->
+            {% if contests %}
+                {% for contest in contests|sort(attribute='start_time') %}
             <div class="competition-card">
-                <h3>codeforces</h3>
-                <p>codeforces比赛div1</p>
-                <p><strong>报名截止：</strong> 2024-09-10</p>
-                <p><strong>本场看点</strong> tourist4000分战神归来，jiangly能否弑神成功</p>
-                <span class="status status-upcoming">即将开始</span>
-                <br>
-                <a href="https://codeforces.com/" target="_blank" class="btn">了解更多</a>
-            </div>
-
+                <h3>{{ contest.name }}</h3>
+                <p>开始时间：{{ contest.start_time }}</p>
+                <p>持续时间：{{ contest.duration }}</p>
+                <p>比赛类型：{{ contest.type }}</p>
+                <div class="card-footer">
+                        <span class="status status-upcoming">即将开始</span>
+                        <a href="https://codeforces.com/contests" 
+                           target="_blank" 
+                           class="btn">
+                            查看详情
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p>暂时没有即将开始的比赛</p>
+            {% endif %}
         </div>
         <h2 id="winners">获奖名单</h2>
         <div class="competition-grid"></div>

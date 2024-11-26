@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import os
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-  
+from codeforces_api import CodeforcesAPI
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  
@@ -13,6 +13,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/uploads'  
 db = SQLAlchemy(app)
+
+# 创建 CodeforcesAPI 实例
+cf_api = CodeforcesAPI()
 
 # 用户模型
 class Follow(db.Model):
@@ -490,7 +493,12 @@ def toggle_follow():
 @app.route('/competition')
 def competition():
     username = session.get('username')
-    return render_template('competition.html', username=username)
+    # 获取比赛信息
+    upcoming_contests = cf_api.get_upcoming_contests()
+    contests = upcoming_contests[:3] if len(upcoming_contests) >= 3 else upcoming_contests  # 如果比赛数量不足3个，显示所有比赛
+    return render_template('competition.html', 
+                         username=username,
+                         contests=contests)
 
 if __name__ == '__main__':
     app.run(debug=True)
