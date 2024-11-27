@@ -1,0 +1,721 @@
+    /* 深色模式的导航按钮样式 */
+    body.dark-mode .show-navbar-btn {
+        background-color: #333; /* 深色模式下的背景色 */
+        color: #f2f2f2; /* 深色模式下的文字颜色 */
+    }
+    
+    body.dark-mode .show-navbar-btn:hover {
+        background-color: #555; /* 深色模式下的悬停效果 */
+    }
+    
+          /* 原有的样式 */
+          body {
+              margin: 0;
+              padding: 0;
+              font-family: 宋体;
+              transition: background-color 0.3s ease, color 0.3s ease; /* 添加过渡效果 */
+          }
+          .header, .navbar, footer, .dropdown-content a {
+              transition: background-color 0.3s ease, color 0.3s ease; /* 添加过渡效果 */
+          }
+    
+          /* 深色模式的底部流光颜色 */
+          @-webkit-keyframes darkFlowCss {
+            0% {
+              background-position: 0 0;
+            }
+            100% {
+              background-position: -400% 0;
+            }
+          }
+    
+          .dark-mode footer:hover {
+            background: -webkit-linear-gradient(135deg,
+            #555,
+            #666 25%,
+            #777 50%,
+            #888 55%,
+            #999 60%,
+            #aaa 80%,
+            #bbb 95%,
+            #ccc);
+            -webkit-background-size: 200% 100%;
+            -webkit-animation: darkFlowCss 4s infinite linear; /* 使用新增的动画 */
+          }
+    
+          /* 导航栏样式 */
+          /* 导航栏样式 */
+    .navbar {
+        display: flex; /* 使用 flex 布局 */
+        opacity: 0; /* 导航栏隐藏 */
+        visibility: hidden; /* 导航栏隐藏 */
+        transition: opacity 0.5s ease, visibility 0s 0.5s, transform 0.5s ease; /* 添加过渡效果 */
+        align-items: center; /* 垂直居中 */
+        background-color: #1b71f2; /* 导航栏背景色 */
+        padding: 4px 5px; /* 减少按钮的上下内边距 */
+        border-radius: 8px;      /* 导航栏圆角 */
+        position: fixed;     /* 固定在顶部 */
+        top: 0; /* 距离顶部 */
+        left: 0; /* 距离左边 */
+        z-index: 1000; /* 保证在其他元素之上 */
+        margin: 0; /* 去除默认的外边距 */
+        transform: translateY(-100%);  /* 导航栏向上移动 */
+    }
+    
+    .navbar.show {
+        opacity: 1; /* 导航栏出现 */
+        visibility: visible; /* 导航栏出现 */
+        transition: opacity 0.5s ease, transform 0.5s ease; /* 添加过渡效果 */
+        transform: translateY(0);    /* 导航栏向下移动 */
+    }
+    
+    .show-navbar-btn {
+        position: fixed;
+        top: 8px;
+        left: 10px;
+        z-index: 1000;
+        background-color: #1b71f2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .show-navbar-btn:hover {
+        background-color: #155a9a;
+    }
+    
+    .show-navbar-btn i {
+        margin-right: 8px;
+    }
+    
+    /* Dark mode styles */
+    body.dark-mode .show-navbar-btn {
+        background-color: #333;
+        color: #f2f2f2;
+    }
+    
+    body.dark-mode .show-navbar-btn:hover {
+        background-color: #555;
+    }
+    
+          /* 深色模式的样式 */
+          body.dark-mode {
+              background-color: #333;
+              color: #fff;
+          }
+          .dark-mode .header, .dark-mode .navbar, .dark-mode footer {
+              background-color: #444;
+              border-color: #555; /* 如果需要改变边框颜色 */
+          }
+          .dark-mode .dropdown-content a {
+              background-color: #464646;
+              color: #ffffff;
+          }
+          .dark-mode .dropdown-content a:hover,
+          .dark-mode .navbar a:hover,
+          .dark-mode .dropdown:hover .dropbtn {
+              background: linear-gradient(90deg, #666, #cdcbcb);
+              color: white;
+          }
+          .dark-mode .dropdown:hover .dropdown-content a:hover {
+              background: linear-gradient(90deg, #666, #cdcbcb);
+              color: white;
+          }
+    
+          /* 其他原有的样式 */
+          footer {
+              background-color: #1b71f2;
+              color: white;
+              text-align: center;
+              padding: 10px 0;
+              clear: both;
+              transition: background 0.3s ease;
+          }
+    
+          footer:hover {
+            background: -webkit-linear-gradient(135deg,
+            #1b71f2,
+            #1a83f2 25%,
+            #1f94f4 50%,
+            #2c8bf8 55%,
+            #39b3f9 60%,
+            #5abdff 80%,
+            #63e0ff 95%,
+            #7eeeff);
+            -webkit-background-size: 200% 100%;
+            -webkit-animation: flowCss 4s infinite linear;
+          }
+          
+          @-webkit-keyframes flowCss {
+            0% {
+              background-position: 0 0;
+            }
+            100% {
+              background-position: -400% 0;
+            }
+          }
+    
+          .header {
+              display: flex; /* 使用 flex 布局 */
+              align-items: center; /* 垂直居中 */
+              padding: 20px 0;
+              background-color: #f8f8f8;
+              border-bottom: none; /* 边框 */
+              position: relative; /* 添加相对定位以便于放置主题切换按钮 */
+          }
+    
+          .dropdown {
+              flex: 1; /* 使按钮宽度占满剩余空间 */
+              text-align: center;
+              position: relative;
+          }
+    
+          .dropbtn {
+              font-family: 宋体;
+              color: #f2f2f2;
+              text-align: center;
+              padding: 10px 12px; /* 减少按钮的上下内边距 */
+              font-size: 15px; /* 减小字体大小 */
+              box-sizing: border-box; /* 包含 padding 和 border */
+              cursor: pointer;
+              background-color: inherit;
+              border: none;
+              outline: none;
+              transition: background-color 0.3s ease;
+          }
+    
+          .navbar a:hover,
+          .dropdown:hover .dropbtn {
+              background: linear-gradient(90deg, #87CEEB, #1E90FF);
+              color: white;
+          }
+    
+          .dropdown-content {
+              visibility: hidden;
+              opacity: 0;
+              transform: translateY(-10px);
+              position: absolute;
+              background-color: #f9f9f9;
+              width: 100%; /* 确保下拉菜单与按钮同宽 */
+              box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+              z-index: 1; /* 保证在其他元素之上 */
+              left: 0;
+              right: 0;
+              margin: 0 auto; /* 居中 */
+              text-align: center;
+              transition: all 0.3s ease;
+          }
+    
+          .dropdown:hover .dropdown-content,
+          .dropdown-content.show {
+              visibility: visible;
+              opacity: 1;
+              transform: translateY(0);
+          }
+    
+          .dropdown-content a {
+              color: black;
+              padding: 10px; /* 调整链接的内边距 */
+              text-decoration: none;
+              display: block;
+              transition: background-color 0.3s ease;
+          }
+    
+          .dropdown-content a:hover {
+              background: linear-gradient(90deg, #87CEEB, #1E90FF);
+              color: white;
+          }
+    
+          .main-content {
+            margin-top: 125px;
+            background-color: rgb(0, 50, 18);
+        display: grid; /* 使用网格布局 */
+        grid-template-columns: repeat(3, 1fr); /* 固定三列 */
+        grid-template-rows: auto; /* 自动设置行高 */
+        gap: 20px; /* 板块之间的间距 */
+    }
+    
+    /* 此处省略部分不变的样式 */
+    
+          h2 {
+              margin: 0;
+              letter-spacing: -2px;
+              text-align: center;
+          }
+    
+          @keyframes swift-up {
+              to {
+                  top: 0rem;
+                  opacity: 1;
+              }
+          }
+    
+          h2 span {
+              display: inline-block;
+              overflow: hidden;
+              position: relative;
+              top: 1.5rem;
+              opacity: 0;
+              animation: swift-up 0.5s ease-in-out forwards;
+          }
+    
+          h2 span:nth-child(1) { animation-delay: 0s; }
+          h2 span:nth-child(2) { animation-delay: 0.05s; }
+          h2 span:nth-child(3) { animation-delay: 0.1s; }
+          h2 span:nth-child(4) { animation-delay: 0.15s; }
+          h2 span:nth-child(5) { animation-delay: 0.2s; }
+          h2 span:nth-child(6) { animation-delay: 0.25s; }
+          h2 span:nth-child(7) { animation-delay: 0.3s; }
+          h2 span:nth-child(8) { animation-delay: 0.35s; }
+          h2 span:nth-child(9) { animation-delay: 0.4s; }
+          h2 span:nth-child(10) { animation-delay: 0.45s; }
+    
+          /* 入场动画 */
+          @keyframes fade-in {
+              from {
+                  opacity: 0;
+                  transform: translateY(20px); /* 初始位置向下偏移 */
+              }
+              to {
+                  opacity: 1;
+                  transform: translateY(0); /* 最终位置 */
+              }
+          }
+    
+          .fade-in {
+              animation: fade-in 0.5s ease forwards; /* 应用动画 */
+          }
+    
+          /* 新增的按钮样式 */
+          /* From Uiverse.io by Galahhad */ 
+          .theme-switch {
+        --toggle-size: 20px;
+        --container-width: 5.625em;
+        --container-height: 2.5em;
+        --container-radius: 6.25em;
+        --container-light-bg: #3D7EAE;
+        --container-night-bg: #1D1F2C;
+        --circle-container-diameter: 3.375em;
+        --sun-moon-diameter: 2.125em;
+        --sun-bg: #ECCA2F;
+        --moon-bg: #C4C9D1;
+        --spot-color: #959DB1;
+        --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+        --stars-color: #fff;
+        --clouds-color: #F3FDFF;
+        --back-clouds-color: #AACADF;
+        --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+        --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+        position: absolute; /* 改为绝对定位 */
+        top: 10px;         /* 距离顶部10px */
+        right: 10px;       /* 距离右侧10px */
+        z-index: 1000;   /* 确保在其他元素之上 */
+    }
+    @media (max-width: 600px) { /* 当屏幕宽度小于600px时 */
+        .theme-switch{
+            --toggle-size: 7px;
+            top: 47px;         /* 距离顶部10px */
+            left: 10px;
+        }
+        .main-content{
+              display: flex; /* 使内容为flex布局 */
+              max-width: calc(100vw - 20px);
+              flex-wrap: wrap; /* 允许换行 */
+              gap: 20px; /* 板块之间的间距 */
+        }
+        .header{
+            font-size: smaller;
+            max-width: calc(100vw - 20px);
+        }
+        footer{
+            font-size: smaller;
+            max-width: calc(100vw - 20px);
+        }
+    }
+    
+    
+            .theme-switch, .theme-switch *, .theme-switch *::before, .theme-switch *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-size: var(--toggle-size);
+            }
+    
+            .theme-switch__container {
+                width: var(--container-width);
+                height: var(--container-height);
+                background-color: var(--container-light-bg);
+                border-radius: var(--container-radius);
+                overflow: hidden;
+                cursor: pointer;
+                box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
+                transition: var(--transition);
+                position: relative;
+            }
+            .theme-switch__container::before {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      -webkit-box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+      box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+      border-radius: var(--container-radius)
+    }
+    
+            .theme-switch__checkbox {
+                display: none;
+            }
+    
+            .theme-switch__circle-container {
+      width: var(--circle-container-diameter);
+      height: var(--circle-container-diameter);
+      background-color: rgba(255, 255, 255, 0.1);
+      position: absolute;
+      left: var(--circle-container-offset);
+      top: var(--circle-container-offset);
+      border-radius: var(--container-radius);
+      -webkit-box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-transition: var(--circle-transition);
+      -o-transition: var(--circle-transition);
+      transition: var(--circle-transition);
+      pointer-events: none;
+    }
+    .theme-switch__sun-moon-container {
+      pointer-events: auto;
+      position: relative;
+      z-index: 2;
+      width: var(--sun-moon-diameter);
+      height: var(--sun-moon-diameter);
+      margin: auto;
+      border-radius: var(--container-radius);
+      background-color: var(--sun-bg);
+      -webkit-box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+      box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+      -webkit-filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+      filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+      overflow: hidden;
+      -webkit-transition: var(--transition);
+      -o-transition: var(--transition);
+      transition: var(--transition);
+    }
+    
+    .theme-switch__moon {
+      -webkit-transform: translateX(100%);
+      -ms-transform: translateX(100%);
+      transform: translateX(100%);
+      width: 100%;
+      height: 100%;
+      background-color: var(--moon-bg);
+      border-radius: inherit;
+      -webkit-box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+      box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+      -webkit-transition: var(--transition);
+      -o-transition: var(--transition);
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .theme-switch__spot {
+      position: absolute;
+      top: 0.75em;
+      left: 0.312em;
+      width: 0.75em;
+      height: 0.75em;
+      border-radius: var(--container-radius);
+      background-color: var(--spot-color);
+      -webkit-box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+      box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+    }
+    .theme-switch__spot:nth-of-type(2) {
+      width: 0.375em;
+      height: 0.375em;
+      top: 0.937em;
+      left: 1.375em;
+    }
+    
+    .theme-switch__spot:nth-last-of-type(3) {
+      width: 0.25em;
+      height: 0.25em;
+      top: 0.312em;
+      left: 0.812em;
+    }
+    .theme-switch__clouds {
+      width: 1.25em;
+      height: 1.25em;
+      background-color: var(--clouds-color);
+      border-radius: var(--container-radius);
+      position: absolute;
+      bottom: -0.625em;
+      left: 0.312em;
+      -webkit-box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+      box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+      -webkit-transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+      -o-transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+      transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+    }
+    
+    .theme-switch__stars-container {
+      position: absolute;
+      color: var(--stars-color);
+      top: -100%;
+      left: 0.312em;
+      width: 2.75em;
+      height: auto;
+      -webkit-transition: var(--transition);
+      -o-transition: var(--transition);
+      transition: var(--transition);
+    }
+    
+    /* actions */
+    
+    .theme-switch__checkbox:checked + .theme-switch__container {
+      background-color: var(--container-night-bg);
+    }
+    
+    .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container {
+      left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter));
+    }
+    
+    .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover {
+      left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em)
+    }
+    
+    .theme-switch__circle-container:hover {
+      left: calc(var(--circle-container-offset) + 0.187em);
+    }
+    
+    .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
+      -webkit-transform: translate(0);
+      -ms-transform: translate(0);
+      transform: translate(0);
+    }
+    
+    .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds {
+      bottom: -4.062em;
+    }
+    
+    .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container {
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+         /* 块放大效果样式 */
+         .fancydiv {
+            display: flex;
+            justify-content: center; /* 居中内容 */
+            align-items: center; /* 垂直居中 */
+            height: 400px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.1);
+            transition: all 0.5s ease; /* 添加过渡效果 */
+            cursor: pointer; /* 鼠标指针变为手形 */
+            color: white;
+            flex: 1 1 280px; /* 自适应宽度，最小280px */
+            margin: 10px; /* 自适应的上下左右间距 */
+            max-width: 100%;
+            position: relative;
+            display: flex;
+            overflow: hidden;
+        }
+         .fancy-image {
+            width: 80%;
+            height: 90%;
+            object-fit: cover;
+            z-index: 1;
+        }
+         .fancy-info {
+            position: relative;  /* 让信息在图片下方 */
+             z-index: 2;  /* 确保信息在图片之上 */
+             text-align: center;  /* 文字居中 */
+        }  
+        .fancy-avatar {
+            width: 70px; /* 头像的宽度 */
+            height: 70px; /* 头像的高度 */
+            border-radius: 50%; /* 圆形头像 */
+            margin-bottom: 10px; /* 和用户名之间的间距 */
+            object-fit: cover; /* 确保图片不变形 */
+            border: 2px solid white; /* 添加白色边框，增强头像的视觉效果 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 轻微阴影 */
+            z-index: 3; /* 确保头像显示在其他内容之上 */
+            transition: transform 0.2s ease; /* 添加轻微的鼠标悬停效果 */
+        }
+        .fancy-avatar-link {
+            display: inline-block; /* 确保链接尺寸与头像一致 */
+            text-decoration: none; /* 去掉下划线 */
+        }
+        .fancy-avatar:hover {
+            transform: scale(1.1); /* 鼠标悬停时放大 */
+        }
+        
+        
+        /* 原有的fancydiv的背景颜色 */
+        #fancydiv1 {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #6bc4e0, #a0d8e1); /* 加深的蓝色渐变 */
+        }
+    
+        #fancydiv2 {
+            background: linear-gradient(135deg, #f37171, #f9b3b3); /* 加深的红色渐变 */
+        }
+    
+        #fancydiv3 {
+            background: linear-gradient(135deg, #ffb300, #ffe6a8); /* 加深的黄色渐变 */
+        }
+    
+        #fancydiv4 {
+            background: linear-gradient(135deg, #81c784, #c8e6c9); /* 加深的绿色渐变 */
+        }
+    
+        #fancydiv5 {
+            background: linear-gradient(135deg, #90caf9, #e1f5fe); /* 加深的蓝色渐变 */
+        }
+    
+        #fancydiv6 {
+            background: linear-gradient(135deg, #ce93d8, #e1bee7); /* 加深的紫色渐变 */
+        }
+    
+        /* 新增的块效果的背景颜色 */
+        #fancydiv7 {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #fbb9b3, #f78c8c); /* 加深的红色渐变 */
+        }
+    
+        #fancydiv8 {
+            background: linear-gradient(135deg, #f8ebbf, #fff8af); /* 加深的黄色渐变 */
+        }
+    
+        #fancydiv9 {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #c3e1c4, #a7d8a9); /* 加深的绿色渐变 */
+        }
+    
+        #fancydiv10 {
+            grid-column: span 3;
+            background: linear-gradient(135deg, #b7d3ff, #8cb3f4); /* 加深的蓝色渐变 */
+        }
+        body.dark-mode #fancydiv1 {
+            background: linear-gradient(135deg, #2a4f5f, #8ba8b3); /* 更柔和的暗色调渐变 */
+        }
+    
+        body.dark-mode #fancydiv1 {
+            background: linear-gradient(135deg, #2b4c61, #83a1aa); /* 更柔和的暗色调渐变 */
+        }
+    
+        body.dark-mode #fancydiv2 {
+            background: linear-gradient(135deg, #8b4b4b, #e0a3a3); /* 更柔和的暗色调渐变 */
+        }
+    
+        body.dark-mode #fancydiv3 {
+            background: linear-gradient(135deg, #ab9a00, #e0db7d); /* 更柔和的暗色调渐变 */
+        }
+    
+        body.dark-mode #fancydiv4 {
+            background: linear-gradient(135deg, #4d7a4d, #a3d3a3); /* 更柔和的暗色调渐变 */
+        }
+    
+        body.dark-mode #fancydiv5 {
+            background: linear-gradient(135deg, #4a90b7, #acdbeb); /* 更柔和的暗色调渐变 */
+        }
+    
+        body.dark-mode #fancydiv6 {
+            background: linear-gradient(135deg, #b58bb5, #f9e1f9); /* 更柔和的暗色调渐变 */
+        }
+        body.dark-mode #fancydiv7 {
+            background: linear-gradient(135deg, #945d5f, #711818); /* 更柔和的暗色调渐变 */
+        }
+    
+        body.dark-mode #fancydiv8 {
+            background: linear-gradient(135deg, #6b6e25, #5f5409); /* 更柔和的暗色调渐变 */
+        }
+    
+        body.dark-mode #fancydiv9 {
+            background: linear-gradient(135deg, #216143, #114d0a); /* 更柔和的暗色调渐变 */
+        }
+    
+        body.dark-mode #fancydiv10 {
+            background: linear-gradient(135deg, #006aab, #284981); /* 更柔和的暗色调渐变 */
+        }
+        .fancydiv.expand {
+            animation: expand-animation 0.5s forwards; /* 横向扩展动画 */
+            
+        }
+    
+        .fancydiv.shrink {
+            animation: shrink-animation 0.5s forwards; /* 缩小动画 */
+        }
+    
+        @keyframes expand-animation {
+            from {
+                transform: scaleX(1); /* 初始大小 */
+            }
+            to {
+                transform: scaleX(1.0); /* 最终大小 */
+            }
+        }
+    
+        @keyframes shrink-animation {
+            from {
+                transform: scaleX(1.0); /* 初始状态为扩展至全宽 */
+            }
+            to {
+                transform: scaleX(1); /* 最终状态为默认宽度 */
+            }
+        }
+    
+        .fancydiv:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 6px 30px rgba(0,0,0,0.22);
+        }
+    
+        .fullscreen {
+            display: flex; /* 保持flex布局 */
+            justify-content: center; /* 居中内容 */
+            align-items: center;
+            width: calc(100vw - 30px); /* 填满整个视口宽度 */
+            height: 100vh; /* 填满整个视口高度 */
+            transform: none; /* 不使用变换 */
+            z-index: 1000; /* 确保在其他元素之上 */
+            color: white; /* 字体颜色 */
+            font-size: 24px; /* 字体大小 */
+        }
+    
+        body.dark-mode .fancydiv {
+            background: linear-gradient(135deg, #4a2c91, #6c8efa); /* 深色模式背景 */
+        }
+    
+        body.dark-mode .fullscreen {
+            background: linear-gradient(135deg, #4a2c91, #6c8efa); /* 深色模式全屏背景 */
+        }
+        
+        /* 新增样式确保正常排列 */
+        .show-navbar-btn {
+        position: fixed;          /* 固定定位 */
+        top: 8px;               /* 距离顶部10px */
+        left: 10px;              /* 距离左侧10px */
+        z-index: 1000;          /* 确保按钮在其他元素之上 */
+        background-color: #1b71f2;  /* 按钮背景色 */
+        color: white;            /* 字体颜色 */
+        border: none;            /* 无边框 */
+        border-radius: 5px;      /* 圆角 */
+        padding: 8px 10px;      /* 内边距 */
+        font-size: 16px;         /* 字体大小 */
+        cursor: pointer;         /* 鼠标指针形状 */
+        transition: background-color 0.3s ease; /* 背景色过渡效果 */
+    }
+    
+    .show-navbar-btn:hover {
+        background-color: #155a9a; /* 悬停时的背景色 */
+    }
+    
+    .show-navbar-btn i {
+        margin-right: 8px; /* 图标和文本之间的间距 */
+    }
