@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const contentHTML = `
                         <img src="${post.image_path}" alt="封面图" class="fancy-image">
                         <div class="fancy-info">
+                            <div class="post-header">
                             <a class="user-avatar-link" data-user-id="${post.user_id}">
                                 <img src="${post.avatar}" alt="用户头像" class="fancy-avatar">
                             </a>
@@ -73,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 ? `<button class="follow-button" data-user-id="${post.user_id}">${post.is_following ? '取消关注' : '关注'}</button>` 
                                 : ''
                             }
+                            </div>
                             <button class="like-button" data-post-id="${post.id}">${post.is_liked ? '取消点赞' : '点赞'}</button>
                             <p class="fancy-timestamp">发布时间: ${new Date(post.timestamp).toLocaleString()}</p>
                             <p class="fancy-title">内容: ${post.content}</p>
@@ -107,6 +109,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             div.classList.remove('expand'); // 移除扩展类
                             div.classList.add('shrink'); // 添加缩小类
                         } else {
+                            document.documentElement.style.height = 10000 + 'px';
+                            document.body.style.height = 10000 + 'px';
                             div.classList.toggle('fullscreen'); // 切换全屏效果
                             
                             
@@ -121,6 +125,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         fancydiv.innerHTML = initialContents[index]; // 恢复初始内容
                         fancyDivs.forEach(div => div.style.display = 'flex'); // 恢复显示其他块
                         fancydiv.scrollIntoView({ behavior: 'auto', block: 'start' }); // 跳转
+                        let scrollY = window.scrollY;
+
+                        // 强制将水平滚动位置设为最左边，同时保持垂直位置不变
+                        window.scrollTo(0, scrollY);
                         loadComments(fancydiv, postId); 
                         if (postId) {
                             console.log(fancydiv);
@@ -132,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         fancydiv.classList.add('expand'); // 添加扩展类
                         fancydiv.classList.remove('shrink'); // 移除缩小类
                         loadComments(fancydiv, postId);
+                        
                     }
                 });
             });
@@ -226,7 +235,7 @@ function submitComment(fancydiv, postId, commentText) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
+
             // 评论提交成功后更新评论区域
             loadComments(fancydiv, postId);  // 重新加载评论
             alert('评论提交成功！');
@@ -235,9 +244,7 @@ function submitComment(fancydiv, postId, commentText) {
             if (commentInput) {
                 commentInput.value = '';  // 清空评论输入框
             }
-        } else {
-            alert('评论提交失败，请稍后再试');
-        }
+        
     })
     .catch(error => {
         console.error('提交评论失败:', error);
