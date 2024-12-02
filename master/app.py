@@ -508,8 +508,8 @@ def competition():
     username = session.get('username')
     # 获取比赛信息
     ongoing_and_upcoming_contests = cf_api.get_ongoing_and_upcoming_contests()
+    # print(ongoing_and_upcoming_contests)
     recent_finished_contests = cf_api.get_recent_finished_contests()
-    
     response = make_response(render_template('competition.html', 
                                              username=username,
                                              ongoing_and_upcoming_contests=ongoing_and_upcoming_contests,

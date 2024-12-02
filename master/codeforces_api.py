@@ -67,5 +67,6 @@ class CodeforcesAPI:
             "name": contest['name'],
             "start_time": start_time.strftime('%Y-%m-%d %H:%M:%S'),
             "duration": f"{contest['durationSeconds'] // 3600}小时",
-            "type": contest['type']
+            "type": contest['type'],
+            "phase": contest['phase']
         } 

@@ -302,6 +302,8 @@
                         <span class="status status-upcoming">即将开始</span>
                     {% elif contest.phase == "CODING" %}
                         <span class="status status-active">正在进行</span>
+                    {% else %}
+                        <span class="status status-ended">已结束</span>
                     {% endif %}
                     <a href="https://codeforces.com/contests" 
                        target="_blank" 
