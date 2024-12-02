@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, make_response
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -60,17 +60,6 @@ class Like(db.Model):
 
     user = db.relationship('User', backref='likes')
     post = db.relationship('Post', backref='likes')
-
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)  # 评论的唯一标识符
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # 评论用户ID
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)  # 评论关联的帖子ID
-    content = db.Column(db.String(500), nullable=False)  # 评论内容
-    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)  # 评论时间戳
-
-    user = db.relationship('User', backref='comments')  # 评论所属用户
-    post = db.relationship('Post', backref='comments')  # 评论所属帖子
-
     # 创建所有表
 with app.app_context():
     db.create_all()  # 创建所有表
@@ -487,7 +476,6 @@ def toggle_follow():
         follower.following_count -= 1
         followed.followers_count -= 1
         new_follow_status = "关注"  # 更新按钮文本
-        is_following=False
     else:
         # 如果未关注，则添加关注
         new_follow = Follow(follower_id=follower_id, followed_id=followed_id)
@@ -496,166 +484,21 @@ def toggle_follow():
         follower.following_count += 1
         followed.followers_count += 1
         new_follow_status = "已关注"  # 更新按钮文本
-        is_following=True
 
     # 提交更改
     db.session.commit()
 
-    return jsonify({'success': True, 'new_follow_status': new_follow_status,'is_following': is_following })
+    return jsonify({'success': True, 'new_follow_status': new_follow_status})
 
 @app.route('/competition')
 def competition():
     username = session.get('username')
     # 获取比赛信息
-    ongoing_and_upcoming_contests = cf_api.get_ongoing_and_upcoming_contests()
-    recent_finished_contests = cf_api.get_recent_finished_contests()
-    
-    response = make_response(render_template('competition.html', 
-                                             username=username,
-                                             ongoing_and_upcoming_contests=ongoing_and_upcoming_contests,
-                                             recent_finished_contests=recent_finished_contests))
-    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
-    response.headers['Pragma'] = 'no-cache'
-    return response
-#这里是查询resource获得信息的函数
-@app.route('/get_resources')
-def get_resources():
-    username = session.get('username')
-    user = User.query.filter_by(username=username).first()
-    current_user_id = user.id if user else None
-
-    posts = db.session.query(
-        Post.id,
-        Post.content,
-        Post.image,
-        Post.timestamp,
-        User.username,
-        User.id.label('user_id'),
-        User.avatar
-    ).join(User, Post.user_id == User.id)
-
-    post_info = []
-    for post in posts:
-        # 检查当前用户是否关注了帖子作者
-        is_following = False
-        if current_user_id:
-            is_following = db.session.query(Follow).filter_by(
-                follower_id=current_user_id,
-                followed_id=post.user_id
-            ).first() is not None
-
-        post_info.append({
-            'id': post.id,
-            'content': post.content,
-            'image_path': url_for('static', filename=f'{post.image}') if post.image else None,
-            'timestamp': post.timestamp,
-            'author': post.username,
-            'user_id': post.user_id,
-            'avatar': url_for('static', filename=f'{post.avatar}') if post.avatar else url_for('static', filename='default-avatar.png'),
-            'is_liked': db.session.query(Like).filter_by(user_id=current_user_id, post_id=post.id).first() is not None if current_user_id else False,
-            'is_following': is_following  # 返回用户关注状态
-        })
-
-    return jsonify(post_info)
-
-@app.route('/is_logged_in')
-def is_logged_in():
-    username = session.get('username')
-    
-    if username:
-        # 查询数据库中的用户
-        user = User.query.filter_by(username=username).first()
-        
-        if user:
-            # 返回当前登录用户的 ID
-            return jsonify({'logged_in': True, 'user_id': user.id})
-        else:
-            return jsonify({'logged_in': False})
-    else:
-        return jsonify({'logged_in': False})
-    
-
-@app.route('/submit_comment', methods=['POST'])
-def submit_comment():
-    data = request.get_json()
-    post_id = data.get('post_id')
-    content = data.get('content')
-
-    if not post_id or not content:
-        return jsonify({'success': False, 'message': '缺少必要参数'})
-
-    username = session.get('username')
-    if not username:
-        return jsonify({'success': False, 'message': '用户未登录'})
-
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        return jsonify({'success': False, 'message': '用户不存在'})
-
-    new_comment = Comment(user_id=user.id, post_id=post_id, content=content)
-    db.session.add(new_comment)
-    db.session.commit()
-
-    return jsonify({'success': True, 'message': '评论提交成功'})
-
-
-@app.route('/get_comments', methods=['GET'])
-def get_comments():
-    post_id = request.args.get('post_id')  # 获取请求参数
-    if not post_id:
-        return jsonify({'error': 'post_id is required'}), 400
-
-    comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.timestamp.asc()).all()
-    comment_data = [
-        {
-            'id': comment.id,
-            'username': comment.user.username,
-            'content': comment.content,
-            'user_id':comment.user_id,
-            'timestamp': comment.timestamp,
-            'avatar': url_for('static', filename=comment.user.avatar) if comment.user.avatar else 'http://via.placeholder.com/40'
-        }
-        for comment in comments
-    ]
-    return jsonify({'comments': comment_data})
-
-@app.route('/delete_comment/<int:comment_id>', methods=['POST'])
-def delete_comment(comment_id):
-    username = session.get('username')
-    if not username:
-        # 用户未登录，返回错误信息
-        return jsonify({'success': False, 'message': '请先登录，才能删除评论！'}), 401
-
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        return jsonify({'success': False, 'message': '用户信息不存在！'}), 404
-
-    comment = Comment.query.get(comment_id)
-    if not comment:
-        # 评论不存在
-        return jsonify({'success': False, 'message': '评论不存在！'}), 404
-
-    # 只有评论的作者才能删除评论
-    if comment.user_id != user.id:
-        return jsonify({'success': False, 'message': '只能删除自己的评论！'}), 403
-
-    # 删除评论
-    db.session.delete(comment)
-    db.session.commit()
-
-    return jsonify({'success': True, 'message': '评论已删除！'}), 200
-
-@app.route('/user/<int:user_id>', methods=['GET'])
-def user_profile_view(user_id):  # 改成 user_profile_view
-    user = User.query.get(user_id)
-    posts = Post.query.filter_by(user_id=user_id).all()
-    comments_for_posts = {}
-
-    # 获取每个帖子的评论
-    for post in posts:
-        comments_for_posts[post.id] = Comment.query.filter_by(post_id=post.id).all()
-
-    return render_template('user_profile.html', user=user, posts=posts, comments_for_posts=comments_for_posts)
+    upcoming_contests = cf_api.get_upcoming_contests()
+    contests = upcoming_contests[:3] if len(upcoming_contests) >= 3 else upcoming_contests  # 如果比赛数量不足3个，显示所有比赛
+    return render_template('competition.html', 
+                         username=username,
+                         contests=contests)
 
 if __name__ == '__main__':
     app.run(debug=True)

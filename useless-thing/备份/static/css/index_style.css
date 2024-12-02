@@ -541,70 +541,8 @@
             flex: 1 1 calc(33.33% - 20px); /* 子元素宽度占父容器25%减去间距 */
             margin: 15px; /* 设置间距 */
             width: 100%;
-            
             min-height: 200px; /* 基础高度 */
         }
-        .fancy-image {
-            width: 80%;
-            height: 90%;
-            object-fit: cover;
-            z-index: 1;
-        }
-         .fancy-info {
-            position: relative;  /* 让信息在图片下方 */
-             z-index: 2;  /* 确保信息在图片之上 */
-             text-align: center;  /* 文字居中 */
-        }  
-        
-        .post-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px; /* 控制元素之间的间距 */
-        }
-        
-        .user-avatar-link {
-            display: inline-block; /* 确保链接尺寸与头像一致 */
-            text-decoration: none; /* 去掉下划线 */
-        }
-        
-        .fancy-avatar {
-            width: 70px; /* 头像的宽度 */
-            height: 70px; /* 头像的高度 */
-            border-radius: 50%; /* 圆形头像 */
-            margin-bottom: 10px; /* 和用户名之间的间距 */
-            object-fit: cover; /* 确保图片不变形 */
-            border: 2px solid white; /* 添加白色边框，增强头像的视觉效果 */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 轻微阴影 */
-            z-index: 3; /* 确保头像显示在其他内容之上 */
-            transition: transform 0.2s ease; /* 添加轻微的鼠标悬停效果 */
-        }
-        
-        .fancy-avatar:hover {
-            transform: scale(1.1); /* 鼠标悬停时放大 */
-        }
-        
-        .fancy-author {
-            margin: 0;
-            font-size: 14px;
-        }
-        
-        .follow-button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: background-color 0.2s ease; /* 添加背景色变化效果 */
-        }
-        
-        .follow-button:hover {
-            background-color: #0056b3; /* 鼠标悬停时改变背景色 */
-        }
-        
         .fancydiv:active {
             min-height: 400px; /* 点击时高度增加 */
             transform: scale(1.1); /* 放大效果 */
@@ -1593,7 +1531,7 @@
             justify-content: center; /* 居中内容 */
             align-items: center;
             width: calc(100vw - 30px); /* 填满整个视口宽度 */
-            height: 1000px;
+            height: 100vh; /* 填满整个视口高度 */
             transform: none; /* 不使用变换 */
             z-index: 1000; /* 确保在其他元素之上 */
             color: white; /* 字体颜色 */
