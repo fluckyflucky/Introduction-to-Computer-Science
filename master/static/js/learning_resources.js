@@ -29,6 +29,7 @@ const fancyDivs = document.querySelectorAll('.fancydiv');
 let eventsBound1 = false; 
 let last_height=0;
 let scrollY = 0;
+let cnt=0;
 document.addEventListener("DOMContentLoaded", function () {
     let currentUserId = null; // 当前登录用户的 ID
 
@@ -61,10 +62,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // 填充数据到每个 fancydiv
             for (let i = 0; i < maxDivs; i++) {
-                const div = fancyDivs[50*(i%3)+Math.floor(i/3)]; // 获取对应的 fancydiv 元素
+                
+                const div = fancyDivs[50*(cnt%3)+Math.floor(cnt/3)]; // 获取对应的 fancydiv 元素
                
                 if (i < shuffledData.length) {
                     const post = shuffledData[i];
+                    if(post.tag=="learning_resources"){
+                        
                     const contentHTML = `
                         <img src="${post.image_path}" alt="封面图" class="fancy-image">
                         <div class="fancy-info">
@@ -95,12 +99,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     `;
                     div.innerHTML = contentHTML;
                     
-                    initialContents[50*(i%3)+Math.floor(i/3)]=contentHTML;
+                    initialContents[50*(cnt%3)+Math.floor(cnt/3)]=contentHTML;
                     console.log(contentHTML);
+                    cnt++;
                 } else {
                     div.innerHTML = `<span>暂无内容</span>`; // 空位时占位内容
                     initialContents[50*(i%3)+Math.floor(i/3)]= `<span>暂无内容</span>`; 
                 }
+            }
+
             }
 
             // 设置点击事件

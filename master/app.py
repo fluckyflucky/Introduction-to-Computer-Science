@@ -42,6 +42,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     title = db.Column(db.String(200), nullable=False)  # 新增字段：帖子标题
+    tag=db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text, nullable=False)  # 使用 TEXT 类型以支持长内容
     timestamp = db.Column(db.DateTime, nullable=False)
     image = db.Column(db.String(200))  # 存储图片路径
@@ -248,6 +249,7 @@ def post_message():
         # 获取标题和内容
         title = request.form.get('title')  # 从表单获取标题
         content = request.form.get('message')  # 从表单获取内容
+        tag=request.form.get('category')
         file = request.files.get('image')  # 获取上传的图片
         image_path = None
 
@@ -260,7 +262,7 @@ def post_message():
         
         if title and content:  # 确保标题和内容都不为空
             timestamp = get_beijing_time()  
-            new_post = Post(user_id=user.id, title=title, content=content, timestamp=timestamp, image=image_path)  # 保存标题和内容
+            new_post = Post(user_id=user.id, title=title, content=content,tag=tag, timestamp=timestamp, image=image_path)  # 保存标题和内容
             db.session.add(new_post)
             db.session.commit()
             flash('帖子发布成功！', 'success')
@@ -525,6 +527,7 @@ def get_resources():
         Post.image,
         Post.timestamp,
         Post.title,
+        Post.tag,
         User.username,
         User.id.label('user_id'),
         User.avatar
@@ -544,11 +547,12 @@ def get_resources():
         post_info.append({
             'id': post.id,
             'title':post.title,
+            'tag':post.tag,
             'content': post.content,
             'image_path': url_for('static', filename=f'{post.image}') if post.image else None,
             'timestamp': post.timestamp,
             'author': post.username,
-            'user_id': post.user_id,
+            'user_id': post.user_id, 
             'avatar': url_for('static', filename=f'{post.avatar}') if post.avatar else url_for('static', filename='default-avatar.png'),
             'is_liked': db.session.query(Like).filter_by(user_id=current_user_id, post_id=post.id).first() is not None if current_user_id else False,
             'is_following': is_following  # 返回用户关注状态
@@ -654,7 +658,16 @@ def user_profile_view(user_id):  # 改成 user_profile_view
         comments_for_posts[post.id] = Comment.query.filter_by(post_id=post.id).all()
 
     return render_template('user_profile.html', user=user, posts=posts, comments_for_posts=comments_for_posts)
-
+@app.route('/infoshare')
+def infoshare():
+    return render_template('infoshare.html')
+@app.route('/course_guide')
+def course_guide():
+    return render_template('/course_guide.html')
+@app.route('/learning_resources')
+def source_guide():
+    return render_template('/learning_resources.html')
+#这里是查询resource获得信息的函数
 if __name__ == '__main__':
     app.run(debug=True)
 

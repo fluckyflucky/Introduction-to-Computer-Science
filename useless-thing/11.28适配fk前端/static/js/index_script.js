@@ -28,6 +28,7 @@ const initialContents = [];
 const fancyDivs = document.querySelectorAll('.fancydiv');
 let eventsBound1 = false; 
 let last_height=0;
+let scrollY = 0;
 document.addEventListener("DOMContentLoaded", function () {
     let currentUserId = null; // 当前登录用户的 ID
 
@@ -120,8 +121,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             document.body.style.height = 10000 + 'px';
                             div.classList.toggle('fullscreen'); // 切换全屏效果
                             
-                            if (!isOpen) 
-                                return;
+                            if (!isOpen) {
+                            scrollY = window.scrollY;
+                            window.scrollTo(0, 300);
+                            return;
+                            }
                         }
                     });
                     console.log(mainContent);
@@ -134,13 +138,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             div.style.display = 'flex'; // 设置为 flex 布局
                         });
                         fancydiv.scrollIntoView({ behavior: 'auto', block: 'start' }); // 跳转
-                        let scrollY = window.scrollY;
-
+                       
                         // 强制将水平滚动位置设为最左边，同时保持垂直位置不变
                         window.scrollTo(0, scrollY);
                         loadComments(fancydiv, postId); 
                         if (postId) {
-                            
                             console.log("回来了");
                             rebindEvents(fancydiv); // 确保事件重新绑定
                         }
@@ -508,7 +510,7 @@ function handlePageTransition(url) {
 }
 
 // 处理下拉菜单的显示与隐藏
-function handleDropdownClick(button, url) {
+function handleDropdownClick(button, url, event) {
     var dropdownContent = button.nextElementSibling;
 
     // 关闭其他打开的下拉菜单

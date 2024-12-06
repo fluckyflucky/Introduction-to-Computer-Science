@@ -518,7 +518,14 @@
             
             <input type="text" id="post-title" name="title" required placeholder="输入帖子标题...">
             <textarea name="message" rows="4" placeholder="输入你的消息..." required></textarea>
-            
+                        <!-- 添加选择框 -->
+                        <label for="category">选择类别：</label>
+                        <select id="category" name="category" required>
+                        <option value="learning_resources">学习资源</option>
+                        <option value="course_guide">课程指南</option>
+                        <option value="information_sharing">信息共享</option>
+                        </select>
+                        <!-- 拖放上传区域 -->
             <!-- 拖放上传区域 -->
             <div id="drop-area" style="border: 2px dashed #1a8bbc; padding: 20px; text-align: center; margin-top: 10px;">
                 <p>将图片拖到这里，或点击选择文件</p>

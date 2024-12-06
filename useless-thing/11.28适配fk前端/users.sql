@@ -18,6 +18,7 @@ CREATE TABLE Post (
     user_id INTEGER NOT NULL,
     title VARCHAR(200) NOT NULL,  -- 新增字段：帖子标题
     content TEXT NOT NULL,
+    tag VARCHAR(200) NOT NULL,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     image VARCHAR(200),  -- 新增字段存储图片路径
     likes_count INTEGER DEFAULT 0,  -- 新增字段存储点赞数
