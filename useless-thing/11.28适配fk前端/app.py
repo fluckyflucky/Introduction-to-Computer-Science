@@ -524,9 +524,11 @@ def get_resources():
         Post.content,
         Post.image,
         Post.timestamp,
+        Post.title,
         User.username,
         User.id.label('user_id'),
         User.avatar
+        
     ).join(User, Post.user_id == User.id)
 
     post_info = []
@@ -541,6 +543,7 @@ def get_resources():
 
         post_info.append({
             'id': post.id,
+            'title':post.title,
             'content': post.content,
             'image_path': url_for('static', filename=f'{post.image}') if post.image else None,
             'timestamp': post.timestamp,

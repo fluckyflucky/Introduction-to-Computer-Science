@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, make_response
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -507,16 +507,11 @@ def toggle_follow():
 def competition():
     username = session.get('username')
     # 获取比赛信息
-    ongoing_and_upcoming_contests = cf_api.get_ongoing_and_upcoming_contests()
-    # print(ongoing_and_upcoming_contests)
-    recent_finished_contests = cf_api.get_recent_finished_contests()
-    response = make_response(render_template('competition.html', 
-                                             username=username,
-                                             ongoing_and_upcoming_contests=ongoing_and_upcoming_contests,
-                                             recent_finished_contests=recent_finished_contests))
-    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
-    response.headers['Pragma'] = 'no-cache'
-    return response
+    upcoming_contests = cf_api.get_upcoming_contests()
+    contests = upcoming_contests[:3] if len(upcoming_contests) >= 3 else upcoming_contests  # 如果比赛数量不足3个，显示所有比赛
+    return render_template('competition.html', 
+                         username=username,
+                         contests=contests)
 #这里是查询resource获得信息的函数
 @app.route('/get_resources')
 def get_resources():
@@ -529,9 +524,11 @@ def get_resources():
         Post.content,
         Post.image,
         Post.timestamp,
+        Post.title,
         User.username,
         User.id.label('user_id'),
         User.avatar
+        
     ).join(User, Post.user_id == User.id)
 
     post_info = []
@@ -546,6 +543,7 @@ def get_resources():
 
         post_info.append({
             'id': post.id,
+            'title':post.title,
             'content': post.content,
             'image_path': url_for('static', filename=f'{post.image}') if post.image else None,
             'timestamp': post.timestamp,

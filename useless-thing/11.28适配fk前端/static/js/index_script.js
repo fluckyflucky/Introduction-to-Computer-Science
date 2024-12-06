@@ -27,6 +27,7 @@ const initialContents = [];
 // 块放大效果的逻辑
 const fancyDivs = document.querySelectorAll('.fancydiv');
 let eventsBound1 = false; 
+let last_height=0;
 document.addEventListener("DOMContentLoaded", function () {
     let currentUserId = null; // 当前登录用户的 ID
 
@@ -47,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const shuffledData = data.sort(() => Math.random() - 0.5);
             
             const mainContent = document.querySelector('.main-content');
+            
             const maxDivs = 150; // 最大的 fancydiv 数量
             const fancyDivs = document.querySelectorAll('.fancydiv'); // 获取现有的所有 fancydiv
 
@@ -74,10 +76,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                 ? `<button class="follow-button" data-user-id="${post.user_id}">${post.is_following ? '取消关注' : '关注'}</button>` 
                                 : ''
                             }
-                            </div>
-                            <button class="like-button" data-post-id="${post.id}">${post.is_liked ? '取消点赞' : '点赞'}</button>
                             <p class="fancy-timestamp">发布时间: ${new Date(post.timestamp).toLocaleString()}</p>
-                            <p class="fancy-title">内容: ${post.content}</p>
+                            </div>
+                            
+                            <p class="fancy-title">标题: ${post.title}</p>
+                            <p class="fancy-content">内容: ${post.content}</p>
+                            <button class="like-button" data-post-id="${post.id}">${post.is_liked ? '取消点赞' : '点赞'}</button>
+                             
                             <div class="comment-section">
                                 <textarea class="comment-input" data-post-id="${post.id}" placeholder="输入评论..."></textarea>
                                 <button class="submit-comment" data-post-id="${post.id}">提交评论</button>
@@ -85,9 +90,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <div class="comment-list" id="comment-list-${post.id}" style="display: none;"></div>
                             </div>
                         </div>
+                       
                     `;
                     div.innerHTML = contentHTML;
-                    console.log(div);
+                    
                     initialContents[50*(i%3)+Math.floor(i/3)]=contentHTML;
                     console.log(contentHTML);
                 } else {
@@ -105,6 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     
                     fancyDivs.forEach(div => {
                         if (div !== fancydiv) {
+                            
                             div.style.display = 'none'; // 隐藏其他块
                             div.classList.remove('expand'); // 移除扩展类
                             div.classList.add('shrink'); // 添加缩小类
@@ -113,17 +120,19 @@ document.addEventListener("DOMContentLoaded", function () {
                             document.body.style.height = 10000 + 'px';
                             div.classList.toggle('fullscreen'); // 切换全屏效果
                             
-                            
-                            if (!isOpen) return;
+                            if (!isOpen) 
+                                return;
                         }
                     });
-                    
+                    console.log(mainContent);
                     if (isOpen) {
                         fancydiv.classList.remove('expand'); // 移除扩展类
                         fancydiv.classList.add('shrink'); // 添加缩小类
-                        console.log(initialContents[index]);
+                        
                         fancydiv.innerHTML = initialContents[index]; // 恢复初始内容
-                        fancyDivs.forEach(div => div.style.display = 'flex'); // 恢复显示其他块
+                        fancyDivs.forEach((div) => {
+                            div.style.display = 'flex'; // 设置为 flex 布局
+                        });
                         fancydiv.scrollIntoView({ behavior: 'auto', block: 'start' }); // 跳转
                         let scrollY = window.scrollY;
 
@@ -131,12 +140,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         window.scrollTo(0, scrollY);
                         loadComments(fancydiv, postId); 
                         if (postId) {
-                            console.log(fancydiv);
+                            
                             console.log("回来了");
                             rebindEvents(fancydiv); // 确保事件重新绑定
                         }
                     } else {
-                        console.log(fancydiv);
+                        
                         fancydiv.classList.add('expand'); // 添加扩展类
                         fancydiv.classList.remove('shrink'); // 移除缩小类
                         loadComments(fancydiv, postId);
@@ -147,15 +156,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // 绑定头像点击事件和关注按钮事件
             if (!eventsBound1) {
+                fancyDivs.forEach((div) => {
+                    div.style.display = 'flex'; // 设置为 flex 布局
+                });
                 console.log("初始化");
-                
                 bindAvatarClickEvents();
+                eventsBound1 = true;
                 const fancydivElements = document.querySelectorAll('.fancydiv');
                 fancydivElements.forEach(fancydiv => {
                     bindFollowButtonEvent(fancydiv); // 为每个 fancydiv 绑定关注按钮事件
                     
                 });
-                eventsBound1 = true;
+                
  
 // 绑定点赞按钮点击事件
 fancydivElements.forEach(fancydiv => {

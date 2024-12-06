@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/competition_style.css') }}"> -->
     <title>竞赛专栏</title>
     <style>
         * {
@@ -151,110 +150,6 @@
             vertical-align: middle;
             margin-right: 8px;
         }
-
-        /* 通告栏样式 */
-        .announcement {
-            display: flex;
-            flex-direction: column;
-            max-width: 600px;
-            width: 90%;
-            background-color: #FFF;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 2rem auto;
-            padding: 1.5rem;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2000;
-        }
-
-        .announcement-header {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .announcement-body {
-            font-size: 1rem;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
-        }
-
-        .announcement-footer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .close-btn {
-            background-color: #d32f2f;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-            text-align: center;
-            width: 100%;
-        }
-
-        .close-btn:hover {
-            background-color: #b71c1c;
-            transform: translateY(-3px);
-        }
-
-        /* THE LOADING EFFECT */
-        .skeleton {
-            background-color: #e2e5e7;
-            background-image: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
-            background-size: 40px 100%;
-            background-repeat: no-repeat;
-            background-position: left -40px top 0;
-            animation: shine 1s ease infinite;
-        }
-
-        .skeleton_red {
-            background-color: #fb0303;
-            background-image: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
-            background-size: 40px 100%;
-            background-repeat: no-repeat;
-            background-position: left -40px top 0;
-            animation: shine 1s ease infinite;
-        }
-
-        @keyframes shine {
-            to {
-                background-position: right -40px top 0;
-            }
-        }
-
-        .like-animation {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: fadeInOut 3s ease forwards;
-            z-index: 3000;
-        }
-
-        @keyframes fadeInOut {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.2);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-            }
-        }
     </style>
 </head>
 <body>
@@ -281,7 +176,6 @@
     <!-- 主要内容区域 -->
     <div class="container">
         <h2 id="recent-competitions">近期比赛</h2>
-        <h3>正在进行和即将开始的比赛</h3>
         <h3>
             <a href="https://codeforces.com/" target="_blank">
                 <img class="platform-icon" 
@@ -290,71 +184,29 @@
             </a>
         </h3>
         <div class="competition-grid">
-            {% if ongoing_and_upcoming_contests %}
-                {% for contest in ongoing_and_upcoming_contests|sort(attribute='start_time') %}
+            {% if contests %}
+                {% for contest in contests|sort(attribute='start_time') %}
             <div class="competition-card">
                 <h3>{{ contest.name }}</h3>
                 <p>开始时间：{{ contest.start_time }}</p>
                 <p>持续时间：{{ contest.duration }}</p>
                 <p>比赛类型：{{ contest.type }}</p>
                 <div class="card-footer">
-                    {% if contest.phase == "BEFORE" %}
                         <span class="status status-upcoming">即将开始</span>
-                    {% elif contest.phase == "CODING" %}
-                        <span class="status status-active">正在进行</span>
-                    {% else %}
-                        <span class="status status-ended">已结束</span>
-                    {% endif %}
-                    <a href="https://codeforces.com/contests" 
-                       target="_blank" 
-                       class="btn">
-                        查看详情
-                    </a>
+                        <a href="https://codeforces.com/contests" 
+                           target="_blank" 
+                           class="btn">
+                            查看详情
+                        </a>
+                    </div>
                 </div>
-            </div>
                 {% endfor %}
             {% else %}
-            <p>暂时没有正在进行或即将开始的比赛</p>
-            {% endif %}
-        </div>
-        <h3>最近结束的比赛</h3>
-        <h3>
-            <a href="https://codeforces.com/" target="_blank">
-                <img class="platform-icon" 
-                     src="{{ url_for('static', filename='pictures/codeforces_icon.png') }}" 
-                     alt="codeforces">
-            </a>
-        </h3>
-        <div class="competition-grid">
-            {% if recent_finished_contests %}
-                {% for contest in recent_finished_contests %}
-            <div class="competition-card">
-                <h3>{{ contest.name }}</h3>
-                <p>开始时间：{{ contest.start_time }}</p>
-                <p>持续时间：{{ contest.duration }}</p>
-                <div class="card-footer">
-                    <span class="status status-ended">已结束</span>
-                    <a href="https://codeforces.com/contests" 
-                       target="_blank" 
-                       class="btn">
-                        查看详情
-                    </a>
-                </div>
-            </div>
-                {% endfor %}
-            {% else %}
-            <p>暂时没有最近结束的比赛</p>
+            <p>暂时没有即将开始的比赛</p>
             {% endif %}
         </div>
         <h2 id="winners">获奖名单</h2>
-        <div class="competition-grid">
-            <div class="competition-card">
-                <h3>xcpc系列赛</h3>
-                <p>XCPC（国际大学生程序设计竞赛）是全球最具影响力的大学生程序设计竞赛。比赛分为区域赛和总决赛，要求参赛队在5小时内使用C/C++或Java解决10-13个算法问题。</p>
-                <p>同济大学在XCPC赛事中表现优异，多次获得区域赛金牌和晋级EC-Final资格。近年来，我校学子在各类程序设计竞赛中屡创佳绩，为学校赢得了荣誉。</p>
-                <a href="https://board.xcpcio.com/" target="_blank" class="btn" style="width: 100px;">查看详情</a>
-            </div>
-        </div>
+        <div class="competition-grid"></div>
 
         <h2 id="guide">参赛指导</h2>
 
@@ -369,7 +221,7 @@
         <div class="competition-grid">
             <div class="competition-card">
                 <h3>codeforces</h3>
-                <p>codeforces是一个俄罗斯的在线竞赛平台，提供高质量的算法竞赛。它定期举办不同难度等级(Div.1-4)的  赛，是全球程序员提高算法能力的重要平台。比赛使用红名、橙名、紫名等称号区分选手水平，是竞赛选手必备的训练网站。</p>
+                <p>codeforces是一个俄罗斯的在线竞赛平台，提供高质量的算法竞赛。它定期举办不同难度等级(Div.1-4)的比赛，是全球程序员提高算法能力的重要平台。比赛使用红名、橙名、紫名等称号区分选手水平，是竞赛选手必备的训练网站。</p>
                 <a href="https://codeforces.com/" target="_blank" class="btn">了解更多</a>
             </div>
         </div>
@@ -391,9 +243,7 @@
             </div>
         </div>
     </div>
-    <footer lang="zh-CN">
-        <p>版权所有 © 2024 同济大学资源交流平台（竞赛专栏） | 制作者：changing | 联系方式：3271049892@qq.com</p>
-    </footer>
+
     <script>
         let lastScrollTop = 0;
         const navbar = document.querySelector('.navbar');
@@ -419,46 +269,6 @@
             
             lastScrollTop = currentScroll;
         });
-    </script>
-
-    <!-- 通告栏 -->
-    <div class="announcement skeleton" id="announcement">
-        <h3 class="announcement-header skeleton" style="text-align: center; font-weight: bold;color: #fb0303;">热烈祝贺</h3>
-        <p class="announcement-body skeleton">
-            <img src="{{ url_for('static', filename='pictures/goldgod.jpg') }}" alt="goldgod" style="width: 100%; height: auto;">
-        </p>
-        <p class="announcement-body skeleton">恭喜同济大学CPCLab“仙银”队在ICPC昆明站荣获金牌！在本次赛事中，仙银队凭借扎实的编程功底与默契的团队配合，成功摘得金牌，展现了同济学子在国际竞赛中的卓越风采。此次胜利不仅是对队员们辛勤努力的肯定，更为学校增添了荣誉。期待“仙银”队在未来的赛事中再接再厉，创造更多辉煌！</p>
-        <a style="text-align: center;width: 100%;"><button class="close-btn skeleton_red" onclick="closeAnnouncement()">为他们点赞</button></a>
-    </div>
-
-    <script>
-        // 显示通告栏
-        function showAnnouncement() {
-            document.getElementById('announcement').style.display = 'block';
-        }
-
-        // 关闭通告栏
-        function closeAnnouncement() {
-            const button = document.querySelector('.close-btn');
-            button.textContent = '点赞成功'; // 更改按钮文本
-
-            // 创建图片元素
-            const img = document.createElement('img');
-            img.src = "{{ url_for('static', filename='pictures/like.png') }}"; // 替换为你的图片路径
-            img.className = 'like-animation';
-            document.body.appendChild(img);
-
-            // 3秒后开始渐渐消失动画，然后移除图片和关闭通告栏
-            setTimeout(() => {
-                img.remove();
-                document.getElementById('announcement').style.display = 'none';
-            }, 1000);
-        }
-
-        // 页面加载后显示通告栏
-        window.onload = function() {
-            showAnnouncement();
-        };
     </script>
 </body>
 </html> 

@@ -251,13 +251,16 @@
             column-gap: 30px; /* 列之间的间距 */
             margin-top: 125px;
             background-color:#153b59;
-            
+            flex-grow: 1;
+            position: relative;
          }
          .column {
+            
             flex: 1 1 calc(33.33% - 30px); /* 每列等宽 */
             /*display: flex;*/
             flex-direction: column;
             gap: 30px;
+            position: relative;
         }
     
     /* 此处省略部分不变的样式 */
@@ -529,6 +532,7 @@
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
     }
+    
         /* 块放大效果样式 */
         .fancydiv {
             justify-content: center; /* 居中内容 */
@@ -538,77 +542,127 @@
             transition: all 0.5s ease;
             cursor: pointer;
             color: white;
+            display: flex;
             flex: 1 1 calc(33.33% - 20px); /* 子元素宽度占父容器25%减去间距 */
             margin: 15px; /* 设置间距 */
             width: 100%;
-            
             min-height: 200px; /* 基础高度 */
+            position: relative;
+            overflow: hidden; /* 防止图片超出容器 */
         }
-        .fancy-image {
-            width: 80%;
-            height: 90%;
-            object-fit: cover;
-            z-index: 1;
+        .hidden {
+            display: none;
         }
-         .fancy-info {
-            position: relative;  /* 让信息在图片下方 */
-             z-index: 2;  /* 确保信息在图片之上 */
-             text-align: center;  /* 文字居中 */
-        }  
-        
-        .post-header {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .fancy-info {
             display: flex;
-            align-items: center;
-            gap: 10px; /* 控制元素之间的间距 */
+            flex-direction: column;
+            position: relative;
+            text-align: center;
+            z-index: 100; /* 确保内容在图片之上 */
+            padding: 20px;
         }
         
-        .user-avatar-link {
-            display: inline-block; /* 确保链接尺寸与头像一致 */
-            text-decoration: none; /* 去掉下划线 */
+        .fancy-avatar-link {
+            position: absolute;
+            top: 0px; /* 头像紧贴块顶部 */
+            right: 10px;
+            z-index: 3;
         }
         
         .fancy-avatar {
-            width: 70px; /* 头像的宽度 */
-            height: 70px; /* 头像的高度 */
-            border-radius: 50%; /* 圆形头像 */
-            margin-bottom: 10px; /* 和用户名之间的间距 */
-            object-fit: cover; /* 确保图片不变形 */
-            border: 2px solid white; /* 添加白色边框，增强头像的视觉效果 */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 轻微阴影 */
-            z-index: 3; /* 确保头像显示在其他内容之上 */
-            transition: transform 0.2s ease; /* 添加轻微的鼠标悬停效果 */
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
         }
         
         .fancy-avatar:hover {
-            transform: scale(1.1); /* 鼠标悬停时放大 */
+            transform: scale(1.1); /* 放大头像 */
         }
         
-        .fancy-author {
-            margin: 0;
+        .fancy-image {
+            position: absolute;
+            top: 0; /* 图片紧贴块底部 */
+            left: 0; /* 水平居中 */
+           
+            max-width: 30%; /* 图片宽度最大为容器的30% */
+            max-height: 40%; /* 图片高度最大为容器的40% */
+            object-fit: cover;
+            z-index: 3;
+        }
+        
+        .post-header {
+            
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            text-align: right;
+        }
+        
+        .fancy-title {
+            margin-top: 100px;
+            font-size: 24px;
+            color:black;
+            text-align: center;
+        }
+        
+        .comment-section {
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+
+        }
+        
+        .comment-input {
+            width: 80%;
+            right:10px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
             font-size: 14px;
+            text-align: center;
         }
         
-        .follow-button {
+        .submit-comment {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+            right:10px;
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 5px 10px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
-            transition: background-color 0.2s ease; /* 添加背景色变化效果 */
+            text-align: center;
         }
         
-        .follow-button:hover {
-            background-color: #0056b3; /* 鼠标悬停时改变背景色 */
+        .submit-comment:hover {
+            background-color: #0056b3;
+        }
+        .like-button, .follow-button {
+            margin-top: 10px;
+            padding: 5px 15px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .like-button:hover, .follow-button:hover {
+            background-color: #e0e0e0;
         }
         
         .fancydiv:active {
-            min-height: 400px; /* 点击时高度增加 */
-            transform: scale(1.1); /* 放大效果 */
+            min-height: 400px;
+            transform: scale(1.1);
         }
+        
         
         
         /* 原有的fancydiv的背景颜色 */
@@ -1567,10 +1621,10 @@
     
         @keyframes expand-animation {
             from {
-                transform: scaleX(1); /* 初始大小 */
+                transform: scaleX(1) scaleY(1); /* 初始大小 */
             }
             to {
-                transform: scaleX(1.0); /* 最终大小 */
+                transform: scaleX(1.0) scaleY(1.0); /* 初始大小 */
             }
         }
     
@@ -1588,18 +1642,23 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 6px 30px rgba(0,0,0,0.22);
         }
     
-        .fullscreen {
-            display: flex; /* 保持flex布局 */
-            justify-content: center; /* 居中内容 */
+        .fancydiv.fullscreen {
+            position: relative;  /* 保证绝对定位元素相对于这个容器定位 */
+            display: flex; 
+            /*justify-content: center; /* 居中内容 */
             align-items: center;
             width: calc(100vw - 30px); /* 填满整个视口宽度 */
-            height: 1000px;
+            height: 10000px !important;/* 填满整个视口高度 */
             transform: none; /* 不使用变换 */
             z-index: 1000; /* 确保在其他元素之上 */
             color: white; /* 字体颜色 */
-            font-size: 24px; /* 字体大小 */
+            font-size: 20px; /* 字体大小 */
+            flex-direction: column; /* 改为纵向排列 */
+            justify-content: start; /* 子元素从顶部开始排列 */
+            padding: 20px; /* 添加内边距，让内容不会贴到最上面 */
         }
-    
+
+
         body.dark-mode .fancydiv {
             background: linear-gradient(135deg, #4a2c91, #6c8efa); /* 深色模式背景 */
         }
