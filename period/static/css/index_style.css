@@ -1,0 +1,1647 @@
+    /* 深色模式的导航按钮样式 */
+    body.dark-mode .show-navbar-btn {
+        background-color: #333; /* 深色模式下的背景色 */
+        color: #f2f2f2; /* 深色模式下的文字颜色 */
+    }
+    
+    body.dark-mode .show-navbar-btn:hover {
+        background-color: #555; /* 深色模式下的悬停效果 */
+    }
+    
+          /* 原有的样式 */
+          body {
+              margin: 0;
+              padding: 0;
+              font-family: 宋体;
+              transition: background-color 0.3s ease, color 0.3s ease; /* 添加过渡效果 */
+          }
+          .header, .navbar, footer, .dropdown-content a {
+              transition: background-color 0.3s ease, color 0.3s ease; /* 添加过渡效果 */
+          }
+    
+          /* 深色模式的底部流光颜色 */
+          @-webkit-keyframes darkFlowCss {
+            0% {
+              background-position: 0 0;
+            }
+            100% {
+              background-position: -400% 0;
+            }
+          }
+    
+          .dark-mode footer:hover {
+            background: -webkit-linear-gradient(135deg,
+            #555 0%,
+            #666 10%,
+            #777 20%,
+            #888 30%,
+            #999 35%,
+            #aaa 40%,
+            #bbb 45%,
+            #ccc 50%,
+            #bbb 55%,
+            #aaa 60%,
+            #999 65%,
+            #888 70%,
+            #777 80%,
+            #666 90%,
+            #555 100%);
+            -webkit-background-size: 200% 100%;
+            -webkit-animation: darkFlowCss 4s infinite linear; /* 使用新增的动画 */
+          }
+    
+          /* 导航栏样式 */
+          /* 导航栏样式 */
+    .navbar {
+        display: flex; /* 使用 flex 布局 */
+        opacity: 0; /* 导航栏隐藏 */
+        visibility: hidden; /* 导航栏隐藏 */
+        transition: opacity 0.5s ease, visibility 0s 0.5s, transform 0.5s ease; /* 添加过渡效果 */
+        align-items: center; /* 垂直居中 */
+        background-color: #1b71f2; /* 导航栏背景色 */
+        padding: 4px 5px; /* 减少按钮的上下内边距 */
+        border-radius: 8px;      /* 导航栏圆角 */
+        position: fixed;     /* 固定在顶部 */
+        top: 0; /* 距离顶部 */
+        left: 0; /* 距离左边 */
+        z-index: 1000; /* 保证在其他元素之上 */
+        margin: 0; /* 去除默认的外边距 */
+        transform: translateY(-100%);  /* 导航栏向上移动 */
+    }
+    
+    .navbar.show {
+        opacity: 1; /* 导航栏出现 */
+        visibility: visible; /* 导航栏出现 */
+        transition: opacity 0.5s ease, transform 0.5s ease; /* 添加过渡效果 */
+        transform: translateY(0);    /* 导航栏向下移动 */
+    }
+    
+    .show-navbar-btn {
+        position: fixed;
+        top: 8px;
+        left: 10px;
+        z-index: 1000;
+        background-color: #03519a;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .show-navbar-btn:hover {
+        background-color: #1b71f2;
+    }
+    
+    .show-navbar-btn i {
+        margin-right: 8px;
+    }
+    
+    /* Dark mode styles */
+    body.dark-mode .show-navbar-btn {
+        background-color: #333;
+        color: #f2f2f2;
+    }
+    
+    body.dark-mode .show-navbar-btn:hover {
+        background-color: #555;
+    }
+    
+          /* 深色模式的样式 */
+          body.dark-mode {
+              background-color: #333;
+              color: #fff;
+          }
+          .dark-mode .header, .dark-mode .navbar, .dark-mode footer {
+              background-color: #444;
+              border-color: #555; /* 如果需要改变边框颜色 */
+          }
+          .dark-mode .dropdown-content a {
+              background-color: #464646;
+              color: #ffffff;
+          }
+          .dark-mode .dropdown-content a:hover,
+          .dark-mode .navbar a:hover,
+          .dark-mode .dropdown:hover .dropbtn {
+              background: linear-gradient(90deg, #666, #cdcbcb);
+              color: white;
+          }
+          .dark-mode .dropdown:hover .dropdown-content a:hover {
+              background: linear-gradient(90deg, #666, #cdcbcb);
+              color: white;
+          }
+    
+          /* 其他原有的样式 */
+          footer {
+              background-color: #1b71f2;
+              color: white;
+              text-align: center;
+              padding: 10px 0;
+              clear: both;
+              transition: background 0.3s ease;
+          }
+    
+          footer:hover {
+            background: -webkit-linear-gradient(135deg,
+            #1b71f2,
+            #1a83f2 10%,
+            #1f94f4 20%,
+            #2c8bf8 30%,
+            #39b3f9 35%,
+            #5abdff 40%,
+            #63e0ff 45%,
+            #7eeeff 50%,
+            #63e0ff 55%,
+            #5abdff 60%,
+            #39b3f9 70%,
+            #2c8bf8 80%,
+            #1f94f4 90%,
+            #1b71f2
+            );
+            -webkit-background-size: 200% 100%;
+            -webkit-animation: flowCss 4s infinite linear;
+          }
+          
+          @-webkit-keyframes flowCss {
+            0% {
+              background-position: 0 0;
+            }
+            100% {
+              background-position: -400% 0;
+            }
+          }
+    
+          .header {
+              display: flex; /* 使用 flex 布局 */
+              align-items: center; /* 垂直居中 */
+              padding: 20px 0;
+              background-color: #f8f8f8;
+              border-bottom: none; /* 边框 */
+              position: relative; /* 添加相对定位以便于放置主题切换按钮 */
+          }
+    
+          .dropdown {
+              flex: 1; /* 使按钮宽度占满剩余空间 */
+              text-align: center;
+              position: relative;
+          }
+    
+          .dropbtn {
+              font-family: 宋体;
+              color: #f2f2f2;
+              text-align: center;
+              padding: 10px 12px; /* 减少按钮的上下内边距 */
+              font-size: 15px; /* 减小字体大小 */
+              box-sizing: border-box; /* 包含 padding 和 border */
+              cursor: pointer;
+              background-color: inherit;
+              border: none;
+              outline: none;
+              transition: background-color 0.3s ease;
+          }
+    
+          .navbar a:hover,
+          .dropdown:hover .dropbtn {
+              background: linear-gradient(90deg, #87CEEB, #1E90FF);
+              color: white;
+          }
+    
+          .dropdown-content {
+              visibility: hidden;
+              opacity: 0;
+              transform: translateY(-10px);
+              position: absolute;
+              background-color: #f9f9f9;
+              width: 100%; /* 确保下拉菜单与按钮同宽 */
+              box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+              z-index: 1; /* 保证在其他元素之上 */
+              left: 0;
+              right: 0;
+              margin: 0 auto; /* 居中 */
+              text-align: center;
+              transition: all 0.3s ease;
+          }
+    
+          .dropdown:hover .dropdown-content,
+          .dropdown-content.show {
+              visibility: visible;
+              opacity: 1;
+              transform: translateY(0);
+          }
+    
+          .dropdown-content a {
+              color: black;
+              padding: 10px; /* 调整链接的内边距 */
+              text-decoration: none;
+              display: block;
+              transition: background-color 0.3s ease;
+          }
+    
+          .dropdown-content a:hover {
+              background: linear-gradient(90deg, #349aff, #1E90FF);
+              color: white;
+          }
+    
+          .main-content {
+            position: relative;
+            column-count: 5; /* 设置为三列 */
+            column-gap: 20px; /* 列间距 */
+            background-color: #153b59;
+            width: 100%; /* 确保宽度为100% */
+            margin: 0; /* 去除默认边距 */
+            padding: 20px; /* 去除默认填充 */
+        }
+        
+        
+    
+    /* 此处省略部分不变的样式 */
+          h2 {
+              margin: 0;
+              letter-spacing: -2px;
+              text-align: center;
+          }
+    
+          @keyframes swift-up {
+              to {
+                  top: 0rem;
+                  opacity: 1;
+              }
+          }
+    
+          h2 span {
+              display: inline-block;
+              overflow: hidden;
+              position: relative;
+              top: 1.5rem;
+              opacity: 0;
+              animation: swift-up 0.5s ease-in-out forwards;
+          }
+    
+          h2 span:nth-child(1) { animation-delay: 0s; }
+          h2 span:nth-child(2) { animation-delay: 0.05s; }
+          h2 span:nth-child(3) { animation-delay: 0.1s; }
+          h2 span:nth-child(4) { animation-delay: 0.15s; }
+          h2 span:nth-child(5) { animation-delay: 0.2s; }
+          h2 span:nth-child(6) { animation-delay: 0.25s; }
+          h2 span:nth-child(7) { animation-delay: 0.3s; }
+          h2 span:nth-child(8) { animation-delay: 0.35s; }
+          h2 span:nth-child(9) { animation-delay: 0.4s; }
+          h2 span:nth-child(10) { animation-delay: 0.45s; }
+    
+          /* 入场动画 */
+          @keyframes fade-in {
+              from {
+                  opacity: 0;
+                  transform: translateY(20px); /* 初始位置向下偏移 */
+              }
+              to {
+                  opacity: 1;
+                  transform: translateY(0); /* 最终位置 */
+              }
+          }
+    
+          .fade-in {
+              animation: fade-in 0.5s ease forwards; /* 应用动画 */
+          }
+    
+          /* 新增的按钮样式 */
+          /* From Uiverse.io by Galahhad */ 
+          .theme-switch {
+        --toggle-size: 20px;
+        --container-width: 5.625em;
+        --container-height: 2.5em;
+        --container-radius: 6.25em;
+        --container-light-bg: #3D7EAE;
+        --container-night-bg: #1D1F2C;
+        --circle-container-diameter: 3.375em;
+        --sun-moon-diameter: 2.125em;
+        --sun-bg: #ECCA2F;
+        --moon-bg: #C4C9D1;
+        --spot-color: #959DB1;
+        --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+        --stars-color: #fff;
+        --clouds-color: #F3FDFF;
+        --back-clouds-color: #AACADF;
+        --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+        --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+        position: absolute; /* 改为绝对定位 */
+        top: 10px;         /* 距离顶部10px */
+        right: 10px;       /* 距离右侧10px */
+        z-index: 1000;   /* 确保在其他元素之上 */
+    }
+    @media (max-width: 600px) { /* 当屏幕宽度小于600px时 */
+        .theme-switch{
+            --toggle-size: 7px;
+            top: 47px;         /* 距离顶部10px */
+            left: 10px;
+        }
+        .main-content {
+            flex-wrap: wrap; /* 允许列换行 */
+        }
+        .column {
+            flex: 0 1 calc(50% - 5px); /* 每列占父容器的50%，减去间距 */
+        }
+
+        .header{
+            font-size: smaller;
+            max-width: calc(100vw - 20px);
+        }
+        footer{
+            font-size: smaller;
+            max-width: calc(100vw - 20px);
+        }
+    }
+    
+    
+            .theme-switch, .theme-switch *, .theme-switch *::before, .theme-switch *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-size: var(--toggle-size);
+            }
+    
+            .theme-switch__container {
+                width: var(--container-width);
+                height: var(--container-height);
+                background-color: var(--container-light-bg);
+                border-radius: var(--container-radius);
+                overflow: hidden;
+                cursor: pointer;
+                box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
+                transition: var(--transition);
+                position: relative;
+            }
+            .theme-switch__container::before {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      -webkit-box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+      box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+      border-radius: var(--container-radius)
+    }
+    
+            .theme-switch__checkbox {
+                display: none;
+            }
+    
+            .theme-switch__circle-container {
+      width: var(--circle-container-diameter);
+      height: var(--circle-container-diameter);
+      background-color: rgba(255, 255, 255, 0.1);
+      position: absolute;
+      left: var(--circle-container-offset);
+      top: var(--circle-container-offset);
+      border-radius: var(--container-radius);
+      -webkit-box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-transition: var(--circle-transition);
+      -o-transition: var(--circle-transition);
+      transition: var(--circle-transition);
+      pointer-events: none;
+    }
+    .theme-switch__sun-moon-container {
+      pointer-events: auto;
+      position: relative;
+      z-index: 2;
+      width: var(--sun-moon-diameter);
+      height: var(--sun-moon-diameter);
+      margin: auto;
+      border-radius: var(--container-radius);
+      background-color: var(--sun-bg);
+      -webkit-box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+      box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+      -webkit-filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+      filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+      overflow: hidden;
+      -webkit-transition: var(--transition);
+      -o-transition: var(--transition);
+      transition: var(--transition);
+    }
+    
+    .theme-switch__moon {
+      -webkit-transform: translateX(100%);
+      -ms-transform: translateX(100%);
+      transform: translateX(100%);
+      width: 100%;
+      height: 100%;
+      background-color: var(--moon-bg);
+      border-radius: inherit;
+      -webkit-box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+      box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+      -webkit-transition: var(--transition);
+      -o-transition: var(--transition);
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .theme-switch__spot {
+      position: absolute;
+      top: 0.75em;
+      left: 0.312em;
+      width: 0.75em;
+      height: 0.75em;
+      border-radius: var(--container-radius);
+      background-color: var(--spot-color);
+      -webkit-box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+      box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+    }
+    .theme-switch__spot:nth-of-type(2) {
+      width: 0.375em;
+      height: 0.375em;
+      top: 0.937em;
+      left: 1.375em;
+    }
+    
+    .theme-switch__spot:nth-last-of-type(3) {
+      width: 0.25em;
+      height: 0.25em;
+      top: 0.312em;
+      left: 0.812em;
+    }
+    .theme-switch__clouds {
+      width: 1.25em;
+      height: 1.25em;
+      background-color: var(--clouds-color);
+      border-radius: var(--container-radius);
+      position: absolute;
+      bottom: -0.625em;
+      left: 0.312em;
+      -webkit-box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+      box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+      -webkit-transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+      -o-transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+      transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+    }
+    
+    .theme-switch__stars-container {
+      position: absolute;
+      color: var(--stars-color);
+      top: -100%;
+      left: 0.312em;
+      width: 2.75em;
+      height: auto;
+      -webkit-transition: var(--transition);
+      -o-transition: var(--transition);
+      transition: var(--transition);
+    }
+    
+    /* actions */
+    
+    .theme-switch__checkbox:checked + .theme-switch__container {
+      background-color: var(--container-night-bg);
+    }
+    
+    .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container {
+      left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter));
+    }
+    
+    .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover {
+      left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em)
+    }
+    
+    .theme-switch__circle-container:hover {
+      left: calc(var(--circle-container-offset) + 0.187em);
+    }
+    
+    .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
+      -webkit-transform: translate(0);
+      -ms-transform: translate(0);
+      transform: translate(0);
+    }
+    
+    .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds {
+      bottom: -4.062em;
+    }
+    
+    .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container {
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+    
+        /* 块放大效果样式 */
+        .fancydiv {
+            display: flex;
+            justify-content: center; /* 居中内容 */
+            align-items: center; /* 垂直居中 */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.1);
+            transition: all 0.5s ease; /* 添加过渡效果 */
+            cursor: pointer;
+            color: white;
+            display: flex;
+            flex: 1 1 300px; /* 自适应宽度，最小280px */
+            margin: 15px; /* 设置间距 */
+            width: 100%;  /* 充满父元素宽度 */
+            height: 100%; /* 充满父元素高度 */
+            min-height: 200px; /* 基础高度 */
+            position: relative;
+            overflow: hidden; /* 防止图片超出容器 */
+            transform-origin: center; /* 设置变换的原点为中心 */
+        } 
+        .hidden {
+            display: none;
+        }
+        
+        .fancy-info {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            text-align: center;
+            z-index: 100; /* 确保内容在图片之上 */
+            padding: 20px;
+        }
+        
+        .fancy-avatar-link {
+            position: absolute;
+            top: 0px; /* 头像紧贴块顶部 */
+            right: 10px;
+            z-index: 3;
+        }
+        
+        .fancy-avatar {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+        
+        .fancy-avatar:hover {
+            transform: scale(1.1); /* 放大头像 */
+        }
+        
+        .fancy-image {
+            position: absolute;
+            top: 0; /* 图片紧贴块底部 */
+            left: 0; /* 水平居中 */
+           
+            max-width: 30%; /* 图片宽度最大为容器的30% */
+            max-height: 40%; /* 图片高度最大为容器的40% */
+            object-fit: cover;
+            z-index: 3;
+        }
+        
+        .post-header {
+            
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            text-align: right;
+        }
+        
+        .fancy-title {
+            margin-top: 100px;
+            font-size: 24px;
+            color:black;
+            text-align: center;
+        }
+        
+        .comment-section {
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+
+        }
+        
+        .comment-input {
+            width: 80%;
+            right:10px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .submit-comment {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+            right:10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .submit-comment:hover {
+            background-color: #0056b3;
+        }
+        .like-button, .follow-button {
+            margin-top: 10px;
+            padding: 5px 15px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .like-button:hover, .follow-button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .fancydiv:active {
+    min-height: 400px;
+    transform: scale(1.1);
+    width: 100%; /* 填满整个 main-content 宽度 */
+    height: 100%; /* 填满整个 main-content 高度 */
+    transform-origin: top left; /* 确保动画从左上角开始 */
+}
+        
+        
+        
+        /* 原有的fancydiv的背景颜色 */
+        #fancydiv1 {
+            grid-column: span 2;
+            background-color: #2dbbf9;
+            height: 400px;
+        }
+        
+        #fancydiv2 {
+            grid-column: span 3;
+            background-color: #2aacfc;
+            height: 350px;
+        }
+        
+        #fancydiv3 {
+            grid-column: span 1;
+            background-color: #4290ff;
+            height: 360px;
+        }
+        
+        #fancydiv4 {
+            grid-column: span 2;
+            background-color: #70d4ff;
+            height: 500px;
+        }
+        
+        #fancydiv5 {
+            grid-column: span 3;
+            background-color: #287bd9;
+            height: 520px;
+        }
+        
+        #fancydiv6 {
+            grid-column: span 1;
+            background-color: #3c9ae1;
+            height: 550px;
+        }
+        
+        #fancydiv7 {
+            grid-column: span 2;
+            background-color: #37ebff;
+            height: 210px;
+        }
+        
+        #fancydiv8 {
+            grid-column: span 3;
+            background-color: #37d7ff;
+            height: 350px;
+        }
+        
+        #fancydiv9 {
+            grid-column: span 1;
+            background-color: #57eeff;
+            height: 370px;
+        }
+        
+        #fancydiv10 {
+            grid-column: span 2;
+            background-color: #26a2d7;
+            height: 390px;
+        }
+        
+        #fancydiv11 {
+            grid-column: span 3;
+            background-color: #14a8f2;
+            height: 410px;
+        }
+        
+        #fancydiv12 {
+            grid-column: span 1;
+            background-color: #6ee4ea;
+            height: 550px;
+        }
+        
+        #fancydiv13 {
+            grid-column: span 2;
+            background-color: #6eead3;
+            height: 570px;
+        }
+        
+        #fancydiv14 {
+            grid-column: span 3;
+            background-color: #2dbbf9;
+            height: 240px;
+        }
+        
+        #fancydiv15 {
+            grid-column: span 1;
+            background-color: #2aacfc;
+            height: 260px;
+        }
+        
+        #fancydiv16 {
+            grid-column: span 2;
+            background-color: #4290ff;
+            height: 400px;
+        }
+        
+        #fancydiv17 {
+            grid-column: span 3;
+            background-color: #70d4ff;
+            height: 420px;
+        }
+        
+        #fancydiv18 {
+            grid-column: span 1;
+            background-color: #287bd9;
+            height: 440px;
+        }
+        
+        #fancydiv19 {
+            grid-column: span 2;
+            background-color: #3c9ae1;
+            height: 460px;
+        }
+        
+        #fancydiv20 {
+            grid-column: span 3;
+            background-color: #37ebff;
+            height: 600px;
+        }
+        
+        #fancydiv21 {
+            grid-column: span 1;
+            background-color: #37d7ff;
+            height: 270px;
+        }
+        
+        #fancydiv22 {
+            grid-column: span 2;
+            background-color: #57eeff;
+            height: 290px;
+        }
+        
+        #fancydiv23 {
+            grid-column: span 3;
+            background-color: #26a2d7;
+            height: 310px;
+        }
+        
+        #fancydiv24 {
+            grid-column: span 1;
+            background-color: #14a8f2;
+            height: 450px;
+        }
+        
+        #fancydiv25 {
+            grid-column: span 2;
+            background-color: #6ee4ea;
+            height: 470px;
+        }
+        
+        #fancydiv26 {
+            grid-column: span 3;
+            background-color: #6eead3;
+            height: 490px;
+        }
+        
+        #fancydiv27 {
+            grid-column: span 1;
+            background-color: #2dbbf9;
+            height: 510px;
+        }
+        
+        #fancydiv28 {
+            grid-column: span 2;
+            background-color: #2aacfc;
+            height: 300px;
+        }
+        
+        #fancydiv29 {
+            grid-column: span 3;
+            background-color: #4290ff;
+            height: 320px;
+        }
+        
+        #fancydiv30 {
+            grid-column: span 1;
+            background-color: #70d4ff;
+            height: 340px;
+        }
+        
+        #fancydiv31 {
+            grid-column: span 2;
+            background-color: #287bd9;
+            height: 360px;
+        }
+        
+        #fancydiv32 {
+            grid-column: span 3;
+            background-color: #3c9ae1;
+            height: 500px;
+        }
+        
+        #fancydiv33 {
+            grid-column: span 1;
+            background-color: #37ebff;
+            height: 520px;
+        }
+        
+        #fancydiv34 {
+            grid-column: span 2;
+            background-color: #37d7ff;
+            height: 540px;
+        }
+        
+        #fancydiv35 {
+            grid-column: span 3;
+            background-color: #57eeff;
+            height: 210px;
+        }
+        
+        #fancydiv36 {
+            grid-column: span 1;
+            background-color: #26a2d7;
+            height: 350px;
+        }
+        
+        #fancydiv37 {
+            grid-column: span 2;
+            background-color: #14a8f2;
+            height: 370px;
+        }
+        
+        #fancydiv38 {
+            grid-column: span 3;
+            background-color: #6ee4ea;
+            height: 390px;
+        }
+        
+        #fancydiv39 {
+            grid-column: span 1;
+            background-color: #6eead3;
+            height: 410px;
+        }
+        
+        #fancydiv40 {
+            grid-column: span 2;
+            background-color: #2dbbf9;
+            height: 550px;
+        }
+        
+        #fancydiv41 {
+            grid-column: span 3;
+            background-color: #2aacfc;
+            height: 570px;
+        }
+        
+        #fancydiv42 {
+            grid-column: span 1;
+            background-color: #4290ff;
+            height: 240px;
+        }
+        
+        #fancydiv43 {
+            grid-column: span 2;
+            background-color: #70d4ff;
+            height: 260px;
+        }
+        
+        #fancydiv44 {
+            grid-column: span 3;
+            background-color: #287bd9;
+            height: 400px;
+        }
+        
+        #fancydiv45 {
+            grid-column: span 1;
+            background-color: #3c9ae1;
+            height: 420px;
+        }
+        
+        #fancydiv46 {
+            grid-column: span 2;
+            background-color: #37ebff;
+            height: 440px;
+        }
+        
+        #fancydiv47 {
+            grid-column: span 3;
+            background-color: #37d7ff;
+            height: 460px;
+        }
+        
+        #fancydiv48 {
+            grid-column: span 1;
+            background-color: #57eeff;
+            height: 600px;
+        }
+        
+        #fancydiv49 {
+            grid-column: span 2;
+            background-color: #26a2d7;
+            height: 270px;
+        }
+        
+        #fancydiv50 {
+            grid-column: span 3;
+            background-color: #14a8f2;
+            height: 290px;
+        }
+        
+        #fancydiv51 {
+            grid-column: span 1;
+            background-color: #6ee4ea;
+            height: 310px;
+        }
+        
+        #fancydiv52 {
+            grid-column: span 2;
+            background-color: #6eead3;
+            height: 450px;
+        }
+        
+        #fancydiv53 {
+            grid-column: span 3;
+            background-color: #2dbbf9;
+            height: 500px;
+        }
+        
+        #fancydiv54 {
+            grid-column: span 1;
+            background-color: #2aacfc;
+            height: 490px;
+        }
+        
+        #fancydiv55 {
+            grid-column: span 2;
+            background-color: #4290ff;
+            height: 530px;
+        }
+        
+        #fancydiv56 {
+            grid-column: span 3;
+            background-color: #70d4ff;
+            height: 300px;
+        }
+        
+        #fancydiv57 {
+            grid-column: span 1;
+            background-color: #287bd9;
+            height: 320px;
+        }
+        
+        #fancydiv58 {
+            grid-column: span 2;
+            background-color: #3c9ae1;
+            height: 340px;
+        }
+        
+        #fancydiv59 {
+            grid-column: span 3;
+            background-color: #37ebff;
+            height: 360px;
+        }
+        
+        #fancydiv60 {
+            grid-column: span 1;
+            background-color: #37d7ff;
+            height: 500px;
+        }
+        
+        #fancydiv61 {
+            grid-column: span 2;
+            background-color: #57eeff;
+            height: 520px;
+        }
+        
+        #fancydiv62 {
+            grid-column: span 3;
+            background-color: #26a2d7;
+            height: 540px;
+        }
+        
+        #fancydiv63 {
+            grid-column: span 1;
+            background-color: #14a8f2;
+            height: 210px;
+        }
+        
+        #fancydiv64 {
+            grid-column: span 2;
+            background-color: #6ee4ea;
+            height: 350px;
+        }
+        
+        #fancydiv65 {
+            grid-column: span 3;
+            background-color: #6eead3;
+            height: 370px;
+        }
+        
+        #fancydiv66 {
+            grid-column: span 1;
+            background-color: #2dbbf9;
+            height: 390px;
+        }
+        
+        #fancydiv67 {
+            grid-column: span 2;
+            background-color: #2aacfc;
+            height: 410px;
+        }
+        
+        #fancydiv68 {
+            grid-column: span 3;
+            background-color: #4290ff;
+            height: 550px;
+        }
+        
+        #fancydiv69 {
+            grid-column: span 1;
+            background-color: #70d4ff;
+            height: 570px;
+        }
+        
+        #fancydiv70 {
+            grid-column: span 2;
+            background-color: #287bd9;
+            height: 240px;
+        }
+        
+        #fancydiv71 {
+            grid-column: span 3;
+            background-color: #3c9ae1;
+            height: 260px;
+        }
+        
+        #fancydiv72 {
+            grid-column: span 1;
+            background-color: #37ebff;
+            height: 400px;
+        }
+        
+        #fancydiv73 {
+            grid-column: span 2;
+            background-color: #37d7ff;
+            height: 420px;
+        }
+        
+        #fancydiv74 {
+            grid-column: span 3;
+            background-color: #57eeff;
+            height: 440px;
+        }
+        
+        #fancydiv75 {
+            grid-column: span 1;
+            background-color: #26a2d7;
+            height: 460px;
+        }
+        
+        #fancydiv76 {
+            grid-column: span 2;
+            background-color: #14a8f2;
+            height: 600px;
+        }
+        
+        #fancydiv77 {
+            grid-column: span 3;
+            background-color: #6ee4ea;
+            height: 270px;
+        }
+        
+        #fancydiv78 {
+            grid-column: span 1;
+            background-color: #6eead3;
+            height: 290px;
+        }
+        
+        #fancydiv79 {
+            grid-column: span 2;
+            background-color: #2dbbf9;
+            height: 310px;
+        }
+        
+        #fancydiv80 {
+            grid-column: span 3;
+            background-color: #2aacfc;
+            height: 450px;
+        }
+        
+        #fancydiv81 {
+            grid-column: span 1;
+            background-color: #4290ff;
+            height: 470px;
+        }
+        
+        #fancydiv82 {
+            grid-column: span 2;
+            background-color: #70d4ff;
+            height: 490px;
+        }
+        
+        #fancydiv83 {
+            grid-column: span 3;
+            background-color: #287bd9;
+            height: 510px;
+        }
+        
+        #fancydiv84 {
+            grid-column: span 1;
+            background-color: #3c9ae1;
+            height: 300px;
+        }
+        
+        #fancydiv85 {
+            grid-column: span 2;
+            background-color: #37ebff;
+            height: 320px;
+        }
+        
+        #fancydiv86 {
+            grid-column: span 3;
+            background-color: #37d7ff;
+            height: 340px;
+        }
+        
+        #fancydiv87 {
+            grid-column: span 1;
+            background-color: #57eeff;
+            height: 360px;
+        }
+        
+        #fancydiv88 {
+            grid-column: span 2;
+            background-color: #26a2d7;
+            height: 500px;
+        }
+        
+        #fancydiv89 {
+            grid-column: span 3;
+            background-color: #14a8f2;
+            height: 520px;
+        }
+        
+        #fancydiv90 {
+            grid-column: span 1;
+            background-color: #6ee4ea;
+            height: 540px;
+        }
+        
+        #fancydiv91 {
+            grid-column: span 2;
+            background-color: #6eead3;
+            height: 210px;
+        }
+        
+        #fancydiv92 {
+            grid-column: span 3;
+            background-color: #2dbbf9;
+            height: 350px;
+        }
+        
+        #fancydiv93 {
+            grid-column: span 1;
+            background-color: #2aacfc;
+            height: 370px;
+        }
+        
+        #fancydiv94 {
+            grid-column: span 2;
+            background-color: #4290ff;
+            height: 390px;
+        }
+        
+        #fancydiv95 {
+            grid-column: span 3;
+            background-color: #70d4ff;
+            height: 410px;
+        }
+        
+        #fancydiv96 {
+            grid-column: span 1;
+            background-color: #287bd9;
+            height: 550px;
+        }
+        
+        #fancydiv97 {
+            grid-column: span 2;
+            background-color: #3c9ae1;
+            height: 570px;
+        }
+        
+        #fancydiv98 {
+            grid-column: span 3;
+            background-color: #37ebff;
+            height: 240px;
+        }
+        
+        #fancydiv99 {
+            grid-column: span 1;
+            background-color: #37d7ff;
+            height: 260px;
+        }
+        
+        #fancydiv100 {
+            grid-column: span 2;
+            background-color: #57eeff;
+            height: 400px;
+        }
+        
+        #fancydiv101 {
+            grid-column: span 3;
+            background-color: #26a2d7;
+            height: 420px;
+        }
+        
+        #fancydiv102 {
+            grid-column: span 1;
+            background-color: #14a8f2;
+            height: 440px;
+        }
+        
+        #fancydiv103 {
+            grid-column: span 2;
+            background-color: #6ee4ea;
+            height: 460px;
+        }
+        
+        #fancydiv104 {
+            grid-column: span 3;
+            background-color: #6eead3;
+            height: 600px;
+        }
+        
+        #fancydiv105 {
+            grid-column: span 1;
+            background-color: #2dbbf9;
+            height: 270px;
+        }
+        
+        #fancydiv106 {
+            grid-column: span 2;
+            background-color: #2aacfc;
+            height: 290px;
+        }
+        
+        #fancydiv107 {
+            grid-column: span 3;
+            background-color: #4290ff;
+            height: 310px;
+        }
+        
+        #fancydiv108 {
+            grid-column: span 1;
+            background-color: #70d4ff;
+            height: 450px;
+        }
+        
+        #fancydiv109 {
+            grid-column: span 2;
+            background-color: #287bd9;
+            height: 470px;
+        }
+        
+        #fancydiv110 {
+            grid-column: span 3;
+            background-color: #3c9ae1;
+            height: 490px;
+        }
+        
+        #fancydiv111 {
+            grid-column: span 1;
+            background-color: #37ebff;
+            height: 510px;
+        }
+        
+        #fancydiv112 {
+            grid-column: span 2;
+            background-color: #37d7ff;
+            height: 300px;
+        }
+        
+        #fancydiv113 {
+            grid-column: span 3;
+            background-color: #57eeff;
+            height: 320px;
+        }
+        
+        #fancydiv114 {
+            grid-column: span 1;
+            background-color: #26a2d7;
+            height: 340px;
+        }
+        
+        #fancydiv115 {
+            grid-column: span 2;
+            background-color: #14a8f2;
+            height: 360px;
+        }
+        
+        #fancydiv116 {
+            grid-column: span 3;
+            background-color: #6ee4ea;
+            height: 500px;
+        }
+        
+        #fancydiv117 {
+            grid-column: span 1;
+            background-color: #6eead3;
+            height: 520px;
+        }
+        
+        #fancydiv118 {
+            grid-column: span 2;
+            background-color: #2dbbf9;
+            height: 540px;
+        }
+        
+        #fancydiv119 {
+            grid-column: span 3;
+            background-color: #2aacfc;
+            height: 210px;
+        }
+        
+        #fancydiv120 {
+            grid-column: span 1;
+            background-color: #4290ff;
+            height: 350px;
+        }
+        
+        #fancydiv121 {
+            grid-column: span 2;
+            background-color: #70d4ff;
+            height: 370px;
+        }
+        
+        #fancydiv122 {
+            grid-column: span 3;
+            background-color: #287bd9;
+            height: 390px;
+        }
+        
+        #fancydiv123 {
+            grid-column: span 1;
+            background-color: #3c9ae1;
+            height: 410px;
+        }
+        
+        #fancydiv124 {
+            grid-column: span 2;
+            background-color: #37ebff;
+            height: 550px;
+        }
+        
+        #fancydiv125 {
+            grid-column: span 3;
+            background-color: #37d7ff;
+            height: 570px;
+        }
+        
+        #fancydiv126 {
+            grid-column: span 1;
+            background-color: #57eeff;
+            height: 240px;
+        }
+        
+        #fancydiv127 {
+            grid-column: span 2;
+            background-color: #26a2d7;
+            height: 260px;
+        }
+        
+        #fancydiv128 {
+            grid-column: span 3;
+            background-color: #14a8f2;
+            height: 400px;
+        }
+        
+        #fancydiv129 {
+            grid-column: span 1;
+            background-color: #6ee4ea;
+            height: 420px;
+        }
+        
+        #fancydiv130 {
+            grid-column: span 2;
+            background-color: #6eead3;
+            height: 440px;
+        }
+        
+        #fancydiv131 {
+            grid-column: span 3;
+            background-color: #2dbbf9;
+            height: 460px;
+        }
+        
+        #fancydiv132 {
+            grid-column: span 1;
+            background-color: #2aacfc;
+            height: 600px;
+        }
+        
+        #fancydiv133 {
+            grid-column: span 2;
+            background-color: #4290ff;
+            height: 270px;
+        }
+        
+        #fancydiv134 {
+            grid-column: span 3;
+            background-color: #70d4ff;
+            height: 290px;
+        }
+        
+        #fancydiv135 {
+            grid-column: span 1;
+            background-color: #287bd9;
+            height: 310px;
+        }
+        
+        #fancydiv136 {
+            grid-column: span 2;
+            background-color: #3c9ae1;
+            height: 450px;
+        }
+        
+        #fancydiv137 {
+            grid-column: span 3;
+            background-color: #37ebff;
+            height: 470px;
+        }
+        
+        #fancydiv138 {
+            grid-column: span 1;
+            background-color: #37d7ff;
+            height: 490px;
+        }
+        
+        #fancydiv139 {
+            grid-column: span 2;
+            background-color: #57eeff;
+            height: 510px;
+        }
+        
+        #fancydiv140 {
+            grid-column: span 3;
+            background-color: #26a2d7;
+            height: 300px;
+        }
+        
+        #fancydiv141 {
+            grid-column: span 1;
+            background-color: #14a8f2;
+            height: 320px;
+        }
+        
+        #fancydiv142 {
+            grid-column: span 2;
+            background-color: #6ee4ea;
+            height: 340px;
+        }
+        
+        #fancydiv143 {
+            grid-column: span 3;
+            background-color: #6eead3;
+            height: 360px;
+        }
+        
+        #fancydiv144 {
+            grid-column: span 1;
+            background-color: #2dbbf9;
+            height: 500px;
+        }
+        
+        #fancydiv145 {
+            grid-column: span 2;
+            background-color: #2aacfc;
+            height: 520px;
+        }
+        
+        #fancydiv146 {
+            grid-column: span 3;
+            background-color: #4290ff;
+            height: 540px;
+        }
+        
+        #fancydiv147 {
+            grid-column: span 1;
+            background-color: #70d4ff;
+            height: 210px;
+        }
+        
+        #fancydiv148 {
+            grid-column: span 2;
+            background-color: #287bd9;
+            height: 350px;
+        }
+        
+        #fancydiv149 {
+            grid-column: span 3;
+            background-color: #3c9ae1;
+            height: 370px;
+        }
+        
+        #fancydiv150 {
+            grid-column: span 1;
+            background-color: #37ebff;
+            height: 390px;
+        }
+        .fancydiv.expand {
+            animation: expand-animation 0.5s forwards; /* 横向扩展动画 */
+            
+        }
+        
+        .fancydiv.shrink {
+            animation: shrink-animation 0.5s forwards; /* 缩小动画 */
+        }
+    
+        @keyframes expand-animation {
+            from {
+                transform: scaleX(1); /* 初始大小 */
+            }
+            to {
+                transform: scaleX(1.0); /* 最终大小 */
+            }
+        }
+    
+        @keyframes shrink-animation {
+            from {
+                transform: scaleX(1.0); /* 初始状态为扩展至全宽 */
+            }
+            to {
+                transform: scaleX(1); /* 最终状态为默认宽度 */
+            }
+        }
+    
+        .fancydiv:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 6px 30px rgba(0,0,0,0.22);
+        }
+    
+        .fullscreen {
+            position: relative;  /* 保证绝对定位元素相对于这个容器定位 */
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            width: calc(98vw); /* 填满整个视口宽度 */
+            height: 10000px !important;/* 填满整个视口高度 */
+            transform: none; /* 不使用变换 */
+            z-index: 1000; /* 确保在其他元素之上 */
+            color: white; /* 字体颜色 */
+            font-size: 20px; /* 字体大小 */
+            flex-direction: column; /* 改为纵向排列 */
+            justify-content: start; /* 子元素从顶部开始排列 */
+            padding: 20px; /* 添加内边距，让内容不会贴到最上面 */
+        }
+
+
+        body.dark-mode .fancydiv {
+            background: linear-gradient(135deg, #4a2c91, #6c8efa); /* 深色模式背景 */
+        }
+    
+        body.dark-mode .fullscreen {
+            background: linear-gradient(135deg, #4a2c91, #6c8efa); /* 深色模式全屏背景 */
+        }
+        
+        /* 新增样式确保正常排列 */
+        .show-navbar-btn {
+        position: fixed;          /* 固定定位 */
+        top: 8px;               /* 距离顶部10px */
+        left: 10px;              /* 距离左侧10px */
+        z-index: 1000;          /* 确保按钮在其他元素之上 */
+        background-color: #1b71f2;  /* 按钮背景色 */
+        color: white;            /* 字体颜色 */
+        border: none;            /* 无边框 */
+        border-radius: 5px;      /* 圆角 */
+        padding: 8px 10px;      /* 内边距 */
+        font-size: 16px;         /* 字体大小 */
+        cursor: pointer;         /* 鼠标指针形状 */
+        transition: background-color 0.3s ease; /* 背景色过渡效果 */
+    }
+    
+    .show-navbar-btn:hover {
+        background-color: #155a9a; /* 悬停时的背景色 */
+    }
+    
+    .show-navbar-btn i {
+        margin-right: 8px; /* 图标和文本之间的间距 */
+    }
