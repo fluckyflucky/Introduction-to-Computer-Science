@@ -460,7 +460,7 @@
         <div class="posts-container" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 20px;">
             <h3 style="text-align: center; color: #ffffffff; font-size: 24px; font-weight: bold; width: 100%;">个人帖子</h3>
             {% for post in user_posts %}
-                <div class="card" style="border-radius: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 0px; width: 300px; margin: 8px; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); position: relative;" onclick="openPostDetailModal('{{ post.title }}', '{{ post.content }}', '{{ url_for('static', filename=post.image) }}')">
+                <div class="card" style="border-radius: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 0px; width: 300px; margin: 8px; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); position: relative;" onclick="openPostDetailModal('{{ post.title }}', '{{ post.content }}', '{{ url_for('static', filename=post.image) if post.image else '' }}')">
                     {% if post.image %}
                         <img src="{{ url_for('static', filename=post.image) }}" alt="Post Image" style="max-width: 100%; height: auto; border-radius: 10px; margin-top: 0px;">
                     {% endif %}
@@ -491,7 +491,9 @@
     <div class="modal-content">
         <span class="close" onclick="closePostDetailModal()">&times;</span>
         <div style="display: flex; align-items: flex-start;">
+
             <img id="modalPostImage" src="" alt="Post Image" style="max-width: 30%; height: auto; border-radius: 10px; margin-right: 15px;">
+
             <div>
                 <h2 id="modalPostTitle" style="text-align: left;"></h2>
                 <p id="modalPostContent" style="text-align: left;"></p>
@@ -874,7 +876,15 @@ const dropZone = document.getElementById('dropZone');
     function openPostDetailModal(title, content, image) {
     document.getElementById('modalPostTitle').innerText = title;
     document.getElementById('modalPostContent').innerText = content;
-    document.getElementById('modalPostImage').src = image || ''; // 如果没有图片，则为空
+    var modalPostImage = document.getElementById('modalPostImage');
+
+    if (image) {
+        modalPostImage.src = image;
+        modalPostImage.style.display = 'block'; // 显示图片
+    } else {
+        modalPostImage.style.display = 'none'; // 隐藏图片
+    }
+
     document.getElementById('postDetailModal').style.display = 'block'; // 显示弹窗
 }
 

@@ -8,19 +8,6 @@ window.onload = function() {
     mainContent.classList.add('fade-in'); // 添加入场动画类
 };
 
-// 放大后显示的内容数组
-const expandedTexts = [
-    '这是放大的内容1',
-    '这是放大的内容2',
-    '这是放大的内容3',
-    '这是放大的内容4',
-    '这是放大的内容5',
-    '这是放大的内容6',
-    '这是放大的内容7',
-    '这是放大的内容8',
-    '这是放大的内容9',
-    '这是放大的内容10'
-];
 
 // 存储初始内容
 const initialContents = [];
@@ -29,6 +16,7 @@ const fancyDivs = document.querySelectorAll('.fancydiv');
 let eventsBound1 = false; 
 let last_height=0;
 let scrollY = 0;
+let cnt=0;
 document.addEventListener("DOMContentLoaded", function () {
     let currentUserId = null; // 当前登录用户的 ID
 
@@ -61,27 +49,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // 填充数据到每个 fancydiv
             for (let i = 0; i < maxDivs; i++) {
-                const div = fancyDivs[50*(i%3)+Math.floor(i/3)]; // 获取对应的 fancydiv 元素
+                
+                const div = fancyDivs[30*(cnt%3)+Math.floor(cnt/3)]; // 获取对应的 fancydiv 元素
                
                 if (i < shuffledData.length) {
                     const post = shuffledData[i];
+                    if(post.tag=="learning_resources"){
+                        
                     const contentHTML = `
-                        <img src="${post.image_path}" alt="封面图" class="fancy-image">
-                        <div class="fancy-info">
-                            <div class="post-header">
-                            <a class="user-avatar-link" data-user-id="${post.user_id}">
-                                <img src="${post.avatar}" alt="用户头像" class="fancy-avatar">
-                            </a>
-                            <p class="fancy-author">发布人: ${post.author}</p>
-                            ${currentUserId !== post.user_id 
-                                ? `<button class="follow-button" data-user-id="${post.user_id}">${post.is_following ? '取消关注' : '关注'}</button>` 
-                                : ''
-                            }
-                            <p class="fancy-timestamp">发布时间: ${new Date(post.timestamp).toLocaleString()}</p>
-                            </div>
-                            
-                            <p class="fancy-title">标题: ${post.title}</p>
-                            <p class="fancy-content">内容: ${post.content}</p>
+                        
+                    <div class="fancy-post">
+    ${post.image_path ? `
+        <img src="${post.image_path}" alt="封面图" class="fancy-image">
+    ` : ''}
+    <div class="fancy-info">
+    <p class="fancy-title">${post.title}</p>
+    <p class="fancy-content">内容: ${post.content}</p>
                             <button class="like-button" data-post-id="${post.id}">${post.is_liked ? '取消点赞' : '点赞'}</button>
                              
                             <div class="comment-section">
@@ -90,26 +73,58 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <!-- 动态评论列表 -->
                                 <div class="comment-list" id="comment-list-${post.id}" style="display: none;"></div>
                             </div>
-                        </div>
-                       
+        <div class="post-header">
+            <a class="user-avatar-link" data-user-id="${post.user_id}">
+                <img src="${post.avatar}" alt="用户头像" class="fancy-avatar">
+            </a>
+            <p class="fancy-author">${post.author}</p>
+            ${currentUserId !== post.user_id 
+                ? `<button class="follow-button" data-user-id="${post.user_id}">${post.is_following ? '取消关注' : '关注'}</button>` 
+                : ''
+            }
+        </div>
+        
+    </div>
+</div>
+
+
+                        
                     `;
                     div.innerHTML = contentHTML;
                     
-                    initialContents[50*(i%3)+Math.floor(i/3)]=contentHTML;
+                    initialContents[30*(cnt%3)+Math.floor(cnt/3)]=contentHTML;
                     console.log(contentHTML);
+                    cnt++;
                 } else {
                     div.innerHTML = `<span>暂无内容</span>`; // 空位时占位内容
-                    initialContents[50*(i%3)+Math.floor(i/3)]= `<span>暂无内容</span>`; 
+                    initialContents[30*(i%3)+Math.floor(i/3)]= `<span>暂无内容</span>`; 
                 }
             }
+            
+            }
 
-            // 设置点击事件
+
+
             fancyDivs.forEach((fancydiv, index) => {
                 fancydiv.addEventListener('click', (event) => {
                     event.stopPropagation();
                     const isOpen = fancydiv.classList.contains('fullscreen'); // 判断当前状态
                     const postId = fancydiv.querySelector('.submit-comment') ? fancydiv.querySelector('.submit-comment').getAttribute('data-post-id') : null;
-                    
+                    const contentElement = fancydiv.querySelector('.fancy-content');
+
+// 获取点赞按钮
+const likeButton = fancydiv.querySelector('.like-button');
+
+// 获取评论输入框
+const commentInput = fancydiv.querySelector('.comment-input');
+
+// 获取评论列表
+const commentList = fancydiv.querySelector('.comment-list');
+
+// 获取提交评论按钮
+const submitCommentButton = fancydiv.querySelector('.submit-comment');
+const commentsection=fancydiv.querySelector('.comment-section');
+
                     fancyDivs.forEach(div => {
                         if (div !== fancydiv) {
                             
@@ -120,7 +135,17 @@ document.addEventListener("DOMContentLoaded", function () {
                             document.documentElement.style.height = 10000 + 'px';
                             document.body.style.height = 10000 + 'px';
                             div.classList.toggle('fullscreen'); // 切换全屏效果
-                            
+
+                            if(likeButton)
+                            likeButton.style.display='flex';
+                        if(submitCommentButton)
+                            submitCommentButton.style.display='flex';
+                        if(commentList)
+                            commentList.style.display='flex';
+                        if(commentInput)
+                            commentInput.style.display='flex';
+                        if(commentsection)
+                            commentsection.style.display='flex';
                             if (!isOpen) {
                             scrollY = window.scrollY;
                             window.scrollTo(0, 300);
@@ -135,7 +160,31 @@ document.addEventListener("DOMContentLoaded", function () {
                         
                         fancydiv.innerHTML = initialContents[index]; // 恢复初始内容
                         fancyDivs.forEach((div) => {
+                            // 获取点赞按钮
+const likeButton = div.querySelector('.like-button');
+
+// 获取评论输入框
+const commentInput = div.querySelector('.comment-input');
+
+// 获取评论列表
+const commentList = div.querySelector('.comment-list');
+
+// 获取提交评论按钮
+const submitCommentButton = div.querySelector('.submit-comment');
+const commentsection=div.querySelector('.comment-section');
                             div.style.display = 'flex'; // 设置为 flex 布局
+                            if(likeButton)
+                                likeButton.style.display='none';
+                            if(commentInput)
+                                commentInput.style.display='none';
+                            if(submitCommentButton)
+                                submitCommentButton.style.display='none';
+                            if(commentsection){
+                                commentsection.style.display='none';
+                            }
+                            if(commentList){
+                                commentList.style.display='none';
+                            }
                         });
                         fancydiv.scrollIntoView({ behavior: 'auto', block: 'start' }); // 跳转
                        
@@ -156,6 +205,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             });
 
+
+            
+            
             // 绑定头像点击事件和关注按钮事件
             if (!eventsBound1) {
                 fancyDivs.forEach((div) => {

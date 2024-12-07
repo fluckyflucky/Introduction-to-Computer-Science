@@ -279,23 +279,34 @@ def delete_post(post_id):
     username = session.get('username')
     user = User.query.filter_by(username=username).first()
     
-    if user:
-        post = Post.query.get(post_id)
-        if post and post.user_id == user.id:
-            # 删除与该帖子相关的所有点赞记录
-            likes_to_delete = Like.query.filter_by(post_id=post_id).all()
-            for like in likes_to_delete:
-                db.session.delete(like)  # 删除每一个点赞记录
-            
-            db.session.delete(post)  # 删除帖子
-            db.session.commit()  # 提交更改
-            flash('帖子已成功删除！', 'success')
-        else:
-            flash('无法删除该帖子！', 'error')
-    else:
+    if not user:
         flash('请先登录，才能删除帖子！', 'error')
+        return redirect(url_for('user_center'))
+    
+    post = Post.query.get(post_id)
+    if not post:
+        flash('帖子不存在！', 'error')
+        return redirect(url_for('user_center'))
+    
+    if post.user_id == user.id:
+        # 删除与该帖子相关的所有点赞记录
+        likes_to_delete = Like.query.filter_by(post_id=post_id).all()
+        for like in likes_to_delete:
+            db.session.delete(like)
+
+        # 删除与该帖子相关的所有评论
+        comments_to_delete = Comment.query.filter_by(post_id=post_id).all()
+        for comment in comments_to_delete:
+            db.session.delete(comment)
+        
+        db.session.delete(post)
+        db.session.commit()
+        flash('帖子已成功删除！', 'success')
+    else:
+        flash('无法删除该帖子！', 'error')
     
     return redirect(url_for('user_center'))
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -354,7 +365,7 @@ def register():
             flash('注册成功！请登录。', 'success')
             return redirect(url_for('login'))  # 修改为重定向到登录页面
 
-    return render_template('user_center.html')
+    return redirect(url_for('login'))  # 修改为重定向到登录页面
 
 
 @app.route('/logout')
