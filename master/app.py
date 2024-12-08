@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -520,11 +520,16 @@ def toggle_follow():
 def competition():
     username = session.get('username')
     # 获取比赛信息
-    upcoming_contests = cf_api.get_upcoming_contests()
-    contests = upcoming_contests[:3] if len(upcoming_contests) >= 3 else upcoming_contests  # 如果比赛数量不足3个，显示所有比赛
-    return render_template('competition.html', 
-                         username=username,
-                         contests=contests)
+    ongoing_and_upcoming_contests = cf_api.get_ongoing_and_upcoming_contests()
+    # print(ongoing_and_upcoming_contests)
+    recent_finished_contests = cf_api.get_recent_finished_contests()
+    response = make_response(render_template('competition.html', 
+                                             username=username,
+                                             ongoing_and_upcoming_contests=ongoing_and_upcoming_contests,
+                                             recent_finished_contests=recent_finished_contests))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    return response
 #这里是查询resource获得信息的函数
 @app.route('/get_resources')
 def get_resources():
