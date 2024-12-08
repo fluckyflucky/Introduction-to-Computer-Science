@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
                
                 if (i < shuffledData.length) {
                     const post = shuffledData[i];
-                    if(post.tag=="learning_resources"){
+                    if(post.tag=="course_guide"){
                         
                     const contentHTML = `
                         
