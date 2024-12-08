@@ -551,20 +551,30 @@
         }
         
         
-        .fancy-content{
-            display: none;
+        .fancy-title{
+            display: block;
+            padding: 5px 10px;
+            margin: 5px;
+            text-align: center;
         }
         
         .comment-input {
             display: none;
             width: 100%;
-            right:10px;
+            right: 10px;
             padding: 10px;
             margin-top: 10px;
             border-radius: 8px;
-            border: 1px solid #ccc;
+            border: 3px solid transparent;
             font-size: 14px;
             text-align: center;
+            background: 
+                linear-gradient(white, white) padding-box,
+                linear-gradient(45deg,
+                    hsl(240 100% 70%),
+                    hsl(300 100% 80%),
+                    hsl(360 100% 70%)
+                ) border-box;
         }
         .submit-comment {
             display: none;
@@ -615,6 +625,9 @@
             display: flex;
             align-items: center; /* 使头像和名字垂直居中 */
             justify-content: space-between; /* 让头像和名字分开 */
+            margin: 10px 0; /* 上下间距10px */
+            gap: 15px; /* 元素之间的间距 */
+            padding: 8px; /* 内边距 */
         }
         .fancy-image {
             max-width: 500px; /* 根据您的设计调整最大宽度 */
@@ -630,13 +643,59 @@
         .fancy-author {
             flex-grow: 1; /* 使作者名字占用剩余空间 */
             margin: 0; /* 取消默认的段落边距 */
+            border: 2px solid #1b71f2; /* 添加蓝色实线边框 */
+            border-radius: 15px; /* 圆角边框 */
+            padding: 5px 10px; /* 内边距，让文字不贴着边框 */
+            text-align: center; /* 文字居中 */
+            color: white; /* 文字颜色与边框相同 */
+            background-color: rgba(27, 113, 242, 0.1); /* 略微带点背景色 */
+            transition: all 0.3s ease; /* 添加过渡效果 */
         }
         
-        .fancy-title {
-            margin-top: 10px; /* 与图片的间隔 */
-            font-size: 1.2em; /* 设置标题字号 */
-            font-weight: bold; /* 设置标题加粗 */
-            text-align: center; /* 居中 */
+        /* 鼠标悬停效果 */
+        .fancy-author:hover {
+            background-color: rgba(27, 113, 242, 0.2);
+            box-shadow: 0 2px 5px rgba(27, 113, 242, 0.3);
+        }
+        
+        .fancy-content {
+            display: none;
+            --h: 240;
+            --s: 100%;
+            --l: 60%;
+            --surface-1: hsl(var(--h) var(--s) calc(var(--l) + 4%));
+            --surface-2: hsl(var(--h) var(--s) calc(var(--l) + 8%));
+            --surface-3: hsl(var(--h) var(--s) calc(var(--l) + 12%));
+            
+            margin-top: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            padding: 1.6rem;
+            border-radius: 0.8rem;
+            border: 3px solid transparent;
+            position: relative;
+            
+            background: 
+                linear-gradient(var(--surface-1), var(--surface-1)) padding-box,
+                conic-gradient(
+                    from calc(360deg - var(--angle)),
+                    var(--shine),
+                    transparent 5% 95%,
+                    var(--shine)
+                ) border-box,
+                linear-gradient(
+                    -45deg,
+                    hsl(var(--h) 100% 70%),
+                    hsl(calc(var(--h) + 60) 100% 80%),
+                    hsl(calc(var(--h) + 120) 100% 70%)
+                ) border-box;
+            
+            animation: shine 1.5s infinite ease-in-out;
+            
+            box-shadow: 
+                0 0 10px rgba(var(--h), var(--s), var(--l), 0.3),
+                0 0 20px rgba(var(--h), var(--s), var(--l), 0.2);
         }
         
         
@@ -1605,7 +1664,7 @@
         position: fixed;          /* 固定定位 */
         top: 8px;               /* 距离顶部10px */
         left: 10px;              /* 距离左侧10px */
-        z-index: 1000;          /* 确保按钮在其他元素之上 */
+        z-index: 1000;          /* ��保按钮在其他元素之上 */
         background-color: #1b71f2;  /* 按钮背景色 */
         color: white;            /* 字体颜色 */
         border: none;            /* 无边框 */
@@ -1623,3 +1682,148 @@
     .show-navbar-btn i {
         margin-right: 8px; /* 图标和文本之间的间距 */
     }
+
+    .follow-button {
+        width: 80px;
+        height: 30px;
+        border-radius: 15px;
+        border: none;
+        background: linear-gradient(45deg, #2196F3, #1976D2);
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .follow-button:hover {
+        background: #a7ee71;
+    }
+    
+
+    .follow-button::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 100%;
+        background: #2196F3;
+        z-index: -1;
+        transition: width 0.3s ease;
+    }
+
+    .follow-button:hover::before {
+        width: 100%;
+    }
+
+
+/* 定义自定义属性 */
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@property --shine {
+    syntax: "<color>";
+    initial-value: transparent;
+    inherits: false;
+}
+
+/* 评论列表容器样式 */
+.comment-list {
+    --h: 240;
+    --s: 100%;
+    --l: 60%;
+    --surface-1: hsl(var(--h) var(--s) calc(var(--l) + 4%));
+    --surface-2: hsl(var(--h) var(--s) calc(var(--l) + 8%));
+    --surface-3: hsl(var(--h) var(--s) calc(var(--l) + 12%));
+    
+    display: grid;
+    gap: 1rem;
+    padding: 1.6rem;
+    border-radius: 0.8rem;
+    border: 3px solid transparent;  /* 边框加粗到3px */
+    position: relative;
+    
+    /* 增强流光效果 */
+    background: 
+        linear-gradient(var(--surface-1), var(--surface-1)) padding-box,
+        conic-gradient(
+            from var(--angle),
+            var(--shine),
+            transparent 5% 95%,  /* 进一步缩小透明区域 */
+            var(--shine)
+        ) border-box,
+        linear-gradient(
+            45deg,
+            hsl(var(--h) 100% 70%),
+            hsl(calc(var(--h) + 60) 100% 80%),
+            hsl(calc(var(--h) + 120) 100% 70%)
+        ) border-box;  /* 添加额外的渐变层 */
+    
+    /* 加快动画速度并使用ease-in-out */
+    animation: shine 1.5s infinite ease-in-out;
+    
+    /* 添加发光效果 */
+    box-shadow: 
+        0 0 10px rgba(var(--h), var(--s), var(--l), 0.3),
+        0 0 20px rgba(var(--h), var(--s), var(--l), 0.2);
+}
+
+/* 更强烈的动画关键帧 */
+@keyframes shine {
+    0% {
+        --angle: 0deg;
+        --shine: hsl(var(--h) 100% 85%);  /* 更亮的起始颜色 */
+    }
+    25% {
+        --shine: hsl(calc(var(--h) + 90) 100% 75%);
+    }
+    50% {
+        --shine: hsl(calc(var(--h) + 180) 100% 65%);
+    }
+    75% {
+        --shine: hsl(calc(var(--h) + 270) 100% 75%);
+    }
+    100% {
+        --angle: 360deg;
+        --shine: hsl(var(--h) 100% 85%);
+    }
+}
+
+/* 深色模式下的增强效果 */
+body.dark-mode .comment-list {
+    --h: 240;
+    --s: 90%;
+    --l: 20%;
+    box-shadow: 
+        0 0 15px rgba(var(--h), var(--s), var(--l), 0.4),
+        0 0 30px rgba(var(--h), var(--s), var(--l), 0.3);
+}
+
+/* 确保浏览器支持 */
+@supports not (animation-timeline: view()) {
+    .comment-list {
+        background: var(--surface-1);
+        border: 1px solid var(--surface-3);
+    }
+}
+
+.delete-comment-button {
+    background-color: #ff4500;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+}
+
+.delete-comment-button:hover {
+    background-color: #ff2200;
+    box-shadow: 0 0 5px rgba(255, 69, 0, 0.5);
+}
