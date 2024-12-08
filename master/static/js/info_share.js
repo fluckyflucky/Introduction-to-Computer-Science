@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // 填充数据到每个 fancydiv
             for (let i = 0; i < maxDivs; i++) {
                 
-                const div = fancyDivs[30*(cnt%3)+Math.floor(cnt/3)]; // 获取对应的 fancydiv 元素
+                const div = fancyDivs[30*(cnt%5)+Math.floor(cnt/5)]; // 获取对应的 fancydiv 元素
                
                 if (i < shuffledData.length) {
                     const post = shuffledData[i];
@@ -91,12 +91,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     `;
                     div.innerHTML = contentHTML;
                     div.style.height = 'auto';
-                    initialContents[30*(cnt%3)+Math.floor(cnt/3)]=contentHTML;
+                    initialContents[30*(cnt%5)+Math.floor(cnt/5)]=contentHTML;
                     console.log(contentHTML);
                     cnt++;
                 } else {
                     div.innerHTML = `<span>暂无内容</span>`; // 空位时占位内容
-                    initialContents[30*(i%3)+Math.floor(i/3)]= `<span>暂无内容</span>`; 
+                    initialContents[30*(i%5)+Math.floor(i/5)]= `<span>暂无内容</span>`; 
                 }
             }
             
