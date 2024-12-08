@@ -554,9 +554,10 @@
         .fancy-content{
             display: none;
         }
+        
         .comment-input {
             display: none;
-            width: 80%;
+            width: 100%;
             right:10px;
             padding: 10px;
             margin-top: 10px;
@@ -567,7 +568,7 @@
         }
         .submit-comment {
             display: none;
-            width: 80%;
+            width: 100%;
             padding: 10px;
             margin-top: 10px;
             right:10px;
@@ -579,14 +580,20 @@
             text-align: center;
         }
         .like-button{
-            display: none;
             margin-top: 10px;
-            padding: 5px 15px;
-            background-color: #f0f0f0;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            margin-bottom: 10px;
+            display: none;
+            padding: 10px 15px; /* 增加内边距 */
+            border-radius: 10px; /* 圆角 */
+            background: linear-gradient(135deg, #6fc3f8, #4aa1ee); /* 渐变背景 */
+            color: white; /* 字体颜色 */
+            font-size: 16px; /* 字体大小 */
+            border: none; /* 无边框 */
+            cursor: pointer; /* 鼠标指针形状 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* 平滑过渡效果 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+        
         .fancy-post {
             display: flex;
             flex-direction: column;
@@ -609,7 +616,10 @@
             align-items: center; /* 使头像和名字垂直居中 */
             justify-content: space-between; /* 让头像和名字分开 */
         }
-        
+        .fancy-image {
+            max-width: 500px; /* 根据您的设计调整最大宽度 */
+            max-height: 400px; /* 根据您的设计调整最大高度 */
+        }
         .fancy-avatar {
             width: 40px; /* 设置头像宽度 */
             height: 40px; /* 设置头像高度 */

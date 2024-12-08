@@ -64,6 +64,14 @@ document.addEventListener("DOMContentLoaded", function () {
     ` : ''}
     <div class="fancy-info">
     <p class="fancy-title">${post.title}</p>
+    <p class="fancy-content">${post.content}</p>
+                            <div class="comment-section" style="display: flex; flex-direction: column; ">
+                                <textarea class="comment-input" data-post-id="${post.id}" placeholder="输入评论..."></textarea>
+                                <button class="submit-comment" data-post-id="${post.id}">提交评论</button>
+                                <!-- 动态评论列表 -->
+                                
+                            </div>
+                            <button class="like-button" data-post-id="${post.id}">${post.is_liked ? '取消点赞' : '点赞'}</button>
         <div class="post-header">
             <a class="user-avatar-link" data-user-id="${post.user_id}">
                 <img src="${post.avatar}" alt="用户头像" class="fancy-avatar">
@@ -74,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 : ''
             }
         </div>
-        
+        <div class="comment-list" id="comment-list-${post.id}" style="display: none;"></div>
     </div>
 </div>
 
@@ -82,18 +90,125 @@ document.addEventListener("DOMContentLoaded", function () {
                         
                     `;
                     div.innerHTML = contentHTML;
-                    
-                    initialContents[50*(cnt%3)+Math.floor(cnt/3)]=contentHTML;
+                    div.style.height = 'auto';
+                    initialContents[30*(cnt%3)+Math.floor(cnt/3)]=contentHTML;
                     console.log(contentHTML);
                     cnt++;
                 } else {
                     div.innerHTML = `<span>暂无内容</span>`; // 空位时占位内容
-                    initialContents[50*(i%3)+Math.floor(i/3)]= `<span>暂无内容</span>`; 
+                    initialContents[30*(i%3)+Math.floor(i/3)]= `<span>暂无内容</span>`; 
                 }
             }
-
+            
             }
 
+
+
+            fancyDivs.forEach((fancydiv, index) => {
+                fancydiv.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const isOpen = fancydiv.classList.contains('fullscreen'); // 判断当前状态
+                    const postId = fancydiv.querySelector('.submit-comment') ? fancydiv.querySelector('.submit-comment').getAttribute('data-post-id') : null;
+                    const contentElement = fancydiv.querySelector('.fancy-content');
+
+// 获取点赞按钮
+const likeButton = fancydiv.querySelector('.like-button');
+
+// 获取评论输入框
+const commentInput = fancydiv.querySelector('.comment-input');
+
+// 获取评论列表
+const commentList = fancydiv.querySelector('.comment-list');
+
+// 获取提交评论按钮
+const submitCommentButton = fancydiv.querySelector('.submit-comment');
+const commentsection=fancydiv.querySelector('.comment-section');
+
+                    fancyDivs.forEach(div => {
+                        if (div !== fancydiv) {
+                            
+                            div.style.display = 'none'; // 隐藏其他块
+                            div.classList.remove('expand'); // 移除扩展类
+                            div.classList.add('shrink'); // 添加缩小类
+                        } else {
+                            document.documentElement.style.height = 10000 + 'px';
+                            document.body.style.height = 10000 + 'px';
+                            div.classList.toggle('fullscreen'); // 切换全屏效果
+                            if(contentElement)
+                                contentElement.style.display='flex';
+                            if(likeButton)
+                            likeButton.style.display='flex';
+                        if(submitCommentButton)
+                            submitCommentButton.style.display='flex';
+                        if(commentList)
+                            commentList.style.display='flex';
+                        if(commentInput)
+                            commentInput.style.display='flex';
+                        if(commentsection)
+                            commentsection.style.display='flex';
+                            if (!isOpen) {
+                            scrollY = window.scrollY;
+                            window.scrollTo(0, 300);
+                            return;
+                            }
+                        }
+                    });
+                    console.log(mainContent);
+                    if (isOpen) {
+                        fancydiv.classList.remove('expand'); // 移除扩展类
+                        fancydiv.classList.add('shrink'); // 添加缩小类
+                        
+                        fancydiv.innerHTML = initialContents[index]; // 恢复初始内容
+                        fancyDivs.forEach((div) => {
+                            // 获取点赞按钮
+const likeButton = div.querySelector('.like-button');
+
+// 获取评论输入框
+const commentInput = div.querySelector('.comment-input');
+
+// 获取评论列表
+const commentList = div.querySelector('.comment-list');
+
+// 获取提交评论按钮
+const submitCommentButton = div.querySelector('.submit-comment');
+const commentsection=div.querySelector('.comment-section');
+                            div.style.display = 'flex'; // 设置为 flex 布局
+                            if(likeButton)
+                                likeButton.style.display='none';
+                            
+                            if(commentInput)
+                                commentInput.style.display='none';
+                            if(submitCommentButton)
+                                submitCommentButton.style.display='none';
+                            if(commentsection){
+                                commentsection.style.display='none';
+                            }
+                            if(commentList){
+                                commentList.style.display='none';
+                            }
+                        });
+                        fancydiv.scrollIntoView({ behavior: 'auto', block: 'start' }); // 跳转
+                       
+                        // 强制将水平滚动位置设为最左边，同时保持垂直位置不变
+                        window.scrollTo(0, scrollY);
+                        loadComments(fancydiv, postId); 
+                        if (postId) {
+                            console.log("回来了");
+                            rebindEvents(fancydiv); // 确保事件重新绑定
+                        }
+                    } else {
+                        
+                        fancydiv.classList.add('expand'); // 添加扩展类
+                        fancydiv.classList.remove('shrink'); // 移除缩小类
+                        loadComments(fancydiv, postId);
+                        
+                    }
+                });
+            });
+
+
+            
+            
             // 绑定头像点击事件和关注按钮事件
             if (!eventsBound1) {
                 fancyDivs.forEach((div) => {

@@ -64,15 +64,14 @@ document.addEventListener("DOMContentLoaded", function () {
     ` : ''}
     <div class="fancy-info">
     <p class="fancy-title">${post.title}</p>
-    <p class="fancy-content">内容: ${post.content}</p>
-                            <button class="like-button" data-post-id="${post.id}">${post.is_liked ? '取消点赞' : '点赞'}</button>
-                             
-                            <div class="comment-section">
+    <p class="fancy-content">${post.content}</p>
+                            <div class="comment-section" style="display: flex; flex-direction: column; ">
                                 <textarea class="comment-input" data-post-id="${post.id}" placeholder="输入评论..."></textarea>
                                 <button class="submit-comment" data-post-id="${post.id}">提交评论</button>
                                 <!-- 动态评论列表 -->
-                                <div class="comment-list" id="comment-list-${post.id}" style="display: none;"></div>
+                                
                             </div>
+                            <button class="like-button" data-post-id="${post.id}">${post.is_liked ? '取消点赞' : '点赞'}</button>
         <div class="post-header">
             <a class="user-avatar-link" data-user-id="${post.user_id}">
                 <img src="${post.avatar}" alt="用户头像" class="fancy-avatar">
@@ -83,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 : ''
             }
         </div>
-        
+        <div class="comment-list" id="comment-list-${post.id}" style="display: none;"></div>
     </div>
 </div>
 
@@ -91,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         
                     `;
                     div.innerHTML = contentHTML;
-                    
+                    div.style.height = 'auto';
                     initialContents[30*(cnt%3)+Math.floor(cnt/3)]=contentHTML;
                     console.log(contentHTML);
                     cnt++;
@@ -135,7 +134,8 @@ const commentsection=fancydiv.querySelector('.comment-section');
                             document.documentElement.style.height = 10000 + 'px';
                             document.body.style.height = 10000 + 'px';
                             div.classList.toggle('fullscreen'); // 切换全屏效果
-
+                            if(contentElement)
+                                contentElement.style.display='flex';
                             if(likeButton)
                             likeButton.style.display='flex';
                         if(submitCommentButton)
@@ -175,6 +175,7 @@ const commentsection=div.querySelector('.comment-section');
                             div.style.display = 'flex'; // 设置为 flex 布局
                             if(likeButton)
                                 likeButton.style.display='none';
+                            
                             if(commentInput)
                                 commentInput.style.display='none';
                             if(submitCommentButton)
